@@ -1,6 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -10,33 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-type Outfit = {
-  id: number;
-  gender: 'male' | 'female';
-  context: 'work/office' | 'casual' | 'party/date' | 'sport/active';
-  style: 'basic' | 'streetwear' | 'elegant' | 'sporty';
-  season: 'spring' | 'summer' | 'autumn' | 'winter';
-  color: 'black' | 'white' | 'pastel' | 'earth-tone' | 'vibrant';
-  imageUrl: string;
-  description: string;
-  aiHint: string;
-};
-
-const outfits: Outfit[] = [
-  { id: 1, gender: 'female', context: 'work/office', style: 'elegant', season: 'autumn', color: 'earth-tone', imageUrl: 'https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=400&h=500&fit=crop', description: 'Chic Autumn Office Look', aiHint: 'woman office fashion' },
-  { id: 2, gender: 'female', context: 'casual', style: 'basic', season: 'spring', color: 'pastel', imageUrl: 'https://images.unsplash.com/photo-1551803091-e2ab652d5636?w=400&h=500&fit=crop', description: 'Spring Casual Day Out', aiHint: 'woman casual fashion' },
-  { id: 3, gender: 'female', context: 'party/date', style: 'elegant', season: 'summer', color: 'black', imageUrl: 'https://images.unsplash.com/photo-1581044777550-4cfa6ce24862?w=400&h=500&fit=crop', description: 'Elegant Summer Night', aiHint: 'woman party dress' },
-  { id: 4, gender: 'female', context: 'sport/active', style: 'sporty', season: 'summer', color: 'vibrant', imageUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=500&fit=crop', description: 'Vibrant Summer Sportswear', aiHint: 'woman sportswear' },
-  { id: 5, gender: 'male', context: 'work/office', style: 'basic', season: 'winter', color: 'black', imageUrl: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&h=500&fit=crop', description: 'Modern Winter Office', aiHint: 'man office fashion' },
-  { id: 6, gender: 'male', context: 'casual', style: 'streetwear', season: 'autumn', color: 'earth-tone', imageUrl: 'https://images.unsplash.com/photo-1539149398648-395213b38035?w=400&h=500&fit=crop', description: 'Autumn Streetwear Vibe', aiHint: 'man streetwear' },
-  { id: 7, gender: 'male', context: 'party/date', style: 'elegant', season: 'spring', color: 'white', imageUrl: 'https://images.unsplash.com/photo-1617127365659-3c74b9d1c750?w=400&h=500&fit=crop', description: 'Sharp Spring Date Night', aiHint: 'man elegant suit' },
-  { id: 8, gender: 'male', context: 'sport/active', style: 'sporty', season: 'summer', color: 'vibrant', imageUrl: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&h=500&fit=crop', description: 'Summer Active Gear', aiHint: 'man sportswear' },
-  { id: 9, gender: 'female', context: 'casual', style: 'streetwear', season: 'winter', color: 'black', imageUrl: 'https://images.unsplash.com/photo-1575428652377-a2d80e2277fc?w=400&h=500&fit=crop', description: 'Winter Street Style', aiHint: 'woman streetwear' },
-  { id: 10, gender: 'male', context: 'casual', style: 'basic', season: 'summer', color: 'white', imageUrl: 'https://images.unsplash.com/photo-1506152982424-a0a4c251886c?w=400&h=500&fit=crop', description: 'Classic Summer Casual', aiHint: 'man summer casual' },
-  { id: 11, gender: 'female', context: 'work/office', style: 'basic', season: 'spring', color: 'white', imageUrl: 'https://images.unsplash.com/photo-1609505848912-252936335118?w=400&h=500&fit=crop', description: 'Minimalist Spring Office', aiHint: 'woman minimalist office' },
-  { id: 12, gender: 'male', context: 'party/date', style: 'streetwear', season: 'autumn', color: 'vibrant', imageUrl: 'https://images.unsplash.com/photo-1513028349275-520415311828?w=400&h=500&fit=crop', description: 'Autumn Party Layers', aiHint: 'man party streetwear' },
-];
+import { outfits, type Outfit } from '@/lib/outfits';
 
 const FilterSelect = ({ value, onValueChange, placeholder, items }: { value: string, onValueChange: (value: string) => void, placeholder: string, items: { value: string, label: string }[] }) => (
     <Select value={value} onValueChange={onValueChange}>
@@ -51,7 +26,7 @@ const FilterSelect = ({ value, onValueChange, placeholder, items }: { value: str
 );
 
 export function OutfitGallery() {
-    const [gender, setGender] = useState('female');
+    const [gender, setGender] = useState<'male' | 'female'>('female');
     const [context, setContext] = useState('all');
     const [style, setStyle] = useState('all');
     const [season, setSeason] = useState('all');
@@ -71,7 +46,7 @@ export function OutfitGallery() {
             <p className="text-muted-foreground text-center mt-2 mb-8 max-w-2xl mx-auto">Browse our curated collection of styles. Use the filters to find the perfect look for any occasion.</p>
             
             <div className="flex flex-col md:flex-row gap-4 mb-8 p-4 bg-card rounded-lg shadow-sm border items-center">
-                <Tabs value={gender} onValueChange={setGender} className="w-full md:w-auto">
+                <Tabs value={gender} onValueChange={(value) => setGender(value as 'male' | 'female')} className="w-full md:w-auto">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="female">Nữ</TabsTrigger>
                         <TabsTrigger value="male">Nam</TabsTrigger>
@@ -88,17 +63,19 @@ export function OutfitGallery() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredOutfits.map(outfit => (
-                    <Card key={outfit.id} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                        <CardContent className="p-0">
-                            <div className="relative aspect-[4/5] overflow-hidden">
-                                <Image src={outfit.imageUrl} width={400} height={500} alt={outfit.description} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
-                            </div>
-                            <div className="p-4">
-                                <p className="font-semibold truncate">{outfit.description}</p>
-                                <p className="text-sm text-muted-foreground capitalize">{outfit.context} &middot; {outfit.style}</p>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <Link key={outfit.id} href={`/outfit/${outfit.id}`} passHref>
+                        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full">
+                            <CardContent className="p-0 flex flex-col h-full">
+                                <div className="relative aspect-[4/5] overflow-hidden">
+                                    <Image src={outfit.images[0]} width={400} height={500} alt={outfit.description} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
+                                </div>
+                                <div className="p-4 flex flex-col flex-grow">
+                                    <p className="font-semibold truncate flex-grow">{outfit.description}</p>
+                                    <p className="text-sm text-muted-foreground capitalize">{outfit.context} &middot; {outfit.style}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
                 ))}
             </div>
              {filteredOutfits.length === 0 && (

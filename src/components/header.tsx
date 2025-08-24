@@ -17,6 +17,9 @@ export function Header() {
             <Button variant="ghost" asChild>
                 <Link href="/#gallery">Gallery</Link>
             </Button>
+            <Button variant="ghost" asChild>
+                <Link href="/upgrade">Upgrade Yourself</Link>
+            </Button>
         </nav>
       </div>
     </header>
