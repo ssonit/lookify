@@ -2,10 +2,11 @@
 
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { OutfitGallery } from "@/components/outfit-gallery";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ThemedOutfitSection } from "@/components/themed-outfit-section";
+import { outfits } from "@/lib/outfits";
 
 const HeroSection = () => {
   return (
@@ -29,14 +30,23 @@ const HeroSection = () => {
 };
 
 export default function Home() {
+  const summerOutfits = outfits.filter(o => o.season === 'summer').slice(0, 4);
+  const casualOutfits = outfits.filter(o => o.context === 'casual').slice(0, 4);
+  const officeOutfits = outfits.filter(o => o.context === 'work/office').slice(0, 4);
+
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1 w-full">
         <HeroSection />
-        <div className="container mx-auto px-4 py-8 md:py-16">
-          <Separator className="my-8 md:my-12" />
-          <OutfitGallery />
+        <div className="container mx-auto px-4 py-8 md:py-16 space-y-12">
+           <Separator />
+           <ThemedOutfitSection title="Phối đồ mùa hè" outfits={summerOutfits} viewAllLink="/gallery?season=summer" />
+           <Separator />
+           <ThemedOutfitSection title="Phối đồ đi chơi / cafe" outfits={casualOutfits} viewAllLink="/gallery?context=casual" />
+           <Separator />
+           <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?context=work/office" />
         </div>
       </main>
       <Footer />

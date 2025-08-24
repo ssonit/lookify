@@ -1,6 +1,6 @@
 
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { outfits, type Outfit } from '@/lib/outfits';
+import { useSearchParams } from 'next/navigation';
 
 const FilterSelect = ({ value, onValueChange, placeholder, items }: { value: string, onValueChange: (value: string) => void, placeholder: string, items: { value: string, label: string }[] }) => (
     <Select value={value} onValueChange={onValueChange}>
@@ -27,11 +28,20 @@ const FilterSelect = ({ value, onValueChange, placeholder, items }: { value: str
 );
 
 export function OutfitGallery() {
+    const searchParams = useSearchParams();
     const [gender, setGender] = useState<'male' | 'female'>('female');
-    const [context, setContext] = useState('all');
-    const [style, setStyle] = useState('all');
-    const [season, setSeason] = useState('all');
-    const [color, setColor] = useState('all');
+    const [context, setContext] = useState(searchParams.get('context') || 'all');
+    const [style, setStyle] = useState(searchParams.get('style') || 'all');
+    const [season, setSeason] = useState(searchParams.get('season') || 'all');
+    const [color, setColor] = useState(searchParams.get('color') || 'all');
+    
+    useEffect(() => {
+        setContext(searchParams.get('context') || 'all');
+        setStyle(searchParams.get('style') || 'all');
+        setSeason(searchParams.get('season') || 'all');
+        setColor(searchParams.get('color') || 'all');
+    }, [searchParams]);
+
 
     const filteredOutfits = useMemo(() => outfits.filter(o => 
         (o.gender === gender) &&
