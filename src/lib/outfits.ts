@@ -1,3 +1,4 @@
+
 export type Outfit = {
   id: number;
   gender: 'male' | 'female';
@@ -272,3 +273,5 @@ export const outfits: Outfit[] = [
     ],
   },
 ];
+
+    
