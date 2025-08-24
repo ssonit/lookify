@@ -33,20 +33,20 @@ export default function UpgradePage() {
             <Header />
             <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-16">
                 <section className="text-center">
-                    <h1 className="font-headline text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                    <h1 className="font-headline text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
                         Nâng cấp bản thân
                     </h1>
-                    <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+                    <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
                         Phong cách không chỉ là quần áo. Đó là về việc xây dựng sự tự tin từ trong ra ngoài. Khám phá các hướng dẫn của chúng tôi để nâng cao phong cách và sự hiện diện cá nhân của bạn.
                     </p>
                 </section>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 mt-12 max-w-4xl mx-auto">
                     {articles.map(article => (
-                        <Card key={article.title} className="hover:shadow-lg transition-shadow">
+                        <Card key={article.title} className="hover:shadow-lg transition-shadow bg-card">
                             <CardHeader>
-                                <CardTitle className="font-headline">{article.title}</CardTitle>
-                                <CardDescription>{article.description}</CardDescription>
+                                <CardTitle className="font-headline text-2xl">{article.title}</CardTitle>
+                                <CardDescription className="pt-2">{article.description}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <a href={article.link} className="text-sm font-semibold text-primary hover:underline">
