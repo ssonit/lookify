@@ -14,7 +14,7 @@ const HeroSection = () => {
     <section className="w-full py-20 md:py-24 bg-card border-b">
       <div className="container mx-auto px-4 text-center">
         <h1 className="font-headline text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-          Style Ascent
+          Lookify
         </h1>
         <p className="mt-4 font-headline text-2xl md:text-4xl font-medium text-foreground">
           Nâng cấp phong cách – Nâng cấp chính mình

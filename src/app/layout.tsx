@@ -18,7 +18,7 @@ const ptSans = PT_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Style Ascent',
+  title: 'Lookify',
   description: 'Nâng cấp phong cách – Nâng cấp chính mình',
 };
 
