@@ -29,7 +29,7 @@ export default function UpgradePage() {
     ]
 
     return (
-        <div className="flex flex-col min-h-screen bg-background">
+        <div className="flex flex-col min-h-screen bg-background font-body">
             <Header />
             <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-16">
                 <section className="text-center">
@@ -45,7 +45,7 @@ export default function UpgradePage() {
                     {articles.map(article => (
                         <Card key={article.title} className="hover:shadow-lg transition-shadow">
                             <CardHeader>
-                                <CardTitle>{article.title}</CardTitle>
+                                <CardTitle className="font-headline">{article.title}</CardTitle>
                                 <CardDescription>{article.description}</CardDescription>
                             </CardHeader>
                             <CardContent>

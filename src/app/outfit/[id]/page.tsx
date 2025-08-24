@@ -57,11 +57,11 @@ export default function OutfitDetailPage() {
 
   if (!outfit) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen font-body">
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-4xl font-bold">Không tìm thấy trang phục</h1>
+            <h1 className="text-4xl font-headline font-bold">Không tìm thấy trang phục</h1>
             <p className="text-muted-foreground mt-2">
               Rất tiếc, chúng tôi không thể tìm thấy trang phục bạn đang tìm kiếm.
             </p>
@@ -105,7 +105,7 @@ export default function OutfitDetailPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background font-body">
       <Header />
       <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-12">
         <div className="grid md:grid-cols-5 gap-8 lg:gap-12">
@@ -252,4 +252,3 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
-

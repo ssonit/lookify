@@ -19,10 +19,10 @@ const HeroSection = () => {
         <p className="mt-4 font-headline text-2xl md:text-4xl font-medium text-foreground">
           Nâng cấp phong cách – Nâng cấp chính mình
         </p>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+        <p className="mt-4 max-w-2xl mx-auto text-lg text-body text-muted-foreground">
           Khám phá các gợi ý trang phục được cá nhân hóa và khám phá các phong cách tuyển chọn để nâng tầm tủ quần áo và sự tự tin của bạn.
         </p>
-        <Button size="lg" className="mt-8" asChild>
+        <Button size="lg" className="mt-8 text-body" asChild>
           <Link href="/suggester">Khám phá ngay</Link>
         </Button>
       </div>
@@ -41,7 +41,7 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background font-body">
       <Header />
       <main className="flex-1 w-full">
         <HeroSection />
