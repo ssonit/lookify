@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ShoppingCart, Tag } from 'lucide-react';
+import { ExternalLink, ShoppingCart, Star, Tag, Camera } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -19,6 +19,36 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from 'next/link';
+import { Textarea } from '@/components/ui/textarea';
+import React from 'react';
+
+const StarRating = ({ totalStars = 5 }) => {
+    const [rating, setRating] = React.useState(0);
+    const [hover, setHover] = React.useState(0);
+    return (
+        <div className="flex items-center gap-1">
+            {[...Array(totalStars)].map((_, index) => {
+                const starValue = index + 1;
+                return (
+                    <button
+                        key={starValue}
+                        onClick={() => setRating(starValue)}
+                        onMouseEnter={() => setHover(starValue)}
+                        onMouseLeave={() => setHover(0)}
+                        className="focus:outline-none"
+                    >
+                        <Star
+                            className={`h-6 w-6 transition-colors ${
+                                starValue <= (hover || rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                            }`}
+                        />
+                    </button>
+                );
+            })}
+        </div>
+    );
+};
+
 
 export default function OutfitDetailPage() {
   const params = useParams();
@@ -84,13 +114,20 @@ export default function OutfitDetailPage() {
               <CarouselContent>
                 {outfit.images.map((src, index) => (
                   <CarouselItem key={index}>
-                    <div className="aspect-square relative w-full overflow-hidden rounded-lg">
+                    <div className="aspect-square relative w-full overflow-hidden rounded-lg group">
                       <Image
                         src={src}
                         alt={`${outfit.description} - view ${index + 1}`}
                         fill
                         className="object-cover"
                       />
+                       {outfit.imageSourceUrl && (
+                        <a href={outfit.imageSourceUrl} target="_blank" rel="noopener noreferrer" className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                          <Camera size={12}/>
+                          <span>{outfit.imageSourceText}</span>
+                          <ExternalLink size={12}/>
+                        </a>
+                      )}
                     </div>
                   </CarouselItem>
                 ))}
@@ -139,15 +176,15 @@ export default function OutfitDetailPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl font-headline">
                     <ShoppingCart />
-                    Mua sắm
+                    Mua sắm (Affiliate)
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2">
                   {outfit.shoppingLinks.map((link) => (
-                    <Button key={link.store} variant="outline" asChild className="justify-between">
+                    <Button key={link.store} variant="outline" asChild className="justify-between group">
                       <a href={link.url} target="_blank" rel="noopener noreferrer">
-                        {link.store}
-                        <ExternalLink />
+                        <span className="font-semibold">{link.store}</span>
+                        <ExternalLink className="group-hover:translate-x-1 transition-transform" />
                       </a>
                     </Button>
                   ))}
@@ -156,8 +193,63 @@ export default function OutfitDetailPage() {
             </div>
           </div>
         </div>
+
+        <Separator className="my-12" />
+
+        <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-headline font-bold mb-4">Đánh giá & Nhận xét</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Viết đánh giá của bạn</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div>
+                            <p className="font-medium mb-2">Đánh giá của bạn</p>
+                            <StarRating />
+                        </div>
+                         <div>
+                            <p className="font-medium mb-2">Nhận xét của bạn</p>
+                            <Textarea placeholder="Trang phục này có tuyệt vời không? Nó có phù hợp với bạn không?" />
+                        </div>
+                        <Button className="w-full">Gửi đánh giá</Button>
+                    </CardContent>
+                </Card>
+                <div className="space-y-4">
+                    <h3 className="font-semibold">Đánh giá gần đây</h3>
+                     <Card>
+                        <CardContent className="p-4 space-y-2">
+                            <div className="flex items-center gap-1">
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                            </div>
+                            <p className="text-sm text-muted-foreground">"Trang phục này thực sự tuyệt vời! Rất thanh lịch và phù hợp cho văn phòng. Tôi đã nhận được rất nhiều lời khen."</p>
+                            <p className="text-xs text-right text-muted-foreground">- Jane Doe</p>
+                        </CardContent>
+                    </Card>
+                     <Card>
+                        <CardContent className="p-4 space-y-2">
+                            <div className="flex items-center gap-1">
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-gray-300" />
+                            </div>
+                            <p className="text-sm text-muted-foreground">"Một bộ trang phục đẹp. Vải thoải mái và vừa vặn. Tuy nhiên, màu sắc hơi khác so với trong ảnh."</p>
+                            <p className="text-xs text-right text-muted-foreground">- John Smith</p>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </div>
+
       </main>
       <Footer />
     </div>
   );
 }
+
