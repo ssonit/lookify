@@ -18,7 +18,7 @@ const HeroSection = () => {
           Nâng cấp phong cách – Nâng cấp chính mình
         </p>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-          Discover personalized outfit suggestions and explore curated styles to elevate your wardrobe and confidence.
+          Khám phá các gợi ý trang phục được cá nhân hóa và khám phá các phong cách tuyển chọn để nâng tầm tủ quần áo và sự tự tin của bạn.
         </p>
         <Button size="lg" className="mt-8" asChild>
           <Link href="/suggester">Khám phá ngay</Link>

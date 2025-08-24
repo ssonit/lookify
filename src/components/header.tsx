@@ -12,13 +12,13 @@ export function Header() {
         </Link>
         <nav className="flex items-center gap-4">
            <Button variant="ghost" asChild>
-                <Link href="/suggester">AI Suggester</Link>
+                <Link href="/suggester">Gợi ý AI</Link>
             </Button>
             <Button variant="ghost" asChild>
-                <Link href="/#gallery">Gallery</Link>
+                <Link href="/#gallery">Thư viện</Link>
             </Button>
             <Button variant="ghost" asChild>
-                <Link href="/upgrade">Upgrade Yourself</Link>
+                <Link href="/upgrade">Nâng cấp bản thân</Link>
             </Button>
         </nav>
       </div>

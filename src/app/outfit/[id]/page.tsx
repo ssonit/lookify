@@ -31,18 +31,47 @@ export default function OutfitDetailPage() {
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-4xl font-bold">Outfit not found</h1>
+            <h1 className="text-4xl font-bold">Không tìm thấy trang phục</h1>
             <p className="text-muted-foreground mt-2">
-              Sorry, we couldn't find the outfit you're looking for.
+              Rất tiếc, chúng tôi không thể tìm thấy trang phục bạn đang tìm kiếm.
             </p>
             <Button asChild className="mt-6">
-              <Link href="/">Back to Home</Link>
+              <Link href="/">Quay về trang chủ</Link>
             </Button>
           </div>
         </main>
         <Footer />
       </div>
     );
+  }
+
+  const contextMap = {
+    'work/office': 'Công sở',
+    'casual': 'Thường ngày',
+    'party/date': 'Tiệc tùng',
+    'sport/active': 'Thể thao',
+  }
+
+  const styleMap = {
+    'basic': 'Cơ bản',
+    'streetwear': 'Dạo phố',
+    'elegant': 'Thanh lịch',
+    'sporty': 'Năng động',
+  }
+
+  const seasonMap = {
+    'spring': 'Xuân',
+    'summer': 'Hè',
+    'autumn': 'Thu',
+    'winter': 'Đông',
+  }
+
+  const colorMap = {
+    'black': 'Đen',
+    'white': 'Trắng',
+    'pastel': 'Pastel',
+    'earth-tone': 'Tone đất',
+    'vibrant': 'Rực rỡ',
   }
 
   return (
@@ -77,11 +106,11 @@ export default function OutfitDetailPage() {
           <div className="md:col-span-2">
             <h1 className="font-headline text-3xl md:text-4xl font-bold">{outfit.description}</h1>
             <div className="flex flex-wrap gap-2 mt-4">
-              <Badge variant="secondary" className="capitalize">{outfit.gender}</Badge>
-              <Badge variant="secondary" className="capitalize">{outfit.context}</Badge>
-              <Badge variant="secondary" className="capitalize">{outfit.style}</Badge>
-              <Badge variant="secondary" className="capitalize">{outfit.season}</Badge>
-              <Badge variant="secondary" className="capitalize">{outfit.color}</Badge>
+              <Badge variant="secondary" className="capitalize">{outfit.gender === 'female' ? 'Nữ' : 'Nam'}</Badge>
+              <Badge variant="secondary" className="capitalize">{contextMap[outfit.context]}</Badge>
+              <Badge variant="secondary" className="capitalize">{styleMap[outfit.style]}</Badge>
+              <Badge variant="secondary" className="capitalize">{seasonMap[outfit.season]}</Badge>
+              <Badge variant="secondary" className="capitalize">{colorMap[outfit.color]}</Badge>
             </div>
             <Separator className="my-6" />
             <p className="text-muted-foreground">{outfit.longDescription}</p>
@@ -91,7 +120,7 @@ export default function OutfitDetailPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl font-headline">
                     <Tag />
-                    Outfit Items
+                    Các món trong trang phục
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -110,7 +139,7 @@ export default function OutfitDetailPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl font-headline">
                     <ShoppingCart />
-                    Shop The Look
+                    Mua sắm
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2">

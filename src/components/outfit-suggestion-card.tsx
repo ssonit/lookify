@@ -46,8 +46,8 @@ export function OutfitSuggestionCard({ suggestion, isLoading }: OutfitSuggestion
     return (
       <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed rounded-lg h-full bg-muted/50">
         <Paintbrush className="h-12 w-12 text-muted-foreground mb-4" />
-        <p className="text-muted-foreground font-medium">Your outfit suggestion will appear here.</p>
-        <p className="text-sm text-muted-foreground">Fill out the form and let our AI style you!</p>
+        <p className="text-muted-foreground font-medium">Gợi ý trang phục của bạn sẽ xuất hiện ở đây.</p>
+        <p className="text-sm text-muted-foreground">Điền vào biểu mẫu và để AI của chúng tôi tạo kiểu cho bạn!</p>
       </div>
     );
   }
@@ -57,30 +57,30 @@ export function OutfitSuggestionCard({ suggestion, isLoading }: OutfitSuggestion
   return (
     <Card className="overflow-hidden h-full">
         <CardHeader>
-          <CardTitle className="font-headline">Your Style Suggestion</CardTitle>
+          <CardTitle className="font-headline">Gợi ý phong cách của bạn</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
               <Image src={suggestion.imageUrl || unsplashUrl} alt={suggestion.outfitDescription} fill className="object-cover" data-ai-hint="fashion style" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg">Description</h3>
+              <h3 className="font-semibold text-lg">Mô tả</h3>
               <p className="text-sm text-muted-foreground">{suggestion.outfitDescription}</p>
             </div>
             <div>
-              <h3 className="font-semibold text-lg">Key Items</h3>
+              <h3 className="font-semibold text-lg">Các món đồ chính</h3>
               <div className="flex flex-wrap gap-2 mt-2">
                 {suggestion.keyItems.map((item) => <Badge key={item} variant="secondary" className="text-sm">{item}</Badge>)}
               </div>
             </div>
              <div>
-              <h3 className="font-semibold text-lg">Colors</h3>
+              <h3 className="font-semibold text-lg">Màu sắc</h3>
               <div className="flex flex-wrap gap-2 mt-2">
                 {suggestion.colors.map((color) => <Badge key={color} variant="outline" className="text-sm">{color}</Badge>)}
               </div>
             </div>
             <div>
-              <h3 className="font-semibold text-lg">Styling Tips</h3>
+              <h3 className="font-semibold text-lg">Mẹo tạo kiểu</h3>
               <p className="text-sm text-muted-foreground">{suggestion.stylingTips}</p>
             </div>
         </CardContent>

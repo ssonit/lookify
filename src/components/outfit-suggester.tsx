@@ -22,8 +22,8 @@ export default function OutfitSuggester() {
     } else {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: result.error,
+        title: "Lỗi",
+        description: "Không thể nhận gợi ý trang phục. Vui lòng thử lại sau.",
       });
     }
     setIsLoading(false);
@@ -33,8 +33,8 @@ export default function OutfitSuggester() {
     <section>
       <Card className="max-w-4xl mx-auto shadow-lg">
         <CardHeader className="text-center">
-          <CardTitle className="font-headline text-3xl">AI Outfit Suggester</CardTitle>
-          <CardDescription>Get a personalized outfit suggestion from our virtual stylist.</CardDescription>
+          <CardTitle className="font-headline text-3xl">Gợi ý trang phục AI</CardTitle>
+          <CardDescription>Nhận gợi ý trang phục được cá nhân hóa từ chuyên gia tạo mẫu ảo của chúng tôi.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-8 items-start">

@@ -24,11 +24,11 @@ import {
 import { WandSparkles } from 'lucide-react';
 
 export const OutfitSuggestionFormSchema = z.object({
-  gender: z.enum(['male', 'female'], { required_error: 'Please select a gender.' }),
-  context: z.enum(['work/office', 'casual', 'party/date', 'sport/active'], { required_error: 'Please select a context.' }),
-  colorPreference: z.string().min(2, { message: 'Please enter a color preference.' }),
-  stylePreference: z.enum(['basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Please select a style.' }),
-  season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Please select a season.' }),
+  gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
+  context: z.enum(['work/office', 'casual', 'party/date', 'sport/active'], { required_error: 'Vui lòng chọn bối cảnh.' }),
+  colorPreference: z.string().min(2, { message: 'Vui lòng nhập sở thích màu sắc.' }),
+  stylePreference: z.enum(['basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn phong cách.' }),
+  season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
 });
 
 interface OutfitSuggesterFormProps {
@@ -56,14 +56,14 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
           name="gender"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Gender</FormLabel>
+              <FormLabel>Giới tính</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger><SelectValue placeholder="Select a gender" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="Chọn giới tính" /></SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="male">Nam</SelectItem>
+                  <SelectItem value="female">Nữ</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -75,16 +75,16 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
           name="context"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Context / Occasion</FormLabel>
+              <FormLabel>Bối cảnh / Dịp</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger><SelectValue placeholder="Select a context" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="Chọn bối cảnh" /></SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="work/office">Work / Office</SelectItem>
-                  <SelectItem value="casual">Casual</SelectItem>
-                  <SelectItem value="party/date">Party / Date</SelectItem>
-                  <SelectItem value="sport/active">Sport / Active</SelectItem>
+                  <SelectItem value="work/office">Công sở</SelectItem>
+                  <SelectItem value="casual">Thường ngày</SelectItem>
+                  <SelectItem value="party/date">Tiệc / Hẹn hò</SelectItem>
+                  <SelectItem value="sport/active">Thể thao / Năng động</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -96,16 +96,16 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
           name="stylePreference"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Style Preference</FormLabel>
+              <FormLabel>Sở thích phong cách</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger><SelectValue placeholder="Select a style" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="Chọn phong cách" /></SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="basic">Basic</SelectItem>
-                  <SelectItem value="streetwear">Streetwear</SelectItem>
-                  <SelectItem value="elegant">Elegant</SelectItem>
-                  <SelectItem value="sporty">Sporty</SelectItem>
+                  <SelectItem value="basic">Cơ bản</SelectItem>
+                  <SelectItem value="streetwear">Dạo phố</SelectItem>
+                  <SelectItem value="elegant">Thanh lịch</SelectItem>
+                  <SelectItem value="sporty">Năng động</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -117,16 +117,16 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
           name="season"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Season</FormLabel>
+              <FormLabel>Mùa</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger><SelectValue placeholder="Select a season" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="spring">Spring</SelectItem>
-                  <SelectItem value="summer">Summer</SelectItem>
-                  <SelectItem value="autumn">Autumn</SelectItem>
-                  <SelectItem value="winter">Winter</SelectItem>
+                  <SelectItem value="spring">Xuân</SelectItem>
+                  <SelectItem value="summer">Hè</SelectItem>
+                  <SelectItem value="autumn">Thu</SelectItem>
+                  <SelectItem value="winter">Đông</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -138,9 +138,9 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
           name="colorPreference"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Color Preference</FormLabel>
+              <FormLabel>Sở thích màu sắc</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., neutral tones, pastels, vibrant" {...field} />
+                <Input placeholder="ví dụ: tông màu trung tính, pastel, rực rỡ" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -148,10 +148,10 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
         />
         <Button type="submit" disabled={isLoading} className="w-full !mt-6">
           {isLoading ? (
-            'Generating...'
+            'Đang tạo...'
           ) : (
             <>
-              <WandSparkles className="mr-2 h-4 w-4" /> Suggest Outfit
+              <WandSparkles className="mr-2 h-4 w-4" /> Gợi ý trang phục
             </>
           )}
         </Button>

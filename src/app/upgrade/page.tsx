@@ -7,23 +7,23 @@ import { SewingPinIcon } from "lucide-react";
 export default function UpgradePage() {
     const articles = [
         {
-            title: "How to Choose Clothes for Your Body Type",
-            description: "Understand your body shape and learn how to pick pieces that flatter your figure.",
+            title: "Cách chọn trang phục theo dáng người",
+            description: "Hiểu dáng người của bạn và học cách chọn những món đồ tôn lên vóc dáng của bạn.",
             link: "#"
         },
         {
-            title: "Color Coordination: The Ultimate Guide",
-            description: "From basic color theory to advanced palettes, master the art of combining colors in your outfits.",
+            title: "Phối màu: Hướng dẫn cơ bản",
+            description: "Từ lý thuyết màu sắc cơ bản đến các bảng màu nâng cao, hãy nắm vững nghệ thuật kết hợp màu sắc trong trang phục của bạn.",
             link: "#"
         },
         {
-            title: "Essential Skincare & Haircare for a Polished Look",
-            description: "Good grooming is the foundation of great style. Learn the basics of a solid routine.",
+            title: "Chăm sóc da & tóc cần thiết cho vẻ ngoài chỉn chu",
+            description: "Chăm sóc tốt là nền tảng của phong cách tuyệt vời. Tìm hiểu những điều cơ bản của một thói quen vững chắc.",
             link: "#"
         },
         {
-            title: "Boost Your Confidence Through Communication",
-            description: "Learn key skills to help you express yourself clearly and confidently in any situation.",
+            title: "Tăng cường sự tự tin thông qua giao tiếp",
+            description: "Học các kỹ năng chính để giúp bạn thể hiện bản thân một cách rõ ràng và tự tin trong mọi tình huống.",
             link: "#"
         },
     ]
@@ -34,10 +34,10 @@ export default function UpgradePage() {
             <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-16">
                 <section className="text-center">
                     <h1 className="font-headline text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-                        Upgrade Yourself
+                        Nâng cấp bản thân
                     </h1>
                     <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                        Style is more than just clothes. It's about building confidence from the inside out. Explore our guides to level up your personal style and presence.
+                        Phong cách không chỉ là quần áo. Đó là về việc xây dựng sự tự tin từ trong ra ngoài. Khám phá các hướng dẫn của chúng tôi để nâng cao phong cách và sự hiện diện cá nhân của bạn.
                     </p>
                 </section>
 
@@ -50,7 +50,7 @@ export default function UpgradePage() {
                             </CardHeader>
                             <CardContent>
                                 <a href={article.link} className="text-sm font-semibold text-primary hover:underline">
-                                    Read more...
+                                    Đọc thêm...
                                 </a>
                             </CardContent>
                         </Card>

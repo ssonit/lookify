@@ -20,7 +20,7 @@ const FilterSelect = ({ value, onValueChange, placeholder, items }: { value: str
             <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="all">Tất cả</SelectItem>
             {items.map(item => <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>)}
         </SelectContent>
     </Select>
@@ -43,8 +43,8 @@ export function OutfitGallery() {
 
     return (
         <section id="gallery">
-            <h2 className="text-3xl font-headline font-bold text-center">Outfit Library</h2>
-            <p className="text-muted-foreground text-center mt-2 mb-8 max-w-2xl mx-auto">Browse our curated collection of styles. Use the filters to find the perfect look for any occasion.</p>
+            <h2 className="text-3xl font-headline font-bold text-center">Thư viện Trang phục</h2>
+            <p className="text-muted-foreground text-center mt-2 mb-8 max-w-2xl mx-auto">Duyệt qua bộ sưu tập các phong cách được tuyển chọn của chúng tôi. Sử dụng các bộ lọc để tìm ra vẻ ngoài hoàn hảo cho bất kỳ dịp nào.</p>
             
             <div className="flex flex-col md:flex-row gap-4 mb-8 p-4 bg-card rounded-lg shadow-sm border items-center">
                 <Tabs value={gender} onValueChange={(value) => setGender(value as 'male' | 'female')} className="w-full md:w-auto">
@@ -55,10 +55,10 @@ export function OutfitGallery() {
                 </Tabs>
                 <div className="w-full h-px md:w-px md:h-10 bg-border"></div>
                 <div className="flex-1 grid grid-cols-2 sm:flex sm:flex-row gap-4 w-full">
-                    <FilterSelect value={context} onValueChange={setContext} placeholder="Context" items={[{ value: 'work/office', label: 'Work' }, { value: 'casual', label: 'Casual' }, { value: 'party/date', label: 'Party' }, { value: 'sport/active', label: 'Sport' }]} />
-                    <FilterSelect value={style} onValueChange={setStyle} placeholder="Style" items={[{ value: 'basic', label: 'Basic' }, { value: 'streetwear', label: 'Streetwear' }, { value: 'elegant', label: 'Elegant' }, { value: 'sporty', label: 'Sporty' }]} />
-                    <FilterSelect value={season} onValueChange={setSeason} placeholder="Season" items={[{ value: 'spring', label: 'Spring' }, { value: 'summer', label: 'Summer' }, { value: 'autumn', label: 'Autumn' }, { value: 'winter', label: 'Winter' }]} />
-                    <FilterSelect value={color} onValueChange={setColor} placeholder="Color" items={[{ value: 'black', label: 'Black' }, { value: 'white', label: 'White' }, { value: 'pastel', label: 'Pastel' }, { value: 'earth-tone', label: 'Earth Tone' }, { value: 'vibrant', label: 'Vibrant' }]} />
+                    <FilterSelect value={context} onValueChange={setContext} placeholder="Bối cảnh" items={[{ value: 'work/office', label: 'Công sở' }, { value: 'casual', label: 'Thường ngày' }, { value: 'party/date', label: 'Tiệc tùng' }, { value: 'sport/active', label: 'Thể thao' }]} />
+                    <FilterSelect value={style} onValueChange={setStyle} placeholder="Phong cách" items={[{ value: 'basic', label: 'Cơ bản' }, { value: 'streetwear', label: 'Dạo phố' }, { value: 'elegant', label: 'Thanh lịch' }, { value: 'sporty', label: 'Năng động' }]} />
+                    <FilterSelect value={season} onValueChange={setSeason} placeholder="Mùa" items={[{ value: 'spring', label: 'Xuân' }, { value: 'summer', label: 'Hè' }, { value: 'autumn', label: 'Thu' }, { value: 'winter', label: 'Đông' }]} />
+                    <FilterSelect value={color} onValueChange={setColor} placeholder="Màu sắc" items={[{ value: 'black', label: 'Đen' }, { value: 'white', label: 'Trắng' }, { value: 'pastel', label: 'Pastel' }, { value: 'earth-tone', label: 'Tone đất' }, { value: 'vibrant', label: 'Rực rỡ' }]} />
                 </div>
             </div>
 
@@ -77,8 +77,8 @@ export function OutfitGallery() {
             </div>
              {filteredOutfits.length === 0 && (
                 <div className="text-center col-span-full py-16">
-                    <p className="text-lg font-medium">No outfits match your criteria.</p>
-                    <p className="text-muted-foreground">Try adjusting your filters to find more styles.</p>
+                    <p className="text-lg font-medium">Không có trang phục nào phù hợp với tiêu chí của bạn.</p>
+                    <p className="text-muted-foreground">Hãy thử điều chỉnh bộ lọc để tìm thêm phong cách.</p>
                 </div>
             )}
         </section>
