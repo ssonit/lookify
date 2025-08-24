@@ -1,3 +1,4 @@
+
 import { Shirt } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,7 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Shirt className="h-8 w-8 text-primary" />
-          <span className="font-bold font-headline text-2xl">Style Ascent</span>
+          <span className="font-bold font-headline text-2xl mb-2">Style Ascent</span>
         </Link>
         <nav className="hidden md:flex items-center gap-4 text-lg">
            <Button variant="ghost" asChild>
