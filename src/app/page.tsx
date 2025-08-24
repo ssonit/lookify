@@ -36,6 +36,9 @@ export default function Home() {
   const officeOutfits = outfits.filter(o => o.context === 'work/office').slice(0, 4);
   const elegantOutfits = outfits.filter(o => o.style === 'elegant').slice(0, 4);
   const streetwearOutfits = outfits.filter(o => o.style === 'streetwear').slice(0, 4);
+  const schoolOutfits = outfits.filter(o => o.context === 'casual' && o.style === 'basic').slice(0,4);
+  const dateOutfits = outfits.filter(o => o.context === 'party/date').slice(0,4);
+  const beachOutfits = outfits.filter(o => o.season === 'summer' && o.context === 'casual').slice(0,4);
 
 
   return (
@@ -47,7 +50,11 @@ export default function Home() {
            <Separator />
            <ThemedOutfitSection title="Phối đồ mùa hè" outfits={summerOutfits} viewAllLink="/gallery?season=summer" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ đi chơi / cafe" outfits={casualOutfits} viewAllLink="/gallery?context=casual" />
+           <ThemedOutfitSection title="Phối đồ đi học" outfits={schoolOutfits} viewAllLink="/gallery?context=casual&style=basic" />
+           <Separator />
+           <ThemedOutfitSection title="Phối đồ đi hẹn hò" outfits={dateOutfits} viewAllLink="/gallery?context=party/date" />
+           <Separator />
+           <ThemedOutfitSection title="Phối đồ đi biển" outfits={beachOutfits} viewAllLink="/gallery?season=summer&context=casual" />
            <Separator />
            <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?context=work/office" />
            <Separator />

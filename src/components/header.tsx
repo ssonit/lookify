@@ -15,6 +15,9 @@ export function Header() {
                 <Link href="/suggester">Gợi ý AI</Link>
             </Button>
             <Button variant="ghost" asChild>
+                <Link href="/featured">Nổi bật</Link>
+            </Button>
+            <Button variant="ghost" asChild>
                 <Link href="/gallery">Thư viện</Link>
             </Button>
             <Button variant="ghost" asChild>
