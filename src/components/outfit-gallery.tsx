@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
@@ -65,13 +66,9 @@ export function OutfitGallery() {
                 {filteredOutfits.map(outfit => (
                     <Link key={outfit.id} href={`/outfit/${outfit.id}`} passHref>
                         <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full">
-                            <CardContent className="p-0 flex flex-col h-full">
+                            <CardContent className="p-0">
                                 <div className="relative aspect-[4/5] overflow-hidden">
                                     <Image src={outfit.images[0]} width={400} height={500} alt={outfit.description} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
-                                </div>
-                                <div className="p-4 flex flex-col flex-grow">
-                                    <p className="font-semibold truncate flex-grow">{outfit.description}</p>
-                                    <p className="text-sm text-muted-foreground capitalize">{outfit.context} &middot; {outfit.style}</p>
                                 </div>
                             </CardContent>
                         </Card>
