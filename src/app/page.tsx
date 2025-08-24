@@ -2,16 +2,12 @@
 
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import OutfitSuggester from "@/components/outfit-suggester";
 import { OutfitGallery } from "@/components/outfit-gallery";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const HeroSection = () => {
-  const scrollToSuggester = () => {
-    document.getElementById('suggester')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section className="w-full py-20 md:py-32 bg-card border-b">
       <div className="container mx-auto px-4 text-center">
@@ -24,8 +20,8 @@ const HeroSection = () => {
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           Discover personalized outfit suggestions and explore curated styles to elevate your wardrobe and confidence.
         </p>
-        <Button size="lg" className="mt-8" onClick={scrollToSuggester}>
-          Khám phá ngay
+        <Button size="lg" className="mt-8" asChild>
+          <Link href="/suggester">Khám phá ngay</Link>
         </Button>
       </div>
     </section>
@@ -38,9 +34,6 @@ export default function Home() {
       <Header />
       <main className="flex-1 w-full">
         <HeroSection />
-        <div id="suggester" className="container mx-auto px-4 py-8 md:py-16">
-          <OutfitSuggester />
-        </div>
         <div className="container mx-auto px-4 py-8 md:py-16">
           <Separator className="my-8 md:my-12" />
           <OutfitGallery />

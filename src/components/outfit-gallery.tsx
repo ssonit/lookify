@@ -66,7 +66,7 @@ export function OutfitGallery() {
     ), [gender, context, style, season, color]);
 
     return (
-        <section>
+        <section id="gallery">
             <h2 className="text-3xl font-headline font-bold text-center">Outfit Library</h2>
             <p className="text-muted-foreground text-center mt-2 mb-8 max-w-2xl mx-auto">Browse our curated collection of styles. Use the filters to find the perfect look for any occasion.</p>
             
