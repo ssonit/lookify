@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Header } from "@/components/header";
@@ -33,6 +34,8 @@ export default function Home() {
   const summerOutfits = outfits.filter(o => o.season === 'summer').slice(0, 4);
   const casualOutfits = outfits.filter(o => o.context === 'casual').slice(0, 4);
   const officeOutfits = outfits.filter(o => o.context === 'work/office').slice(0, 4);
+  const elegantOutfits = outfits.filter(o => o.style === 'elegant').slice(0, 4);
+  const streetwearOutfits = outfits.filter(o => o.style === 'streetwear').slice(0, 4);
 
 
   return (
@@ -47,6 +50,10 @@ export default function Home() {
            <ThemedOutfitSection title="Phối đồ đi chơi / cafe" outfits={casualOutfits} viewAllLink="/gallery?context=casual" />
            <Separator />
            <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?context=work/office" />
+           <Separator />
+           <ThemedOutfitSection title="Phong cách thanh lịch" outfits={elegantOutfits} viewAllLink="/gallery?style=elegant" />
+           <Separator />
+           <ThemedOutfitSection title="Phong cách dạo phố" outfits={streetwearOutfits} viewAllLink="/gallery?style=streetwear" />
         </div>
       </main>
       <Footer />
