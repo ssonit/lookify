@@ -52,6 +52,8 @@ export function OutfitSuggestionCard({ suggestion, isLoading }: OutfitSuggestion
     );
   }
 
+  const unsplashUrl = `https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=500&fit=crop`;
+
   return (
     <Card className="overflow-hidden h-full">
         <CardHeader>
@@ -59,7 +61,7 @@ export function OutfitSuggestionCard({ suggestion, isLoading }: OutfitSuggestion
         </CardHeader>
         <CardContent className="space-y-4">
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
-              <Image src="https://placehold.co/400x500.png" alt={suggestion.outfitDescription} fill className="object-cover" data-ai-hint="fashion style" />
+              <Image src={suggestion.imageUrl || unsplashUrl} alt={suggestion.outfitDescription} fill className="object-cover" data-ai-hint="fashion style" />
             </div>
             <div>
               <h3 className="font-semibold text-lg">Description</h3>

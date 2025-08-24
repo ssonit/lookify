@@ -24,18 +24,18 @@ type Outfit = {
 };
 
 const outfits: Outfit[] = [
-  { id: 1, gender: 'female', context: 'work/office', style: 'elegant', season: 'autumn', color: 'earth-tone', imageUrl: 'https://placehold.co/400x500.png', description: 'Chic Autumn Office Look', aiHint: 'woman office fashion' },
-  { id: 2, gender: 'female', context: 'casual', style: 'basic', season: 'spring', color: 'pastel', imageUrl: 'https://placehold.co/400x500.png', description: 'Spring Casual Day Out', aiHint: 'woman casual fashion' },
-  { id: 3, gender: 'female', context: 'party/date', style: 'elegant', season: 'summer', color: 'black', imageUrl: 'https://placehold.co/400x500.png', description: 'Elegant Summer Night', aiHint: 'woman party dress' },
-  { id: 4, gender: 'female', context: 'sport/active', style: 'sporty', season: 'summer', color: 'vibrant', imageUrl: 'https://placehold.co/400x500.png', description: 'Vibrant Summer Sportswear', aiHint: 'woman sportswear' },
-  { id: 5, gender: 'male', context: 'work/office', style: 'basic', season: 'winter', color: 'black', imageUrl: 'https://placehold.co/400x500.png', description: 'Modern Winter Office', aiHint: 'man office fashion' },
-  { id: 6, gender: 'male', context: 'casual', style: 'streetwear', season: 'autumn', color: 'earth-tone', imageUrl: 'https://placehold.co/400x500.png', description: 'Autumn Streetwear Vibe', aiHint: 'man streetwear' },
-  { id: 7, gender: 'male', context: 'party/date', style: 'elegant', season: 'spring', color: 'white', imageUrl: 'https://placehold.co/400x500.png', description: 'Sharp Spring Date Night', aiHint: 'man elegant suit' },
-  { id: 8, gender: 'male', context: 'sport/active', style: 'sporty', season: 'summer', color: 'vibrant', imageUrl: 'https://placehold.co/400x500.png', description: 'Summer Active Gear', aiHint: 'man sportswear' },
-  { id: 9, gender: 'female', context: 'casual', style: 'streetwear', season: 'winter', color: 'black', imageUrl: 'https://placehold.co/400x500.png', description: 'Winter Street Style', aiHint: 'woman streetwear' },
-  { id: 10, gender: 'male', context: 'casual', style: 'basic', season: 'summer', color: 'white', imageUrl: 'https://placehold.co/400x500.png', description: 'Classic Summer Casual', aiHint: 'man summer casual' },
-  { id: 11, gender: 'female', context: 'work/office', style: 'basic', season: 'spring', color: 'white', imageUrl: 'https://placehold.co/400x500.png', description: 'Minimalist Spring Office', aiHint: 'woman minimalist office' },
-  { id: 12, gender: 'male', context: 'party/date', style: 'streetwear', season: 'autumn', color: 'vibrant', imageUrl: 'https://placehold.co/400x500.png', description: 'Autumn Party Layers', aiHint: 'man party streetwear' },
+  { id: 1, gender: 'female', context: 'work/office', style: 'elegant', season: 'autumn', color: 'earth-tone', imageUrl: 'https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=400&h=500&fit=crop', description: 'Chic Autumn Office Look', aiHint: 'woman office fashion' },
+  { id: 2, gender: 'female', context: 'casual', style: 'basic', season: 'spring', color: 'pastel', imageUrl: 'https://images.unsplash.com/photo-1551803091-e2ab652d5636?w=400&h=500&fit=crop', description: 'Spring Casual Day Out', aiHint: 'woman casual fashion' },
+  { id: 3, gender: 'female', context: 'party/date', style: 'elegant', season: 'summer', color: 'black', imageUrl: 'https://images.unsplash.com/photo-1581044777550-4cfa6ce24862?w=400&h=500&fit=crop', description: 'Elegant Summer Night', aiHint: 'woman party dress' },
+  { id: 4, gender: 'female', context: 'sport/active', style: 'sporty', season: 'summer', color: 'vibrant', imageUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=500&fit=crop', description: 'Vibrant Summer Sportswear', aiHint: 'woman sportswear' },
+  { id: 5, gender: 'male', context: 'work/office', style: 'basic', season: 'winter', color: 'black', imageUrl: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&h=500&fit=crop', description: 'Modern Winter Office', aiHint: 'man office fashion' },
+  { id: 6, gender: 'male', context: 'casual', style: 'streetwear', season: 'autumn', color: 'earth-tone', imageUrl: 'https://images.unsplash.com/photo-1539149398648-395213b38035?w=400&h=500&fit=crop', description: 'Autumn Streetwear Vibe', aiHint: 'man streetwear' },
+  { id: 7, gender: 'male', context: 'party/date', style: 'elegant', season: 'spring', color: 'white', imageUrl: 'https://images.unsplash.com/photo-1617127365659-3c74b9d1c750?w=400&h=500&fit=crop', description: 'Sharp Spring Date Night', aiHint: 'man elegant suit' },
+  { id: 8, gender: 'male', context: 'sport/active', style: 'sporty', season: 'summer', color: 'vibrant', imageUrl: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&h=500&fit=crop', description: 'Summer Active Gear', aiHint: 'man sportswear' },
+  { id: 9, gender: 'female', context: 'casual', style: 'streetwear', season: 'winter', color: 'black', imageUrl: 'https://images.unsplash.com/photo-1575428652377-a2d80e2277fc?w=400&h=500&fit=crop', description: 'Winter Street Style', aiHint: 'woman streetwear' },
+  { id: 10, gender: 'male', context: 'casual', style: 'basic', season: 'summer', color: 'white', imageUrl: 'https://images.unsplash.com/photo-1506152982424-a0a4c251886c?w=400&h=500&fit=crop', description: 'Classic Summer Casual', aiHint: 'man summer casual' },
+  { id: 11, gender: 'female', context: 'work/office', style: 'basic', season: 'spring', color: 'white', imageUrl: 'https://images.unsplash.com/photo-1609505848912-252936335118?w=400&h=500&fit=crop', description: 'Minimalist Spring Office', aiHint: 'woman minimalist office' },
+  { id: 12, gender: 'male', context: 'party/date', style: 'streetwear', season: 'autumn', color: 'vibrant', imageUrl: 'https://images.unsplash.com/photo-1513028349275-520415311828?w=400&h=500&fit=crop', description: 'Autumn Party Layers', aiHint: 'man party streetwear' },
 ];
 
 const FilterSelect = ({ value, onValueChange, placeholder, items }: { value: string, onValueChange: (value: string) => void, placeholder: string, items: { value: string, label: string }[] }) => (
