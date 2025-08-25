@@ -27,7 +27,7 @@ export const outfits: Outfit[] = [
     style: 'elegant', 
     season: 'autumn', 
     color: 'earth-tone', 
-    images: ['https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=400&h=500&fit=crop', 'https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=500&h=400&fit=crop', 'https://images.unsplash.com/photo-1621619856624-42fd193a0661?w=1080&q=80'],
+    images: ['https://images.unsplash.com/photo-1621619856624-42fd193a0661?w=1080&q=80', 'https://images.unsplash.com/photo-1642615835477-d303d7dc9ee9?w=1080&q=80', 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1635151227785-429f420c6b9d?w=1080&q=80', 'https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?auto=format&fit=crop&w=800&q=80'],
     imageSourceText: 'Unsplash',
     imageSourceUrl: 'https://unsplash.com/photos/a-woman-in-a-plaid-skirt-and-white-blouse-is-walking-down-the-street-59a1fe8ea5eb',
     description: 'Phong cách công sở mùa thu sang trọng',
@@ -341,4 +341,6 @@ export const outfits: Outfit[] = [
 ];
 
     
+    
+
     
