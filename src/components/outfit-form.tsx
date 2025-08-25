@@ -26,10 +26,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from './ui/textarea';
 
 const outfitFormSchema = z.object({
-  description: z.string().min(10, { message: 'Mô tả cần ít nhất 10 ký tự.' }),
-  longDescription: z.string().min(20, { message: 'Mô tả chi tiết cần ít nhất 20 ký tự.' }),
+  title: z.string().min(10, { message: 'Tiêu đề cần ít nhất 10 ký tự.' }),
+  description: z.string().min(20, { message: 'Mô tả chi tiết cần ít nhất 20 ký tự.' }),
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  context: z.enum(['work/office', 'casual', 'party/date', 'sport/active'], { required_error: 'Vui lòng chọn bối cảnh.' }),
+  context: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'tet', 'game-anime'], { required_error: 'Vui lòng chọn bối cảnh.' }),
   style: z.enum(['basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn phong cách.' }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
   color: z.enum(['black', 'white', 'pastel', 'earth-tone', 'vibrant'], { required_error: 'Vui lòng chọn màu chủ đạo.' }),
@@ -47,8 +47,8 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
   const form = useForm<OutfitFormValues>({
     resolver: zodResolver(outfitFormSchema),
     defaultValues: initialData || {
+      title: '',
       description: '',
-      longDescription: '',
       gender: 'female',
       context: 'casual',
       style: 'basic',
@@ -72,10 +72,10 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
           <CardContent className="space-y-4">
             <FormField
               control={form.control}
-              name="description"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mô tả ngắn</FormLabel>
+                  <FormLabel>Tiêu đề</FormLabel>
                   <FormControl>
                     <Input placeholder="ví dụ: Bộ suit nam thanh lịch..." {...field} />
                   </FormControl>
@@ -86,7 +86,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
             />
             <FormField
               control={form.control}
-              name="longDescription"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Mô tả chi tiết</FormLabel>
@@ -156,6 +156,8 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
                       <SelectItem value="casual">Thường ngày</SelectItem>
                       <SelectItem value="party/date">Tiệc / Hẹn hò</SelectItem>
                       <SelectItem value="sport/active">Thể thao</SelectItem>
+                       <SelectItem value="tet">Tết</SelectItem>
+                      <SelectItem value="game-anime">Game/Anime</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -236,3 +238,5 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
     </Form>
   );
 }
+
+    

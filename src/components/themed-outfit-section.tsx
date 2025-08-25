@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Outfit } from "@/lib/outfits";
@@ -40,7 +41,7 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
                         <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full rounded-2xl">
                             <CardContent className="p-0">
                                 <div className="relative aspect-[4/5] overflow-hidden">
-                                    <Image src={outfit.mainImage} width={400} height={500} alt={outfit.description} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
+                                    <Image src={outfit.mainImage} width={400} height={500} alt={outfit.title} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
                                 </div>
                             </CardContent>
                         </Card>
@@ -52,3 +53,5 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
         </section>
     )
 }
+
+    

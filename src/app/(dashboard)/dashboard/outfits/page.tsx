@@ -19,6 +19,8 @@ const contextMap = {
   'casual': 'Thường ngày',
   'party/date': 'Tiệc tùng',
   'sport/active': 'Thể thao',
+  'tet': 'Tết',
+  'game-anime': 'Game/Anime',
 }
 
 const styleMap = {
@@ -49,7 +51,7 @@ export default function DashboardOutfitsPage() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mô tả</TableHead>
+            <TableHead>Tiêu đề</TableHead>
             <TableHead>Giới tính</TableHead>
             <TableHead>Bối cảnh</TableHead>
             <TableHead>Phong cách</TableHead>
@@ -60,7 +62,7 @@ export default function DashboardOutfitsPage() {
         <TableBody>
           {outfits.map((outfit) => (
             <TableRow key={outfit.id}>
-              <TableCell className="font-medium">{outfit.description}</TableCell>
+              <TableCell className="font-medium">{outfit.title}</TableCell>
               <TableCell>{outfit.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
               <TableCell>
                 <Badge variant="outline">{contextMap[outfit.context]}</Badge>
@@ -83,3 +85,5 @@ export default function DashboardOutfitsPage() {
     </div>
   );
 }
+
+    

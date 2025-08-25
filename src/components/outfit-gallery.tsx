@@ -85,8 +85,8 @@ export function OutfitGallery() {
                 (!activeStyle || o.style === activeStyle) &&
                 (!season || o.season === season) &&
                 (searchTerm === '' ||
+                 o.title.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.description.toLowerCase().includes(lowercasedSearchTerm) ||
-                 o.longDescription.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
             )
         });
@@ -176,7 +176,7 @@ export function OutfitGallery() {
                         <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full rounded-2xl">
                             <CardContent className="p-0">
                                 <div className="relative aspect-[4/5] overflow-hidden">
-                                    <Image src={outfit.mainImage} width={400} height={500} alt={outfit.description} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
+                                    <Image src={outfit.mainImage} width={400} height={500} alt={outfit.title} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
                                 </div>
                             </CardContent>
                         </Card>
@@ -192,5 +192,7 @@ export function OutfitGallery() {
         </section>
     )
 }
+
+    
 
     

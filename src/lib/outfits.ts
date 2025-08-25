@@ -9,8 +9,8 @@ export type Outfit = {
   mainImage: string;
   imageSourceText?: string;
   imageSourceUrl?: string;
+  title: string;
   description: string;
-  longDescription: string;
   aiHint: string;
   items: {
     name: string;
@@ -31,8 +31,8 @@ export const outfits: Outfit[] = [
     mainImage: 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80',
     imageSourceText: 'Unsplash',
     imageSourceUrl: 'https://unsplash.com/photos/man-wearing-black-suit-jacket-1503341455253-b2e723bb3dbb',
-    description: 'Bộ suit nam thanh lịch cho môi trường công sở.',
-    longDescription:
+    title: 'Bộ suit nam thanh lịch cho môi trường công sở.',
+    description:
       'Trang phục công sở nam với bộ suit màu earth-tone, áo sơ mi trắng, cà vạt tối màu và giày da. Phù hợp cho mùa thu và các buổi họp quan trọng.',
     aiHint: 'Suggest formal office outfits for men in autumn with earth-tone colors.',
     items: [
@@ -75,8 +75,8 @@ export const outfits: Outfit[] = [
     mainImage: 'https://picsum.photos/seed/outfit-2-main/400/500',
     imageSourceText: 'Placeholder',
     imageSourceUrl: 'https://picsum.photos',
-    description: 'Trang phục streetwear nữ pastel cho mùa hè.',
-    longDescription:
+    title: 'Trang phục streetwear nữ pastel cho mùa hè.',
+    description:
       'Bộ outfit gồm áo phông oversize pastel kết hợp với quần short jean năng động, giày sneaker trắng và phụ kiện trẻ trung. Phù hợp cho dạo phố hoặc đi chơi cùng bạn bè.',
     aiHint: 'Suggest pastel casual summer outfits with oversized tee and shorts.',
     items: [
@@ -120,8 +120,8 @@ export const outfits: Outfit[] = [
     season: 'summer',
     color: 'vibrant',
     mainImage: 'https://picsum.photos/seed/outfit-3-main/400/500',
-    description: 'Outfit nam đơn giản nhưng nổi bật cho buổi hẹn hò.',
-    longDescription:
+    title: 'Outfit nam đơn giản nhưng nổi bật cho buổi hẹn hò.',
+    description:
       'Áo sơ mi ngắn tay màu sắc tươi sáng kết hợp quần kaki sáng màu và giày lười. Thêm phụ kiện đồng hồ để tạo điểm nhấn lịch lãm.',
     aiHint: 'Suggest vibrant men outfits for summer date nights.',
     items: [
@@ -153,8 +153,8 @@ export const outfits: Outfit[] = [
     season: 'spring',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-4-main/400/500',
-    description: 'Váy pastel nữ tính cho buổi hẹn mùa xuân.',
-    longDescription:
+    title: 'Váy pastel nữ tính cho buổi hẹn mùa xuân.',
+    description:
       'Chiếc váy midi pastel nhẹ nhàng kết hợp giày cao gót nude và túi xách nhỏ xinh. Phù hợp với buổi hẹn hò hoặc tiệc thân mật.',
     aiHint: 'Suggest elegant pastel dresses for spring parties or dates.',
     items: [
@@ -186,8 +186,8 @@ export const outfits: Outfit[] = [
     season: 'summer',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-5-main/400/500',
-    description: 'Đồ tập gym nam mạnh mẽ và năng động.',
-    longDescription:
+    title: 'Đồ tập gym nam mạnh mẽ và năng động.',
+    description:
       'Áo tank top đen, quần short thể thao và giày chạy bộ thoáng khí. Thích hợp cho luyện tập mùa hè.',
     aiHint: 'Suggest black sporty men outfits for gym in summer.',
     items: [
@@ -219,8 +219,8 @@ export const outfits: Outfit[] = [
     season: 'winter',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-6-main/400/500',
-    description: 'Trang phục công sở nữ mùa đông cơ bản.',
-    longDescription:
+    title: 'Trang phục công sở nữ mùa đông cơ bản.',
+    description:
       'Áo len cổ lọ đen kết hợp quần tây, áo blazer xám và ankle boots. Giữ ấm và vẫn thanh lịch cho môi trường công sở.',
     aiHint: 'Suggest basic black office outfits for women in winter.',
     items: [
@@ -258,8 +258,8 @@ export const outfits: Outfit[] = [
     season: 'spring',
     color: 'earth-tone',
     mainImage: 'https://picsum.photos/seed/outfit-7-main/400/500',
-    description: 'Streetwear nam xuân đơn giản nhưng cá tính.',
-    longDescription:
+    title: 'Streetwear nam xuân đơn giản nhưng cá tính.',
+    description:
       'Áo hoodie màu nâu nhạt, quần jogger và sneaker trắng. Thêm mũ lưỡi trai để tạo phong cách năng động.',
     aiHint: 'Suggest spring earth-tone casual streetwear outfits for men.',
     items: [
@@ -291,8 +291,8 @@ export const outfits: Outfit[] = [
     season: 'autumn',
     color: 'vibrant',
     mainImage: 'https://picsum.photos/seed/outfit-8-main/400/500',
-    description: 'Đồ yoga nữ với màu sắc tươi sáng.',
-    longDescription:
+    title: 'Đồ yoga nữ với màu sắc tươi sáng.',
+    description:
       'Áo bra thể thao neon, quần legging co giãn và giày training. Thích hợp cho yoga hoặc tập fitness vào mùa thu.',
     aiHint: 'Suggest vibrant autumn sporty yoga outfits for women.',
     items: [
@@ -324,8 +324,8 @@ export const outfits: Outfit[] = [
     season: 'summer',
     color: 'white',
     mainImage: 'https://picsum.photos/seed/outfit-9-main/400/500',
-    description: 'Công sở mùa hè thoáng mát với áo sơ mi trắng.',
-    longDescription:
+    title: 'Công sở mùa hè thoáng mát với áo sơ mi trắng.',
+    description:
       'Áo sơ mi trắng linen, quần tây xám sáng và giày da lười. Giữ sự thoải mái và vẫn chuyên nghiệp.',
     aiHint: 'Suggest basic white office outfits for men in summer.',
     items: [
@@ -357,8 +357,8 @@ export const outfits: Outfit[] = [
     season: 'winter',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-10-main/400/500',
-    description: 'Đầm đen thanh lịch cho buổi tiệc mùa đông.',
-    longDescription:
+    title: 'Đầm đen thanh lịch cho buổi tiệc mùa đông.',
+    description:
       'Chiếc đầm đen bodycon kết hợp với áo khoác lông, giày cao gót đen và clutch. Phong cách sang trọng cho mùa đông.',
     aiHint: 'Suggest elegant black winter party dresses for women.',
     items: [
@@ -397,8 +397,8 @@ export const outfits: Outfit[] = [
     mainImage: 'https://picsum.photos/seed/outfit-11-main/400/500',
     imageSourceText: 'Placeholder',
     imageSourceUrl: 'https://picsum.photos',
-    description: 'Outfit streetwear nam với áo hoodie sáng màu và quần jogger.',
-    longDescription:
+    title: 'Outfit streetwear nam với áo hoodie sáng màu và quần jogger.',
+    description:
       'Áo hoodie màu vibrant kết hợp với quần jogger thoải mái và sneaker chunky. Phù hợp cho phong cách đường phố năng động mùa xuân.',
     aiHint: 'Suggest vibrant spring streetwear outfits with hoodie and joggers.',
     items: [
@@ -432,8 +432,8 @@ export const outfits: Outfit[] = [
     mainImage: 'https://picsum.photos/seed/outfit-12-main/400/500',
     imageSourceText: 'Placeholder',
     imageSourceUrl: 'https://picsum.photos',
-    description: 'Đầm đen sang trọng cho buổi hẹn hò hoặc tiệc tối.',
-    longDescription:
+    title: 'Đầm đen sang trọng cho buổi hẹn hò hoặc tiệc tối.',
+    description:
       'Chiếc đầm đen ôm body với chất liệu satin kết hợp cùng giày cao gót và clutch. Mang lại vẻ đẹp quyến rũ, sang trọng trong buổi hẹn hò mùa hè.',
     aiHint: 'Suggest elegant black dresses for date night in summer.',
     items: [
@@ -465,8 +465,8 @@ export const outfits: Outfit[] = [
     season: 'summer',
     color: 'white',
     mainImage: 'https://picsum.photos/seed/outfit-13-main/400/500',
-    description: 'Trang phục thể thao nam trắng đơn giản, thoải mái.',
-    longDescription:
+    title: 'Trang phục thể thao nam trắng đơn giản, thoải mái.',
+    description:
       'Áo thun thể thao màu trắng thoáng khí kết hợp với quần short chạy bộ và giày chạy nhẹ. Phù hợp cho tập gym hoặc chạy bộ ngoài trời.',
     aiHint: 'Suggest sporty white outfits for men in summer.',
     items: [
@@ -498,8 +498,8 @@ export const outfits: Outfit[] = [
     season: 'spring',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-14-main/400/500',
-    description: 'Áo sơ mi pastel kết hợp quần culottes công sở nữ.',
-    longDescription:
+    title: 'Áo sơ mi pastel kết hợp quần culottes công sở nữ.',
+    description:
       'Trang phục công sở nữ với áo sơ mi pastel và quần culottes thoải mái, kết hợp giày loafer và túi tote. Mang lại cảm giác trẻ trung, thanh lịch.',
     aiHint: 'Suggest pastel office outfits for women in spring.',
     items: [
@@ -537,8 +537,8 @@ export const outfits: Outfit[] = [
     season: 'winter',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-15-main/400/500',
-    description: 'Áo khoác dạ đen lịch lãm cho buổi hẹn mùa đông.',
-    longDescription:
+    title: 'Áo khoác dạ đen lịch lãm cho buổi hẹn mùa đông.',
+    description:
       'Áo khoác dạ đen dài, kết hợp áo cổ lọ và quần tây, cùng giày Chelsea boots. Tạo vẻ ngoài ấm áp nhưng vẫn phong cách cho buổi hẹn tối mùa đông.',
     aiHint: 'Suggest elegant winter date outfits for men in black tones.',
     items: [
@@ -576,8 +576,8 @@ export const outfits: Outfit[] = [
     season: 'autumn',
     color: 'earth-tone',
     mainImage: 'https://picsum.photos/seed/outfit-16-main/400/500',
-    description: 'Set đồ yoga earth-tone cho nữ.',
-    longDescription:
+    title: 'Set đồ yoga earth-tone cho nữ.',
+    description:
       'Bộ đồ tập yoga gồm áo bra và quần legging earth-tone, kết hợp áo khoác nhẹ và giày sneaker. Phù hợp cho mùa thu khi tập luyện hoặc đi dạo.',
     aiHint: 'Suggest sporty earth-tone yoga outfits for women in autumn.',
     items: [
@@ -615,8 +615,8 @@ export const outfits: Outfit[] = [
     season: 'summer',
     color: 'white',
     mainImage: 'https://picsum.photos/seed/outfit-17-main/400/500',
-    description: 'Outfit basic nam mùa hè với áo thun trắng và quần jean.',
-    longDescription:
+    title: 'Outfit basic nam mùa hè với áo thun trắng và quần jean.',
+    description:
       'Áo thun trắng đơn giản kết hợp quần jean xanh và sneaker trắng. Phong cách cơ bản nhưng không lỗi thời, phù hợp mọi hoàn cảnh thường ngày.',
     aiHint: 'Suggest simple casual summer outfits with white t-shirt and jeans.',
     items: [
@@ -648,8 +648,8 @@ export const outfits: Outfit[] = [
     season: 'spring',
     color: 'vibrant',
     mainImage: 'https://picsum.photos/seed/outfit-18-main/400/500',
-    description: 'Set streetwear nữ nổi bật với crop top và chân váy ngắn.',
-    longDescription:
+    title: 'Set streetwear nữ nổi bật với crop top và chân váy ngắn.',
+    description:
       'Crop top rực rỡ kết hợp chân váy ngắn và giày sneaker platform. Mang lại sự năng động, cá tính cho các buổi tiệc ngoài trời mùa xuân.',
     aiHint: 'Suggest vibrant streetwear outfits for women in spring.',
     items: [
@@ -681,8 +681,8 @@ export const outfits: Outfit[] = [
     season: 'winter',
     color: 'earth-tone',
     mainImage: 'https://picsum.photos/seed/outfit-19-main/400/500',
-    description: 'Áo len earth-tone kết hợp sơ mi công sở nam mùa đông.',
-    longDescription:
+    title: 'Áo len earth-tone kết hợp sơ mi công sở nam mùa đông.',
+    description:
       'Áo len cổ tròn earth-tone mặc ngoài áo sơ mi trắng, đi kèm quần tây và giày oxford. Mang lại sự thanh lịch, chuyên nghiệp nhưng vẫn ấm áp.',
     aiHint: 'Suggest office outfits for men in earth-tone during winter.',
     items: [
@@ -720,8 +720,8 @@ export const outfits: Outfit[] = [
     season: 'autumn',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-20-main/400/500',
-    description: 'Áo cardigan pastel cho nữ mùa thu.',
-    longDescription:
+    title: 'Áo cardigan pastel cho nữ mùa thu.',
+    description:
       'Cardigan pastel kết hợp áo thun trắng, quần jean skinny và sneaker. Tạo phong cách thoải mái, trẻ trung cho mùa thu se lạnh.',
     aiHint: 'Suggest pastel casual outfits for women in autumn.',
     items: [
@@ -766,8 +766,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1621619856624-42fd193a0661?w=1080&q=80',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/a-woman-in-a-plaid-skirt-and-white-blouse-is-walking-down-the-street-59a1fe8ea5eb',
-//     description: 'Phong cách công sở mùa thu sang trọng',
-//     longDescription: 'Thanh lịch và chuyên nghiệp, hoàn hảo cho môi trường công sở mùa thu.',
+//     title: 'Phong cách công sở mùa thu sang trọng',
+//     description: 'Thanh lịch và chuyên nghiệp, hoàn hảo cho môi trường công sở mùa thu.',
 //     aiHint: 'woman office fashion',
 //     items: [
 //       { name: 'Áo khoác trench màu be', type: 'Áo khoác', imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80', shoppingLinks: [{ store: 'Zara', url: '#' }] },
@@ -787,8 +787,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1551803091-e2ab652d5636?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/woman-wearing-pink-sweater-and-distressed-blue-jeans-e2ab652d5636',
-//     description: 'Trang phục dạo phố mùa xuân',
-//     longDescription: 'Thoải mái và tươi mới, lý tưởng cho một ngày dạo phố mùa xuân.',
+//     title: 'Trang phục dạo phố mùa xuân',
+//     description: 'Thoải mái và tươi mới, lý tưởng cho một ngày dạo phố mùa xuân.',
 //     aiHint: 'woman casual fashion',
 //     items: [
 //       { name: 'Áo len hồng nhạt', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1551803091-e2ab652d5636?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
@@ -807,8 +807,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1581044777550-4cfa6ce24862?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/woman-in-black-spaghetti-strap-dress-4cfa6ce24862',
-//     description: 'Đêm hè thanh lịch',
-//     longDescription: 'Lộng lẫy và tinh tế cho một sự kiện buổi tối hoặc một buổi hẹn hò.',
+//     title: 'Đêm hè thanh lịch',
+//     description: 'Lộng lẫy và tinh tế cho một sự kiện buổi tối hoặc một buổi hẹn hò.',
 //     aiHint: 'woman party dress',
 //     items: [
 //       { name: 'Váy bodycon đen', type: 'Váy', imageUrl: 'https://images.unsplash.com/photo-1581044777550-4cfa6ce24862?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Zara', url: '#' }, { store: 'Shopee', url: '#' }] },
@@ -827,8 +827,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/woman-in-black-sports-bra-and-black-leggings-doing-exercise-d25dfeac3438',
-//     description: 'Đồ thể thao mùa hè rực rỡ',
-//     longDescription: 'Tươi sáng và năng động cho các buổi tập luyện mùa hè.',
+//     title: 'Đồ thể thao mùa hè rực rỡ',
+//     description: 'Tươi sáng và năng động cho các buổi tập luyện mùa hè.',
 //     aiHint: 'woman sportswear',
 //     items: [
 //       { name: 'Áo bra thể thao neon', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1584735935639-5fb37a233418?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
@@ -846,8 +846,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/man-in-black-turtleneck-sweater-and-gray-blazer-1ab2a1c593e8',
-//     description: 'Công sở mùa đông hiện đại',
-//     longDescription: 'Sắc sảo và hiện đại, vừa phong cách vừa thiết thực để giữ ấm.',
+//     title: 'Công sở mùa đông hiện đại',
+//     description: 'Sắc sảo và hiện đại, vừa phong cách vừa thiết thực để giữ ấm.',
 //     aiHint: 'man office fashion',
 //     items: [
 //       { name: 'Áo cổ lọ đen', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1615112662283-328682348a6a?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
@@ -866,9 +866,9 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1539149398648-395213b38035?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/man-in-brown-hoodie-and-black-pants-standing-on-road-during-daytime-395213b38035',
-//     description: 'Phong cách streetwear mùa thu',
+//     title: 'Phong cách streetwear mùa thu',
 //     aiHint: 'man streetwear',
-//     longDescription: 'Mát mẻ và giản dị cho mùa thu, hoàn hảo cho thời tiết thay đổi.',
+//     description: 'Mát mẻ và giản dị cho mùa thu, hoàn hảo cho thời tiết thay đổi.',
 //     items: [
 //       { name: 'Áo hoodie oversized', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1539149398648-395213b38035?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Shopee', url: '#' }] },
 //       { name: 'Quần cargo', type: 'Quần', imageUrl: 'https://images.unsplash.com/photo-1611252391039-30424a68c743?w=400&h=500&fit=crop', shoppingLinks: [] },
@@ -886,8 +886,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1617127365659-3c74b9d1c750?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/a-man-in-a-white-shirt-and-blue-pants-3c74b9d1c750',
-//     description: 'Hẹn hò mùa xuân sắc sảo',
-//     longDescription: 'Sắc sảo và thanh lịch, hoàn hảo cho một vẻ ngoài buổi tối trong lành.',
+//     title: 'Hẹn hò mùa xuân sắc sảo',
+//     description: 'Sắc sảo và thanh lịch, hoàn hảo cho một vẻ ngoài buổi tối trong lành.',
 //     aiHint: 'man elegant suit',
 //     items: [
 //       { name: 'Áo sơ mi linen trắng', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1617127365659-3c74b9d1c750?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
@@ -906,8 +906,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/man-in-black-tank-top-and-black-shorts-using-barbell-6078c6bfb5c5',
-//     description: 'Trang phục năng động mùa hè',
-//     longDescription: 'Năng động, tiện dụng và phong cách cho các môn thể thao mùa hè.',
+//     title: 'Trang phục năng động mùa hè',
+//     description: 'Năng động, tiện dụng và phong cách cho các môn thể thao mùa hè.',
 //     aiHint: 'man sportswear',
 //     items: [
 //       { name: 'Áo thun thấm mồ hôi', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
@@ -925,8 +925,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1575428652377-a2d80e2277fc?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/woman-in-black-jacket-and-black-pants-standing-on-snow-covered-ground-during-daytime-a2d80e2277fc',
-//     description: 'Phong cách đường phố mùa đông',
-//     longDescription: 'Sắc sảo và ấm áp, vừa sang trọng vừa thiết thực cho cái lạnh.',
+//     title: 'Phong cách đường phố mùa đông',
+//     description: 'Sắc sảo và ấm áp, vừa sang trọng vừa thiết thực cho cái lạnh.',
 //     aiHint: 'woman streetwear',
 //     items: [
 //       { name: 'Áo khoác phao đen', type: 'Áo khoác', imageUrl: 'https://images.unsplash.com/photo-1575428652377-a2d80e2277fc?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Zara', url: '#' }] },
@@ -945,8 +945,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1506152982424-a0a4c251886c?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/man-wearing-white-crew-neck-t-shirt-and-blue-denim-shorts-a0a4c251886c',
-//     description: 'Trang phục thường ngày mùa hè cổ điển',
-//     longDescription: 'Vượt thời gian và đơn giản, một sự kết hợp dễ dàng cho mùa hè.',
+//     title: 'Trang phục thường ngày mùa hè cổ điển',
+//     description: 'Vượt thời gian và đơn giản, một sự kết hợp dễ dàng cho mùa hè.',
 //     aiHint: 'man summer casual',
 //     items: [
 //       { name: 'Áo thun cổ tròn trắng', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1506152982424-a0a4c251886c?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
@@ -965,8 +965,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1609505848912-252936335118?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/woman-in-white-blazer-and-white-pants-252936335118',
-//     description: 'Công sở mùa xuân tối giản',
-//     longDescription: 'Gọn gàng và tối giản, tạo ra một vẻ ngoài bóng bẩy và chuyên nghiệp.',
+//     title: 'Công sở mùa xuân tối giản',
+//     description: 'Gọn gàng và tối giản, tạo ra một vẻ ngoài bóng bẩy và chuyên nghiệp.',
 //     aiHint: 'woman minimalist office',
 //     items: [
 //       { name: 'Áo blazer trắng', type: 'Áo khoác', imageUrl: 'https://images.unsplash.com/photo-1609505848912-252936335118?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Zara', url: '#' }] },
@@ -985,8 +985,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1513028349275-520415311828?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/man-in-red-and-black-jacket-and-blue-jeans-520415311828',
-//     description: 'Tiệc tùng mùa thu nhiều lớp',
-//     longDescription: 'Nhiều lớp và rực rỡ, hoàn hảo cho một bữa tiệc mùa thu.',
+//     title: 'Tiệc tùng mùa thu nhiều lớp',
+//     description: 'Nhiều lớp và rực rỡ, hoàn hảo cho một bữa tiệc mùa thu.',
 //     aiHint: 'man party streetwear',
 //     items: [
 //       { name: 'Áo khoác bomber rực rỡ', type: 'Áo khoác', imageUrl: 'https://images.unsplash.com/photo-1513028349275-520415311828?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Shopee', url: '#' }] },
@@ -1005,8 +1005,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1590248434230-07132a22c5a2?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/woman-in-white-dress-standing-on-brown-sand-during-daytime-07132a22c5a2',
-//     description: 'Váy maxi đi biển',
-//     longDescription: 'Nhẹ nhàng và thoáng mát, hoàn hảo cho một ngày đi biển hoặc kỳ nghỉ.',
+//     title: 'Váy maxi đi biển',
+//     description: 'Nhẹ nhàng và thoáng mát, hoàn hảo cho một ngày đi biển hoặc kỳ nghỉ.',
 //     aiHint: 'woman beach dress',
 //     items: [
 //       { name: 'Váy maxi trắng', type: 'Váy', imageUrl: 'https://images.unsplash.com/photo-1590248434230-07132a22c5a2?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Lazada', url: '#' }, { store: 'Shopee', url: '#' }] },
@@ -1025,8 +1025,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1622519369527-3a1396910793?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/a-man-in-a-white-shirt-and-white-shorts-is-walking-on-the-beach-3a1396910793',
-//     description: 'Trang phục đi biển cho nam',
-//     longDescription: 'Thư giãn và thoải mái cho một ngày đi biển.',
+//     title: 'Trang phục đi biển cho nam',
+//     description: 'Thư giãn và thoải mái cho một ngày đi biển.',
 //     aiHint: 'man beach outfit',
 //     items: [
 //       { name: 'Áo sơ mi linen màu be', type: 'Áo', imageUrl: 'https://images.unsplash.com/photo-1622519369527-3a1396910793?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
@@ -1045,8 +1045,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1603921501867-899e3102f026?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/woman-in-red-long-sleeve-dress-899e3102f026',
-//     description: 'Váy nhung cho buổi hẹn hò tối',
-//     longDescription: 'Quyến rũ và sang trọng cho một buổi hẹn hò lãng mạn mùa đông.',
+//     title: 'Váy nhung cho buổi hẹn hò tối',
+//     description: 'Quyến rũ và sang trọng cho một buổi hẹn hò lãng mạn mùa đông.',
 //     aiHint: 'woman velvet dress',
 //     items: [
 //       { name: 'Váy nhung đỏ', type: 'Váy', imageUrl: 'https://images.unsplash.com/photo-1603921501867-899e3102f026?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Zara', url: '#' }] },
@@ -1064,8 +1064,8 @@ export const outfits: Outfit[] = [
 //     mainImage: 'https://images.unsplash.com/photo-1559535332-db1c283b3e34?w=400&h=500&fit=crop',
 //     imageSourceText: 'Unsplash',
 //     imageSourceUrl: 'https://unsplash.com/photos/man-in-blue-denim-jacket-and-black-pants-standing-beside-white-wall-db1c283b3e34',
-//     description: 'Phong cách dạo phố đi học',
-//     longDescription: 'Thoải mái và phong cách, hoàn hảo cho việc đi học hoặc dạo phố.',
+//     title: 'Phong cách dạo phố đi học',
+//     description: 'Thoải mái và phong cách, hoàn hảo cho việc đi học hoặc dạo phố.',
 //     aiHint: 'man school streetwear',
 //     items: [
 //       { name: 'Áo khoác denim', type: 'Áo khoác', imageUrl: 'https://images.unsplash.com/photo-1559535332-db1c283b3e34?w=400&h=500&fit=crop', shoppingLinks: [{ store: 'Lazada', url: '#' }, { store: 'Shopee', url: '#' }] },
@@ -1075,6 +1075,8 @@ export const outfits: Outfit[] = [
 //     ],
 //   },
 // ];
+
+    
 
     
 

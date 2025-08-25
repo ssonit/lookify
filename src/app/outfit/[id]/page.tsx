@@ -60,6 +60,8 @@ export default function OutfitDetailPage() {
     'casual': 'Thường ngày',
     'party/date': 'Tiệc tùng',
     'sport/active': 'Thể thao',
+    'tet': 'Tết',
+    'game-anime': 'Game/Anime',
   }
 
   const styleMap = {
@@ -95,7 +97,7 @@ export default function OutfitDetailPage() {
         <section className="mb-8">
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                    <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
+                    <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.title}</h1>
                     <div className="flex items-center gap-2 shrink-0">
                       <Button variant="outline" size="icon" onClick={() => setIsFavorited(!isFavorited)}>
                         <Heart className={isFavorited ? "fill-red-500 text-red-500" : ""} />
@@ -121,7 +123,7 @@ export default function OutfitDetailPage() {
                     <CardContent className="p-0">
                         <DialogTrigger asChild>
                           <button className="relative aspect-[4/5] sm:aspect-[3/4] w-full" onClick={() => openLightbox(outfit.mainImage)}>
-                              <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.description}`} fill className="object-cover"/>
+                              <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.title}`} fill className="object-cover"/>
                               <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
                                   <Camera /> Góc chính
                               </div>
@@ -201,7 +203,7 @@ export default function OutfitDetailPage() {
                         <CardTitle className="flex items-center gap-2 text-xl font-headline"><Info />Mô tả</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-sm text-muted-foreground">{outfit.longDescription}</p>
+                        <p className="text-sm text-muted-foreground">{outfit.description}</p>
                         <div className="mt-4 grid grid-cols-2 gap-3">
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Phong cách</div>
@@ -299,3 +301,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
