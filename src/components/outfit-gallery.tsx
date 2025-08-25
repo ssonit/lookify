@@ -103,38 +103,29 @@ export function OutfitGallery() {
                 
                 <Separator />
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                         <h3 className="font-semibold mb-3 flex items-center gap-2"><WandSparkles />Chủ đề</h3>
-                        <div className="flex flex-wrap gap-2">
-                           {allThemes.map(item => (
-                               <FilterButton 
-                                key={item.value + item.label} 
-                                onClick={() => {
-                                    if (GALLERY_FILTERS.context.some(c => c.value === item.value && c.label === item.label)) {
-                                        setActiveContext(prev => prev === item.value ? null : item.value);
-                                        setActiveStyle(null);
-                                    } else {
-                                        setActiveStyle(prev => prev === item.value ? null : item.value)
-                                        setActiveContext(null);
-                                    }
-                                }} 
-                                isSelected={activeContext === item.value || activeStyle === item.value}>
-                                 {item.label}
-                               </FilterButton>
-                           ))}
-                        </div>
-                    </div>
-                     <div>
-                         <h3 className="font-semibold mb-3 flex items-center gap-2"><Calendar />Mùa</h3>
-                        <div className="flex flex-wrap gap-2">
-                           {GALLERY_FILTERS.season.map(item => (
-                               <FilterButton key={item.value} onClick={() => setSeason(prev => prev === item.value ? null : item.value)} isSelected={season === item.value}>
-                                 {item.label}
-                               </FilterButton>
-                           ))}
-                        </div>
-                    </div>
+                <div className="flex flex-wrap gap-2">
+                   {allThemes.map(item => (
+                       <FilterButton 
+                        key={item.value + item.label} 
+                        onClick={() => {
+                            if (GALLERY_FILTERS.context.some(c => c.value === item.value && c.label === item.label)) {
+                                setActiveContext(prev => prev === item.value ? null : item.value);
+                                setActiveStyle(null);
+                            } else {
+                                setActiveStyle(prev => prev === item.value ? null : item.value)
+                                setActiveContext(null);
+                            }
+                        }} 
+                        isSelected={activeContext === item.value || activeStyle === item.value}>
+                         {item.label}
+                       </FilterButton>
+                   ))}
+                   <Separator orientation="vertical" className="h-auto mx-2" />
+                   {GALLERY_FILTERS.season.map(item => (
+                       <FilterButton key={item.value} onClick={() => setSeason(prev => prev === item.value ? null : item.value)} isSelected={season === item.value}>
+                         {item.label}
+                       </FilterButton>
+                   ))}
                 </div>
 
                 <Separator />
