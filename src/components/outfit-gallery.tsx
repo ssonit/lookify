@@ -14,17 +14,12 @@ import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
 
 const FILTERS = {
-    context: [
-        { value: 'work/office', label: 'Công sở' },
-        { value: 'casual', label: 'Thường ngày' },
-        { value: 'party/date', label: 'Tiệc tùng' },
-        { value: 'sport/active', label: 'Thể thao' },
-    ],
-    style: [
-        { value: 'basic', label: 'Cơ bản' },
-        { value: 'streetwear', label: 'Dạo phố' },
+    theme: [
+        { value: 'school', label: 'Đi học' },
+        { value: 'date', label: 'Đi hẹn hò' },
+        { value: 'beach', label: 'Đi biển' },
+        { value: 'office', label: 'Công sở' },
         { value: 'elegant', label: 'Thanh lịch' },
-        { value: 'sporty', label: 'Năng động' },
     ],
     season: [
         { value: 'spring', label: 'Xuân' },
@@ -63,42 +58,49 @@ const FilterButton = ({
 export function OutfitGallery() {
     const searchParams = useSearchParams();
     const [gender, setGender] = useState<'male' | 'female'>('female');
-    const [context, setContext] = useState<string | null>(searchParams.get('context'));
-    const [style, setStyle] = useState<string | null>(searchParams.get('style'));
+    const [theme, setTheme] = useState<string | null>(searchParams.get('theme'));
     const [season, setSeason] = useState<string | null>(searchParams.get('season'));
     const [color, setColor] = useState<string | null>(searchParams.get('color'));
     const [searchTerm, setSearchTerm] = useState('');
     
     useEffect(() => {
-        setContext(searchParams.get('context'));
-        setStyle(searchParams.get('style'));
+        setTheme(searchParams.get('theme'));
         setSeason(searchParams.get('season'));
         setColor(searchParams.get('color'));
     }, [searchParams]);
 
     const resetFilters = () => {
-        setContext(null);
-        setStyle(null);
+        setTheme(null);
         setSeason(null);
         setColor(null);
         setSearchTerm('');
     };
 
-    const activeFilterCount = [context, style, season, color, searchTerm].filter(Boolean).length;
+    const activeFilterCount = [theme, season, color, searchTerm].filter(Boolean).length;
 
     const filteredOutfits = useMemo(() => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
-        return outfits.filter(o => 
-            (o.gender === gender) &&
-            (!context || o.context === context) &&
-            (!style || o.style === style) &&
-            (!season || o.season === season) &&
-            (!color || o.color === color) &&
-            (searchTerm === '' ||
-             o.description.toLowerCase().includes(lowercasedSearchTerm) ||
-             o.longDescription.toLowerCase().includes(lowercasedSearchTerm) ||
-             o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
-    )}, [gender, context, style, season, color, searchTerm]);
+        return outfits.filter(o => {
+            const themeFilter = !theme || (
+                (theme === 'school' && o.context === 'casual' && (o.style === 'basic' || o.style === 'streetwear')) ||
+                (theme === 'date' && o.context === 'party/date') ||
+                (theme === 'beach' && o.context === 'casual' && o.season === 'summer') ||
+                (theme === 'office' && o.context === 'work/office') ||
+                (theme === 'elegant' && o.style === 'elegant')
+            );
+
+            return (
+                (o.gender === gender) &&
+                themeFilter &&
+                (!season || o.season === season) &&
+                (!color || o.color === color) &&
+                (searchTerm === '' ||
+                 o.description.toLowerCase().includes(lowercasedSearchTerm) ||
+                 o.longDescription.toLowerCase().includes(lowercasedSearchTerm) ||
+                 o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
+            )
+        });
+    }, [gender, theme, season, color, searchTerm]);
 
     return (
         <section id="gallery">
@@ -140,10 +142,10 @@ export function OutfitGallery() {
                         </div>
                     </div>
                     <div>
-                         <h3 className="font-semibold mb-3 flex items-center gap-2"><WandSparkles />Phong cách</h3>
+                         <h3 className="font-semibold mb-3 flex items-center gap-2"><WandSparkles />Chủ đề</h3>
                         <div className="flex flex-wrap gap-2">
-                           {FILTERS.style.map(item => (
-                               <FilterButton key={item.value} onClick={() => setStyle(prev => prev === item.value ? null : item.value)} isSelected={style === item.value}>
+                           {FILTERS.theme.map(item => (
+                               <FilterButton key={item.value} onClick={() => setTheme(prev => prev === item.value ? null : item.value)} isSelected={theme === item.value}>
                                  {item.label}
                                </FilterButton>
                            ))}
