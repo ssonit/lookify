@@ -11,9 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut } from 'lucide-react';
+import { User, Settings, LogOut, Heart } from 'lucide-react';
 
 export function Header() {
+  const isLoggedIn = true; // Mock login state
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -21,19 +23,23 @@ export function Header() {
           <Image src="https://lh3.googleusercontent.com/gg-dl/AJfQ9KRNnfPzFPUeVi07oH9EUrHHvUBq40oMELqTFcGzJ3ZZKY5J4NUPFlIm_iM_xzgHWLGC0fA3Qz9QIYiCTdTHEim7B64HsROKPi8v0JzgjBn0zhM-bmdGN8iTvRAuZuJ47fnZbDICxCj-_RSRNldw3EaGdQLwIEmq53Aa9ZqaFgEDLOdxGg" alt="Lookify Logo" width={32} height={32} className="h-8 w-8" />
            <span className="font-bold font-headline text-2xl mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-foreground">Lookify</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-4 text-lg">
-           <Button variant="ghost" asChild>
-                <Link href="/suggester" className="font-medium">Gợi ý AI</Link>
-            </Button>
-            <Button variant="ghost" asChild>
-                <Link href="/featured" className="font-medium">Nổi bật</Link>
-            </Button>
-            <Button variant="ghost" asChild>
-                <Link href="/gallery" className="font-medium">Thư viện</Link>
-            </Button>
-            <Button variant="ghost" asChild>
-                <Link href="/upgrade" className="font-medium">Nâng cấp</Link>
-            </Button>
+        <div className="flex items-center gap-2">
+          <nav className="hidden md:flex items-center gap-2 text-lg">
+             <Button variant="ghost" asChild>
+                  <Link href="/suggester" className="font-medium">Gợi ý AI</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                  <Link href="/featured" className="font-medium">Nổi bật</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                  <Link href="/gallery" className="font-medium">Thư viện</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                  <Link href="/upgrade" className="font-medium">Nâng cấp</Link>
+              </Button>
+          </nav>
+          
+          {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button>
@@ -46,13 +52,23 @@ export function Header() {
               <DropdownMenuContent className="w-56" align="end">
                 <DropdownMenuLabel>Tài khoản của tôi</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Hồ sơ</span>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Hồ sơ</span>
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Cài đặt</span>
+                 <DropdownMenuItem asChild>
+                  <Link href="/profile#saved">
+                    <Heart className="mr-2 h-4 w-4" />
+                    <span>Đã lưu</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile#settings">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Cài đặt</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -61,7 +77,12 @@ export function Header() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-        </nav>
+          ) : (
+             <Button asChild>
+                <Link href="/signin">Đăng nhập</Link>
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );

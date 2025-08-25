@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler, X } from 'lucide-react';
+import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler, X, Heart } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { OutfitReview } from '@/components/outfit-review';
@@ -24,6 +24,8 @@ export default function OutfitDetailPage() {
   const outfitId = params.id;
   const outfit = outfits.find((o) => o.id === Number(outfitId));
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isFavorited, setIsFavorited] = useState(false);
+
 
   if (!outfit) {
     return (
@@ -86,7 +88,13 @@ export default function OutfitDetailPage() {
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
-                    <Button variant="outline" size="sm" className="shrink-0"><Share2 className="mr-1.5" /> Chia sẻ</Button>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Button variant="outline" size="icon" onClick={() => setIsFavorited(!isFavorited)}>
+                        <Heart className={isFavorited ? "fill-red-500 text-red-500" : ""} />
+                        <span className="sr-only">Lưu outfit</span>
+                      </Button>
+                      <Button variant="outline" size="sm" className="shrink-0"><Share2 className="mr-1.5" /> Chia sẻ</Button>
+                    </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
