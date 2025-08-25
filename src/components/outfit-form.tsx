@@ -4,7 +4,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
-import React, { useState } from 'react';
+import React, 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -28,6 +28,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from './ui/textarea';
 import { PlusCircle, Trash2, UploadCloud, X } from 'lucide-react';
+import { COLOR_OPTIONS, CONTEXT_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, STYLE_OPTIONS } from '@/lib/constants';
 
 const shoppingLinkSchema = z.object({
   store: z.string().min(1, { message: 'Tên cửa hàng không được để trống.' }),
@@ -61,7 +62,7 @@ interface OutfitFormProps {
 }
 
 function ImageUploadField({ form, name, description }: { form: any; name: string; description: string }) {
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = React.useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -88,8 +89,8 @@ function ImageUploadField({ form, name, description }: { form: any; name: string
           {preview ? (
             <div className="relative group w-48 h-48 rounded-xl overflow-hidden border-2 border-dashed">
               <Image src={preview} alt="Xem trước ảnh" layout="fill" objectFit="cover" />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button type="button" variant="destructive" size="icon" onClick={removeImage} className="absolute top-2 right-2">
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                 <Button type="button" variant="destructive" size="icon" onClick={removeImage} className="absolute top-2 right-2">
                   <X />
                 </Button>
               </div>
@@ -302,8 +303,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
                       <SelectTrigger><SelectValue placeholder="Chọn giới tính" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="male">Nam</SelectItem>
-                      <SelectItem value="female">Nữ</SelectItem>
+                      {GENDER_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -321,12 +321,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
                       <SelectTrigger><SelectValue placeholder="Chọn bối cảnh" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="work/office">Công sở</SelectItem>
-                      <SelectItem value="casual">Thường ngày</SelectItem>
-                      <SelectItem value="party/date">Tiệc / Hẹn hò</SelectItem>
-                      <SelectItem value="sport/active">Thể thao</SelectItem>
-                       <SelectItem value="tet">Tết</SelectItem>
-                      <SelectItem value="game-anime">Game/Anime</SelectItem>
+                      {CONTEXT_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -344,10 +339,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
                       <SelectTrigger><SelectValue placeholder="Chọn phong cách" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="basic">Cơ bản</SelectItem>
-                      <SelectItem value="streetwear">Dạo phố</SelectItem>
-                      <SelectItem value="elegant">Thanh lịch</SelectItem>
-                      <SelectItem value="sporty">Năng động</SelectItem>
+                       {STYLE_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -365,10 +357,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
                       <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="spring">Xuân</SelectItem>
-                      <SelectItem value="summer">Hè</SelectItem>
-                      <SelectItem value="autumn">Thu</SelectItem>
-                      <SelectItem value="winter">Đông</SelectItem>
+                      {SEASON_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -386,11 +375,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
                       <SelectTrigger><SelectValue placeholder="Chọn màu chủ đạo" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="black">Đen</SelectItem>
-                      <SelectItem value="white">Trắng</SelectItem>
-                      <SelectItem value="pastel">Pastel</SelectItem>
-                      <SelectItem value="earth-tone">Tone đất</SelectItem>
-                      <SelectItem value="vibrant">Rực rỡ</SelectItem>
+                      {COLOR_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                     </SelectContent>
                   </Select>
                   <FormMessage />

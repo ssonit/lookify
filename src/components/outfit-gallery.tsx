@@ -12,27 +12,8 @@ import { Search, X, WandSparkles, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
+import { GALLERY_FILTERS } from '@/lib/constants';
 
-const FILTERS = {
-    context: [
-        { value: 'casual', label: 'Đi học' },
-        { value: 'party/date', label: 'Đi hẹn hò' },
-        { value: 'casual', label: 'Đi biển' }, // Note: This needs season combo
-        { value: 'work/office', label: 'Công sở' },
-        { value: 'tet', label: 'Tết' },
-        { value: 'game-anime', label: 'Game/Anime' },
-    ],
-     style: [
-        { value: 'elegant', label: 'Thanh lịch' },
-        { value: 'streetwear', label: 'Dạo phố' },
-    ],
-    season: [
-        { value: 'spring', label: 'Xuân' },
-        { value: 'summer', label: 'Hè' },
-        { value: 'autumn', label: 'Thu' },
-        { value: 'winter', label: 'Đông' },
-    ]
-};
 
 const FilterButton = ({
   onClick,
@@ -92,7 +73,7 @@ export function OutfitGallery() {
         });
     }, [gender, activeContext, activeStyle, season, searchTerm]);
 
-    const allThemes = [...FILTERS.context, ...FILTERS.style];
+    const allThemes = [...GALLERY_FILTERS.context, ...GALLERY_FILTERS.style];
 
     return (
         <section id="gallery">
@@ -130,7 +111,7 @@ export function OutfitGallery() {
                                <FilterButton 
                                 key={item.value + item.label} 
                                 onClick={() => {
-                                    if (FILTERS.context.some(c => c.value === item.value && c.label === item.label)) {
+                                    if (GALLERY_FILTERS.context.some(c => c.value === item.value && c.label === item.label)) {
                                         setActiveContext(prev => prev === item.value ? null : item.value);
                                         setActiveStyle(null);
                                     } else {
@@ -147,7 +128,7 @@ export function OutfitGallery() {
                      <div>
                          <h3 className="font-semibold mb-3 flex items-center gap-2"><Calendar />Mùa</h3>
                         <div className="flex flex-wrap gap-2">
-                           {FILTERS.season.map(item => (
+                           {GALLERY_FILTERS.season.map(item => (
                                <FilterButton key={item.value} onClick={() => setSeason(prev => prev === item.value ? null : item.value)} isSelected={season === item.value}>
                                  {item.label}
                                </FilterButton>

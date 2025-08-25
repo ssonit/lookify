@@ -18,6 +18,7 @@ import { OutfitReview } from '@/components/outfit-review';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { COLOR_MAP, CONTEXT_MAP, OUTFIT_IMAGE_LABELS, SEASON_MAP, STYLE_MAP } from '@/lib/constants';
 
 
 export default function OutfitDetailPage() {
@@ -55,39 +56,6 @@ export default function OutfitDetailPage() {
 
   const galleryImages = outfit.items.map(item => item.imageUrl);
 
-  const contextMap = {
-    'work/office': 'Công sở',
-    'casual': 'Thường ngày',
-    'party/date': 'Tiệc tùng',
-    'sport/active': 'Thể thao',
-    'tet': 'Tết',
-    'game-anime': 'Game/Anime',
-  }
-
-  const styleMap = {
-    'basic': 'Cơ bản',
-    'streetwear': 'Dạo phố',
-    'elegant': 'Thanh lịch',
-    'sporty': 'Năng động',
-  }
-
-  const seasonMap = {
-    'spring': 'Xuân',
-    'summer': 'Hè',
-    'autumn': 'Thu',
-    'winter': 'Đông',
-  }
-
-  const colorMap = {
-    'black': { name: 'Đen', hex: '#0f1117' },
-    'white': { name: 'Trắng', hex: '#e5e7eb' },
-    'pastel': { name: 'Pastel', hex: '#f3d6e4' },
-    'earth-tone': { name: 'Tone đất', hex: '#b9a18e' },
-    'vibrant': { name: 'Rực rỡ', hex: '#ff4d4d' },
-  };
-
-  const imageLabels = ['Layer', 'Fabric', 'Fit', 'Footwear', 'Accessory', 'Bag'];
-
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-body">
@@ -107,9 +75,9 @@ export default function OutfitDetailPage() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
-                    <Badge variant="outline" className='shrink-0'><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
-                    <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
+                    <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{STYLE_MAP[outfit.style]}</Badge>
+                    <Badge variant="outline" className='shrink-0'><CalendarRange className="mr-1.5" />{CONTEXT_MAP[outfit.context]}</Badge>
+                    <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{SEASON_MAP[outfit.season]}</Badge>
                 </div>
             </div>
         </section>
@@ -137,9 +105,9 @@ export default function OutfitDetailPage() {
                                             <DialogTrigger asChild>
                                               <button className="relative w-full" onClick={() => openLightbox(image)}>
                                                   <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-xl border" />
-                                                  {imageLabels[index] && (
+                                                  {OUTFIT_IMAGE_LABELS[index] && (
                                                       <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
-                                                          {imageLabels[index]}
+                                                          {OUTFIT_IMAGE_LABELS[index]}
                                                       </div>
                                                   )}
                                               </button>
@@ -207,22 +175,22 @@ export default function OutfitDetailPage() {
                         <div className="mt-4 grid grid-cols-2 gap-3">
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Phong cách</div>
-                                <div className="mt-1 text-sm font-medium">{styleMap[outfit.style]}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
+                                <div className="mt-1 text-sm font-medium">{STYLE_MAP[outfit.style]}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Màu chủ đạo</div>
                                 <div className="mt-1 flex items-center gap-2">
-                                     <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: colorMap[outfit.color].hex }}></span>
-                                     <span>{colorMap[outfit.color].name}</span>
+                                     <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: COLOR_MAP[outfit.color].hex }}></span>
+                                     <span>{COLOR_MAP[outfit.color].name}</span>
                                 </div>
                             </div>
                              <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Mùa</div>
-                                <div className="mt-1 text-sm font-medium">{seasonMap[outfit.season]}</div>
+                                <div className="mt-1 text-sm font-medium">{SEASON_MAP[outfit.season]}</div>
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Dịp phù hợp</div>
-                                <div className="mt-1 text-sm font-medium">{contextMap[outfit.context]}</div>
+                                <div className="mt-1 text-sm font-medium">{CONTEXT_MAP[outfit.context]}</div>
                             </div>
                         </div>
                     </CardContent>

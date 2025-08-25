@@ -13,29 +13,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { outfits } from "@/lib/outfits";
+import { CONTEXT_MAP, SEASON_MAP, STYLE_MAP } from "@/lib/constants";
 
-const contextMap = {
-  'work/office': 'Công sở',
-  'casual': 'Thường ngày',
-  'party/date': 'Tiệc tùng',
-  'sport/active': 'Thể thao',
-  'tet': 'Tết',
-  'game-anime': 'Game/Anime',
-}
-
-const styleMap = {
-  'basic': 'Cơ bản',
-  'streetwear': 'Dạo phố',
-  'elegant': 'Thanh lịch',
-  'sporty': 'Năng động',
-}
-
-const seasonMap = {
-  'spring': 'Xuân',
-  'summer': 'Hè',
-  'autumn': 'Thu',
-  'winter': 'Đông',
-}
 
 export default function DashboardOutfitsPage() {
   return (
@@ -65,12 +44,12 @@ export default function DashboardOutfitsPage() {
               <TableCell className="font-medium">{outfit.title}</TableCell>
               <TableCell>{outfit.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
               <TableCell>
-                <Badge variant="outline">{contextMap[outfit.context]}</Badge>
+                <Badge variant="outline">{CONTEXT_MAP[outfit.context]}</Badge>
               </TableCell>
               <TableCell>
-                 <Badge variant="secondary">{styleMap[outfit.style]}</Badge>
+                 <Badge variant="secondary">{STYLE_MAP[outfit.style]}</Badge>
               </TableCell>
-              <TableCell>{seasonMap[outfit.season]}</TableCell>
+              <TableCell>{SEASON_MAP[outfit.season]}</TableCell>
               <TableCell>
                 <Button variant="outline" size="sm" asChild>
                   <Link href={`/dashboard/outfits/${outfit.id}/edit`}>
