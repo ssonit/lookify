@@ -38,6 +38,7 @@ export default function Home() {
   const schoolOutfits = outfits.filter(o => o.context === 'casual' && (o.style === 'basic' || o.style === 'streetwear')).slice(0,4);
   const dateOutfits = outfits.filter(o => o.context === 'party/date').slice(0,4);
   const beachOutfits = outfits.filter(o => o.season === 'summer' && o.context === 'casual').slice(0,4);
+  const gameAnimeOutfits = outfits.filter(o => o.specialOccasion === 'game-anime').slice(0, 4);
 
 
   return (
@@ -53,6 +54,8 @@ export default function Home() {
            <ThemedOutfitSection title="Phối đồ đi hẹn hò" outfits={dateOutfits} viewAllLink="/gallery?context=party/date" />
            <Separator />
            <ThemedOutfitSection title="Phối đồ đi biển" outfits={beachOutfits} viewAllLink="/gallery?season=summer&context=casual" />
+           <Separator />
+            <ThemedOutfitSection title="Phối đồ Game/Anime" outfits={gameAnimeOutfits} viewAllLink="/gallery?theme=game-anime" />
            <Separator />
            <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?context=work/office" />
            <Separator />
