@@ -141,9 +141,6 @@ export default function OutfitDetailPage() {
                         </ul>
                     </CardContent>
                 </Card>
-                <div className="mt-6">
-                    <OutfitReview />
-                </div>
             </div>
 
             {/* Details */}
@@ -241,10 +238,13 @@ export default function OutfitDetailPage() {
                 </div>
             </div>
         </section>
+        
+        {/* Reviews Section - moved for mobile layout */}
+        <section className="mt-6 lg:mt-8">
+            <OutfitReview />
+        </section>
       </main>
       <Footer />
     </div>
   );
 }
-
-    
