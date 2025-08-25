@@ -17,6 +17,7 @@ import React, { useState } from 'react';
 import { OutfitReview } from '@/components/outfit-review';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 export default function OutfitDetailPage() {
@@ -25,7 +26,12 @@ export default function OutfitDetailPage() {
   const outfit = outfits.find((o) => o.id === Number(outfitId));
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [isLightboxImageLoading, setIsLightboxImageLoading] = useState(false);
 
+  const openLightbox = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setIsLightboxImageLoading(true);
+  };
 
   if (!outfit) {
     return (
@@ -114,7 +120,7 @@ export default function OutfitDetailPage() {
                 <Card className="overflow-hidden rounded-2xl">
                     <CardContent className="p-0">
                         <DialogTrigger asChild>
-                          <button className="relative aspect-[4/3] sm:aspect-[16/10] w-full" onClick={() => setSelectedImage(outfit.mainImage)}>
+                          <button className="relative aspect-[4/3] sm:aspect-[16/10] w-full" onClick={() => openLightbox(outfit.mainImage)}>
                               <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.description}`} fill className="object-cover"/>
                               <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
                                   <Camera /> Góc chính
@@ -127,7 +133,7 @@ export default function OutfitDetailPage() {
                                     {galleryImages.map((image, index) => (
                                         <CarouselItem key={index} className="basis-1/3 sm:basis-1/6 pl-1.5">
                                             <DialogTrigger asChild>
-                                              <button className="relative w-full" onClick={() => setSelectedImage(image)}>
+                                              <button className="relative w-full" onClick={() => openLightbox(image)}>
                                                   <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-xl border" />
                                                   {imageLabels[index] && (
                                                       <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
@@ -147,9 +153,21 @@ export default function OutfitDetailPage() {
                 </Card>
                 
                 <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
-                  <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
-                  <DialogDescription className="sr-only">Ảnh lớn của trang phục</DialogDescription>
-                  {selectedImage && <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-2xl" />}
+                    <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
+                    <DialogDescription className="sr-only">Ảnh lớn của trang phục</DialogDescription>
+                    
+                    {isLightboxImageLoading && <Skeleton className="w-[1200px] h-[900px] max-w-full aspect-[4/3] rounded-2xl" />}
+                    
+                    {selectedImage && (
+                        <Image 
+                            src={selectedImage} 
+                            alt="Xem ảnh lớn" 
+                            width={1200} 
+                            height={900} 
+                            className={`w-full h-auto object-contain rounded-2xl transition-opacity duration-300 ${isLightboxImageLoading ? 'opacity-0' : 'opacity-100'}`}
+                            onLoadingComplete={() => setIsLightboxImageLoading(false)}
+                        />
+                    )}
                   <DialogClose />
                 </DialogContent>
                 
@@ -280,7 +298,3 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
-
-    
-
-    
