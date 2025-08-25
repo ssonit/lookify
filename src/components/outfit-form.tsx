@@ -4,6 +4,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
+import React, { useState } from 'react';
+import Image from 'next/image';
+
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -24,7 +27,7 @@ import {
 } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from './ui/textarea';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { PlusCircle, Trash2, UploadCloud, X } from 'lucide-react';
 
 const shoppingLinkSchema = z.object({
   store: z.string().min(1, { message: 'Tên cửa hàng không được để trống.' }),
@@ -34,7 +37,7 @@ const shoppingLinkSchema = z.object({
 const itemSchema = z.object({
   name: z.string().min(3, { message: 'Tên item cần ít nhất 3 ký tự.' }),
   type: z.string().min(1, { message: 'Loại item không được để trống.' }),
-  imageUrl: z.string().url({ message: 'Vui lòng nhập URL hình ảnh hợp lệ.' }),
+  imageUrl: z.any(),
   shoppingLinks: z.array(shoppingLinkSchema),
 });
 
@@ -46,7 +49,7 @@ const outfitFormSchema = z.object({
   style: z.enum(['basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn phong cách.' }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
   color: z.enum(['black', 'white', 'pastel', 'earth-tone', 'vibrant'], { required_error: 'Vui lòng chọn màu chủ đạo.' }),
-  mainImage: z.string().url({ message: 'Vui lòng nhập URL hình ảnh hợp lệ.' }),
+  mainImage: z.any().refine((file) => file, 'Vui lòng tải ảnh chính.'),
   items: z.array(itemSchema).min(1, { message: 'Cần có ít nhất một item trong outfit.' }),
 });
 
@@ -57,7 +60,62 @@ interface OutfitFormProps {
   initialData?: Partial<OutfitFormValues>;
 }
 
-function ItemFields({ control, itemIndex, remove }: { control: any; itemIndex: number; remove: (index: number) => void; }) {
+function ImageUploadField({ form, name, description }: { form: any; name: string; description: string }) {
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+        form.setValue(name, file);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setPreview(null);
+    form.setValue(name, null);
+  };
+
+  return (
+    <FormItem>
+      <FormLabel>{description}</FormLabel>
+      <FormControl>
+        <div>
+          {preview ? (
+            <div className="relative group w-48 h-48 rounded-xl overflow-hidden border-2 border-dashed">
+              <Image src={preview} alt="Xem trước ảnh" layout="fill" objectFit="cover" />
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button type="button" variant="destructive" size="icon" onClick={removeImage}>
+                  <X />
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <label className="flex flex-col items-center justify-center w-48 h-48 border-2 border-dashed rounded-xl cursor-pointer hover:bg-muted transition-colors">
+              <div className="flex flex-col items-center justify-center text-center">
+                <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
+                <p className="mb-2 text-sm text-muted-foreground">Tải ảnh lên</p>
+              </div>
+              <Input
+                type="file"
+                className="hidden"
+                accept="image/png, image/jpeg"
+                onChange={handleFileChange}
+              />
+            </label>
+          )}
+        </div>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  );
+}
+
+function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIndex: number; remove: (index: number) => void; form: any }) {
   const { fields, append, remove: removeLink } = useFieldArray({
     control,
     name: `items.${itemIndex}.shoppingLinks`,
@@ -65,41 +123,50 @@ function ItemFields({ control, itemIndex, remove }: { control: any; itemIndex: n
 
   return (
     <Card className="p-4 border-dashed">
+       <div className="flex justify-end">
+         <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={() => remove(itemIndex)}
+          >
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
+            <FormField
+              control={control}
+              name={`items.${itemIndex}.name`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tên item</FormLabel>
+                  <FormControl><Input placeholder="Áo thun oversize..." {...field} /></FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name={`items.${itemIndex}.type`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Loại item</FormLabel>
+                  <FormControl><Input placeholder="Top, Bottom, Shoes..." {...field} /></FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+        </div>
         <FormField
-          control={control}
-          name={`items.${itemIndex}.name`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tên item</FormLabel>
-              <FormControl><Input placeholder="Áo thun oversize..." {...field} /></FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name={`items.${itemIndex}.type`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Loại item</FormLabel>
-              <FormControl><Input placeholder="Top, Bottom, Shoes..." {...field} /></FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+            control={control}
+            name={`items.${itemIndex}.imageUrl`}
+            render={() => (
+                <ImageUploadField form={form} name={`items.${itemIndex}.imageUrl`} description="Ảnh Item" />
+            )}
         />
       </div>
-      <FormField
-        control={control}
-        name={`items.${itemIndex}.imageUrl`}
-        render={({ field }) => (
-          <FormItem className="mt-4">
-            <FormLabel>URL hình ảnh item</FormLabel>
-            <FormControl><Input placeholder="https://images.unsplash.com/..." {...field} /></FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      
 
       <div className="mt-4 space-y-3">
         <FormLabel>Link mua sắm</FormLabel>
@@ -140,15 +207,6 @@ function ItemFields({ control, itemIndex, remove }: { control: any; itemIndex: n
           Thêm link
         </Button>
       </div>
-      <Button
-        type="button"
-        variant="destructive"
-        className="mt-4"
-        onClick={() => remove(itemIndex)}
-      >
-        <Trash2 className="mr-2 h-4 w-4" />
-        Xóa Item
-      </Button>
     </Card>
   );
 }
@@ -165,7 +223,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
       style: 'basic',
       season: 'summer',
       color: 'white',
-      mainImage: '',
+      mainImage: null,
       items: [],
     },
   });
@@ -218,18 +276,12 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="mainImage"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>URL hình ảnh chính</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://images.unsplash.com/..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+             <FormField
+                control={form.control}
+                name="mainImage"
+                render={() => (
+                   <ImageUploadField form={form} name="mainImage" description="Ảnh chính" />
+                )}
             />
           </CardContent>
         </Card>
@@ -355,14 +407,14 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
             </CardHeader>
             <CardContent className="space-y-4">
                 {fields.map((field, index) => (
-                    <ItemFields key={field.id} control={form.control} itemIndex={index} remove={remove} />
+                    <ItemFields key={field.id} control={form.control} itemIndex={index} remove={remove} form={form} />
                 ))}
                  <Button
                     type="button"
                     variant="outline"
                     size="lg"
                     className="w-full"
-                    onClick={() => append({ name: '', type: '', imageUrl: '', shoppingLinks: [] })}
+                    onClick={() => append({ name: '', type: '', imageUrl: null, shoppingLinks: [] })}
                     >
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Thêm Item mới
