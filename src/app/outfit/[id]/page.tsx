@@ -230,10 +230,10 @@ export default function OutfitDetailPage() {
                 </Card>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                    <Button size="lg" className="flex-1 py-6 sm:py-2">
+                    <Button size="lg" className="flex-1">
                         <ShoppingBag className="mr-2" /> Mua nhanh trên Shopee
                     </Button>
-                    <Button size="lg" variant="secondary" className="flex-1 py-6 sm:py-2">
+                    <Button size="lg" variant="secondary" className="flex-1">
                         <ShoppingBag className="mr-2" /> Mua nhanh trên Lazada
                     </Button>
                 </div>
@@ -250,3 +250,4 @@ export default function OutfitDetailPage() {
   );
 }
 
+    
