@@ -16,7 +16,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { OutfitReview } from '@/components/outfit-review';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 
 export default function OutfitDetailPage() {
@@ -143,13 +143,14 @@ export default function OutfitDetailPage() {
                         )}
                     </CardContent>
                 </Card>
-                {selectedImage && (
-                  <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
-                      <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
-                      <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-2xl" />
-                      <DialogClose />
-                  </DialogContent>
-                )}
+                
+                <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
+                  <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
+                  <DialogDescription className="sr-only">Ảnh lớn của trang phục</DialogDescription>
+                  {selectedImage && <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-2xl" />}
+                  <DialogClose />
+                </DialogContent>
+                
 
                  {/* Styling notes */}
                 <Card className="mt-6 rounded-2xl">
@@ -277,3 +278,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
