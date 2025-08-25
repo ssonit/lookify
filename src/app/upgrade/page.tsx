@@ -1,8 +1,8 @@
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { SewingPinIcon } from "lucide-react";
 
 export default function UpgradePage() {
     const articles = [
@@ -26,20 +26,16 @@ export default function UpgradePage() {
             description: "Học các kỹ năng chính để giúp bạn thể hiện bản thân một cách rõ ràng và tự tin trong mọi tình huống.",
             link: "#"
         },
-    ]
+    ];
 
     return (
         <div className="flex flex-col min-h-screen bg-background font-body">
             <Header />
             <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-16">
-                <section className="text-center">
-                    <h1 className="font-headline text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-                        Nâng cấp bản thân
-                    </h1>
-                    <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-                        Phong cách không chỉ là quần áo. Đó là về việc xây dựng sự tự tin từ trong ra ngoài. Khám phá các hướng dẫn của chúng tôi để nâng cao phong cách và sự hiện diện cá nhân của bạn.
-                    </p>
-                </section>
+                <PageHeader 
+                    title="Nâng cấp bản thân"
+                    description="Phong cách không chỉ là quần áo. Đó là về việc xây dựng sự tự tin từ trong ra ngoài. Khám phá các hướng dẫn của chúng tôi để nâng cao phong cách và sự hiện diện cá nhân của bạn."
+                />
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 mt-12 max-w-4xl mx-auto">
                     {articles.map(article => (
@@ -51,7 +47,7 @@ export default function UpgradePage() {
                             <CardContent>
                                 <a href={article.link} className="text-sm font-semibold text-primary hover:underline">
                                     Đọc thêm...
-                                </a>
+                                a>
                             </CardContent>
                         </Card>
                     ))}

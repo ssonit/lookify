@@ -11,6 +11,7 @@ import { useSearchParams } from 'next/navigation';
 import { Search, X, Palette, WandSparkles, Calendar, ListFilter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { PageHeader } from './page-header';
 
 const FILTERS = {
     context: [
@@ -101,8 +102,11 @@ export function OutfitGallery() {
 
     return (
         <section id="gallery">
-            <h2 className="text-3xl font-headline font-bold text-center">Thư viện Trang phục</h2>
-            <p className="text-muted-foreground text-center mt-2 mb-8 max-w-2xl mx-auto">Duyệt qua bộ sưu tập các phong cách được tuyển chọn của chúng tôi. Sử dụng các bộ lọc để tìm ra vẻ ngoài hoàn hảo cho bất kỳ dịp nào.</p>
+            <PageHeader
+                title="Thư viện trang phục"
+                description="Duyệt qua bộ sưu tập các phong cách được tuyển chọn của chúng tôi. Sử dụng các bộ lọc để tìm ra vẻ ngoài hoàn hảo cho bất kỳ dịp nào."
+                className="mb-8"
+            />
             
             <div className="flex flex-col gap-4 mb-8 p-4 bg-card rounded-2xl shadow-sm border">
                  <div className="flex flex-col md:flex-row gap-4">

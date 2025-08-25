@@ -8,6 +8,7 @@ import { OutfitSuggesterForm, type OutfitSuggestionFormSchema } from '@/componen
 import { OutfitSuggestionCard } from '@/components/outfit-suggestion-card';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
+import { PageHeader } from './page-header';
 
 export default function OutfitSuggester() {
   const [suggestion, setSuggestion] = useState<OutfitSuggestionOutput | null>(null);
@@ -32,10 +33,11 @@ export default function OutfitSuggester() {
 
   return (
     <section>
-      <div className="text-center mb-8">
-          <h1 className="font-headline text-3xl md:text-4xl font-bold">Gợi ý trang phục AI</h1>
-          <p className="mt-2 max-w-2xl mx-auto text-muted-foreground">Nhận gợi ý trang phục được cá nhân hóa từ chuyên gia tạo mẫu ảo của chúng tôi. Hãy điền thông tin bên dưới hoặc tải ảnh của bạn lên!</p>
-      </div>
+      <PageHeader 
+        title="Gợi ý trang phục AI"
+        description="Nhận gợi ý trang phục được cá nhân hóa từ chuyên gia tạo mẫu ảo của chúng tôi. Hãy điền thông tin bên dưới hoặc tải ảnh của bạn lên!"
+        className="mb-8"
+      />
       <div className="grid md:grid-cols-2 gap-8 items-start max-w-6xl mx-auto">
         <Card>
            <CardContent className="p-6">
