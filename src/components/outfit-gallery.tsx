@@ -8,7 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { outfits, type Outfit } from '@/lib/outfits';
 import { useSearchParams } from 'next/navigation';
-import { Search, X, Palette, WandSparkles, Calendar, ListFilter } from 'lucide-react';
+import { Search, X, WandSparkles, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
@@ -26,13 +26,6 @@ const FILTERS = {
         { value: 'summer', label: 'Hè' },
         { value: 'autumn', label: 'Thu' },
         { value: 'winter', label: 'Đông' },
-    ],
-    color: [
-        { value: 'black', label: 'Đen' },
-        { value: 'white', label: 'Trắng' },
-        { value: 'pastel', label: 'Pastel' },
-        { value: 'earth-tone', label: 'Tone đất' },
-        { value: 'vibrant', label: 'Rực rỡ' },
     ]
 };
 
@@ -60,23 +53,20 @@ export function OutfitGallery() {
     const [gender, setGender] = useState<'male' | 'female'>('female');
     const [theme, setTheme] = useState<string | null>(searchParams.get('theme'));
     const [season, setSeason] = useState<string | null>(searchParams.get('season'));
-    const [color, setColor] = useState<string | null>(searchParams.get('color'));
     const [searchTerm, setSearchTerm] = useState('');
     
     useEffect(() => {
         setTheme(searchParams.get('theme'));
         setSeason(searchParams.get('season'));
-        setColor(searchParams.get('color'));
     }, [searchParams]);
 
     const resetFilters = () => {
         setTheme(null);
         setSeason(null);
-        setColor(null);
         setSearchTerm('');
     };
 
-    const activeFilterCount = [theme, season, color, searchTerm].filter(Boolean).length;
+    const activeFilterCount = [theme, season, searchTerm].filter(Boolean).length;
 
     const filteredOutfits = useMemo(() => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
@@ -93,14 +83,13 @@ export function OutfitGallery() {
                 (o.gender === gender) &&
                 themeFilter &&
                 (!season || o.season === season) &&
-                (!color || o.color === color) &&
                 (searchTerm === '' ||
                  o.description.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.longDescription.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
             )
         });
-    }, [gender, theme, season, color, searchTerm]);
+    }, [gender, theme, season, searchTerm]);
 
     return (
         <section id="gallery">
@@ -130,17 +119,7 @@ export function OutfitGallery() {
                 
                 <Separator />
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <h3 className="font-semibold mb-3 flex items-center gap-2"><Palette />Màu sắc</h3>
-                        <div className="flex flex-wrap gap-2">
-                           {FILTERS.color.map(item => (
-                               <FilterButton key={item.value} onClick={() => setColor(prev => prev === item.value ? null : item.value)} isSelected={color === item.value}>
-                                 {item.label}
-                               </FilterButton>
-                           ))}
-                        </div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                          <h3 className="font-semibold mb-3 flex items-center gap-2"><WandSparkles />Chủ đề</h3>
                         <div className="flex flex-wrap gap-2">
