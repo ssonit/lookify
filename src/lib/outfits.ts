@@ -27,7 +27,7 @@ export const outfits: Outfit[] = [
     style: 'elegant', 
     season: 'autumn', 
     color: 'earth-tone', 
-    images: ['https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=400&h=500&fit=crop', 'https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=500&h=400&fit=crop'],
+    images: ['https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=400&h=500&fit=crop', 'https://images.unsplash.com/photo-1542327534-59a1fe8ea5eb?w=500&h=400&fit=crop', 'https://images.unsplash.com/photo-1621619856624-42fd193a0661?w=1080&q=80'],
     imageSourceText: 'Unsplash',
     imageSourceUrl: 'https://unsplash.com/photos/a-woman-in-a-plaid-skirt-and-white-blouse-is-walking-down-the-street-59a1fe8ea5eb',
     description: 'Phong cách công sở mùa thu sang trọng',
@@ -340,4 +340,5 @@ export const outfits: Outfit[] = [
   },
 ];
 
+    
     
