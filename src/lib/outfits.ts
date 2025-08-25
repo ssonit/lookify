@@ -2,7 +2,7 @@
 export type Outfit = {
   id: number;
   gender: 'male' | 'female';
-  context: 'work/office' | 'casual' | 'party/date' | 'sport/active';
+  context: 'work/office' | 'casual' | 'party/date' | 'sport/active' | 'tet' | 'game-anime';
   style: 'basic' | 'streetwear' | 'elegant' | 'sporty';
   season: 'spring' | 'summer' | 'autumn' | 'winter';
   color: 'black' | 'white' | 'pastel' | 'earth-tone' | 'vibrant';
@@ -12,7 +12,6 @@ export type Outfit = {
   description: string;
   longDescription: string;
   aiHint: string;
-  specialOccasion?: 'tet' | 'game-anime';
   items: {
     name: string;
     type: string;
@@ -116,11 +115,10 @@ export const outfits: Outfit[] = [
   {
     id: 3,
     gender: 'male',
-    context: 'party/date',
+    context: 'tet',
     style: 'basic',
     season: 'summer',
     color: 'vibrant',
-    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-3-main/400/500',
     description: 'Outfit nam đơn giản nhưng nổi bật cho buổi hẹn hò.',
     longDescription:
@@ -150,11 +148,10 @@ export const outfits: Outfit[] = [
   {
     id: 4,
     gender: 'female',
-    context: 'party/date',
+    context: 'tet',
     style: 'elegant',
     season: 'spring',
     color: 'pastel',
-    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-4-main/400/500',
     description: 'Váy pastel nữ tính cho buổi hẹn mùa xuân.',
     longDescription:
@@ -184,11 +181,10 @@ export const outfits: Outfit[] = [
   {
     id: 5,
     gender: 'male',
-    context: 'sport/active',
+    context: 'game-anime',
     style: 'sporty',
     season: 'summer',
     color: 'black',
-    specialOccasion: 'game-anime',
     mainImage: 'https://picsum.photos/seed/outfit-5-main/400/500',
     description: 'Đồ tập gym nam mạnh mẽ và năng động.',
     longDescription:
@@ -257,11 +253,10 @@ export const outfits: Outfit[] = [
   {
     id: 7,
     gender: 'male',
-    context: 'casual',
+    context: 'game-anime',
     style: 'streetwear',
     season: 'spring',
     color: 'earth-tone',
-    specialOccasion: 'game-anime',
     mainImage: 'https://picsum.photos/seed/outfit-7-main/400/500',
     description: 'Streetwear nam xuân đơn giản nhưng cá tính.',
     longDescription:
@@ -395,11 +390,10 @@ export const outfits: Outfit[] = [
   }, {
     id: 11,
     gender: 'male',
-    context: 'casual',
+    context: 'tet',
     style: 'streetwear',
     season: 'spring',
     color: 'vibrant',
-    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-11-main/400/500',
     imageSourceText: 'Placeholder',
     imageSourceUrl: 'https://picsum.photos',
@@ -649,11 +643,10 @@ export const outfits: Outfit[] = [
   {
     id: 18,
     gender: 'female',
-    context: 'party/date',
+    context: 'tet',
     style: 'streetwear',
     season: 'spring',
     color: 'vibrant',
-    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-18-main/400/500',
     description: 'Set streetwear nữ nổi bật với crop top và chân váy ngắn.',
     longDescription:
@@ -1082,5 +1075,7 @@ export const outfits: Outfit[] = [
 //     ],
 //   },
 // ];
+
+    
 
     

@@ -14,15 +14,17 @@ import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
 
 const FILTERS = {
-    theme: [
-        { value: 'school', label: 'Đi học' },
-        { value: 'date', label: 'Đi hẹn hò' },
-        { value: 'beach', label: 'Đi biển' },
-        { value: 'office', label: 'Công sở' },
-        { value: 'elegant', label: 'Thanh lịch' },
-        { value: 'streetwear', label: 'Dạo phố' },
+    context: [
+        { value: 'casual', label: 'Đi học' },
+        { value: 'party/date', label: 'Đi hẹn hò' },
+        { value: 'casual', label: 'Đi biển' }, // Note: This needs season combo
+        { value: 'work/office', label: 'Công sở' },
         { value: 'tet', label: 'Tết' },
         { value: 'game-anime', label: 'Game/Anime' },
+    ],
+     style: [
+        { value: 'elegant', label: 'Thanh lịch' },
+        { value: 'streetwear', label: 'Dạo phố' },
     ],
     season: [
         { value: 'spring', label: 'Xuân' },
@@ -54,40 +56,33 @@ const FilterButton = ({
 export function OutfitGallery() {
     const searchParams = useSearchParams();
     const [gender, setGender] = useState<'male' | 'female'>('female');
-    const [theme, setTheme] = useState<string | null>(searchParams.get('theme'));
+    const [activeContext, setActiveContext] = useState<string | null>(searchParams.get('context'));
+    const [activeStyle, setActiveStyle] = useState<string | null>(searchParams.get('style'));
     const [season, setSeason] = useState<string | null>(searchParams.get('season'));
     const [searchTerm, setSearchTerm] = useState('');
     
     useEffect(() => {
-        setTheme(searchParams.get('theme'));
+        setActiveContext(searchParams.get('context'));
+        setActiveStyle(searchParams.get('style'));
         setSeason(searchParams.get('season'));
     }, [searchParams]);
 
     const resetFilters = () => {
-        setTheme(null);
+        setActiveContext(null);
+        setActiveStyle(null);
         setSeason(null);
         setSearchTerm('');
     };
 
-    const activeFilterCount = [theme, season, searchTerm].filter(Boolean).length;
+    const activeFilterCount = [activeContext, activeStyle, season, searchTerm].filter(Boolean).length;
 
     const filteredOutfits = useMemo(() => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
         return outfits.filter(o => {
-            const themeFilter = !theme || (
-                (theme === 'school' && o.context === 'casual' && (o.style === 'basic' || o.style === 'streetwear')) ||
-                (theme === 'date' && o.context === 'party/date') ||
-                (theme === 'beach' && o.context === 'casual' && o.season === 'summer') ||
-                (theme === 'office' && o.context === 'work/office') ||
-                (theme === 'elegant' && o.style === 'elegant') ||
-                (theme === 'streetwear' && o.style === 'streetwear') ||
-                (theme === 'tet' && o.specialOccasion === 'tet') ||
-                (theme === 'game-anime' && o.specialOccasion === 'game-anime')
-            );
-
             return (
                 (o.gender === gender) &&
-                themeFilter &&
+                (!activeContext || o.context === activeContext) &&
+                (!activeStyle || o.style === activeStyle) &&
                 (!season || o.season === season) &&
                 (searchTerm === '' ||
                  o.description.toLowerCase().includes(lowercasedSearchTerm) ||
@@ -95,7 +90,9 @@ export function OutfitGallery() {
                  o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
             )
         });
-    }, [gender, theme, season, searchTerm]);
+    }, [gender, activeContext, activeStyle, season, searchTerm]);
+
+    const allThemes = [...FILTERS.context, ...FILTERS.style];
 
     return (
         <section id="gallery">
@@ -129,8 +126,19 @@ export function OutfitGallery() {
                     <div>
                          <h3 className="font-semibold mb-3 flex items-center gap-2"><WandSparkles />Chủ đề</h3>
                         <div className="flex flex-wrap gap-2">
-                           {FILTERS.theme.map(item => (
-                               <FilterButton key={item.value} onClick={() => setTheme(prev => prev === item.value ? null : item.value)} isSelected={theme === item.value}>
+                           {allThemes.map(item => (
+                               <FilterButton 
+                                key={item.value + item.label} 
+                                onClick={() => {
+                                    if (FILTERS.context.some(c => c.value === item.value && c.label === item.label)) {
+                                        setActiveContext(prev => prev === item.value ? null : item.value);
+                                        setActiveStyle(null);
+                                    } else {
+                                        setActiveStyle(prev => prev === item.value ? null : item.value)
+                                        setActiveContext(null);
+                                    }
+                                }} 
+                                isSelected={activeContext === item.value || activeStyle === item.value}>
                                  {item.label}
                                </FilterButton>
                            ))}
@@ -184,3 +192,5 @@ export function OutfitGallery() {
         </section>
     )
 }
+
+    
