@@ -1,3 +1,4 @@
+
 'use client';
 import { LayoutDashboard, Settings, ShoppingBag } from "lucide-react";
 
@@ -6,21 +7,19 @@ export const GENDER_OPTIONS = [
     { value: 'female', label: 'Nữ' },
 ];
 
-export const CONTEXT_OPTIONS = [
+export const CATEGORY_OPTIONS = [
     { value: 'work/office', label: 'Công sở' },
     { value: 'casual', label: 'Thường ngày' },
     { value: 'party/date', label: 'Tiệc / Hẹn hò' },
     { value: 'sport/active', label: 'Thể thao' },
     { value: 'tet', label: 'Tết' },
     { value: 'game-anime', label: 'Game/Anime' },
-];
-
-export const STYLE_OPTIONS = [
     { value: 'basic', label: 'Cơ bản' },
     { value: 'streetwear', label: 'Dạo phố' },
     { value: 'elegant', label: 'Thanh lịch' },
     { value: 'sporty', label: 'Năng động' },
 ];
+
 
 export const SEASON_OPTIONS = [
     { value: 'spring', label: 'Xuân' },
@@ -38,23 +37,20 @@ export const COLOR_OPTIONS = [
 ];
 
 // --- MAPS ---
-export const CONTEXT_MAP = Object.fromEntries(CONTEXT_OPTIONS.map(o => [o.value, o.label])) as Record<string, string>;
-export const STYLE_MAP = Object.fromEntries(STYLE_OPTIONS.map(o => [o.value, o.label])) as Record<string, string>;
+export const CATEGORY_MAP = Object.fromEntries(CATEGORY_OPTIONS.map(o => [o.value, o.label])) as Record<string, string>;
 export const SEASON_MAP = Object.fromEntries(SEASON_OPTIONS.map(o => [o.value, o.label])) as Record<string, string>;
 export const COLOR_MAP = Object.fromEntries(COLOR_OPTIONS.map(o => [o.value, { name: o.label, hex: o.hex }])) as Record<string, { name: string; hex: string }>;
 
 
 // --- GALLERY FILTERS ---
 export const GALLERY_FILTERS = {
-    context: [
+    category: [
         { value: 'casual', label: 'Đi học' },
         { value: 'party/date', label: 'Đi hẹn hò' },
         { value: 'casual', label: 'Đi biển' }, // Note: This needs season combo
         { value: 'work/office', label: 'Công sở' },
         { value: 'tet', label: 'Tết' },
         { value: 'game-anime', label: 'Game/Anime' },
-    ],
-    style: [
         { value: 'elegant', label: 'Thanh lịch' },
         { value: 'streetwear', label: 'Dạo phố' },
     ],
@@ -86,3 +82,4 @@ export const DASHBOARD_NAV_ITEMS = [
 ];
 
 export const OUTFIT_IMAGE_LABELS = ['Layer', 'Fabric', 'Fit', 'Footwear', 'Accessory', 'Bag'];
+

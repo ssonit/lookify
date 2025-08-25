@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,12 +25,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { WandSparkles, UploadCloud, X } from 'lucide-react';
+import { CATEGORY_OPTIONS } from '@/lib/constants.tsx';
 
 export const OutfitSuggestionFormSchema = z.object({
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  context: z.enum(['work/office', 'casual', 'party/date', 'sport/active'], { required_error: 'Vui lòng chọn bối cảnh.' }),
+  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn danh mục.' }),
   colorPreference: z.string().min(2, { message: 'Vui lòng nhập sở thích màu sắc.' }),
-  stylePreference: z.enum(['basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn phong cách.' }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
   userImage: z.any().optional(),
 });
@@ -47,8 +48,7 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
     defaultValues: {
       colorPreference: '',
       gender: 'female',
-      context: 'casual',
-      stylePreference: 'basic',
+      category: 'casual',
       season: 'spring',
     },
   });
@@ -134,40 +134,16 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
         />
         <FormField
           control={form.control}
-          name="context"
+          name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bối cảnh / Dịp</FormLabel>
+              <FormLabel>Danh mục</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger><SelectValue placeholder="Chọn bối cảnh" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="Chọn danh mục" /></SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="work/office">Công sở</SelectItem>
-                  <SelectItem value="casual">Thường ngày</SelectItem>
-                  <SelectItem value="party/date">Tiệc / Hẹn hò</SelectItem>
-                  <SelectItem value="sport/active">Thể thao / Năng động</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="stylePreference"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Sở thích phong cách</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger><SelectValue placeholder="Chọn phong cách" /></SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="basic">Cơ bản</SelectItem>
-                  <SelectItem value="streetwear">Dạo phố</SelectItem>
-                  <SelectItem value="elegant">Thanh lịch</SelectItem>
-                  <SelectItem value="sporty">Năng động</SelectItem>
+                  {CATEGORY_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -221,3 +197,4 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
     </Form>
   );
 }
+

@@ -8,7 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { outfits, type Outfit } from '@/lib/outfits';
 import { useSearchParams } from 'next/navigation';
-import { Search, X, WandSparkles, Calendar } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
@@ -37,33 +37,29 @@ const FilterButton = ({
 export function OutfitGallery() {
     const searchParams = useSearchParams();
     const [gender, setGender] = useState<'male' | 'female'>('female');
-    const [activeContext, setActiveContext] = useState<string | null>(searchParams.get('context'));
-    const [activeStyle, setActiveStyle] = useState<string | null>(searchParams.get('style'));
+    const [activeCategory, setActiveCategory] = useState<string | null>(searchParams.get('category'));
     const [season, setSeason] = useState<string | null>(searchParams.get('season'));
     const [searchTerm, setSearchTerm] = useState('');
     
     useEffect(() => {
-        setActiveContext(searchParams.get('context'));
-        setActiveStyle(searchParams.get('style'));
+        setActiveCategory(searchParams.get('category'));
         setSeason(searchParams.get('season'));
     }, [searchParams]);
 
     const resetFilters = () => {
-        setActiveContext(null);
-        setActiveStyle(null);
+        setActiveCategory(null);
         setSeason(null);
         setSearchTerm('');
     };
 
-    const activeFilterCount = [activeContext, activeStyle, season, searchTerm].filter(Boolean).length;
+    const activeFilterCount = [activeCategory, season, searchTerm].filter(Boolean).length;
 
     const filteredOutfits = useMemo(() => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
         return outfits.filter(o => {
             return (
                 (o.gender === gender) &&
-                (!activeContext || o.context === activeContext) &&
-                (!activeStyle || o.style === activeStyle) &&
+                (!activeCategory || o.category === activeCategory) &&
                 (!season || o.season === season) &&
                 (searchTerm === '' ||
                  o.title.toLowerCase().includes(lowercasedSearchTerm) ||
@@ -71,9 +67,9 @@ export function OutfitGallery() {
                  o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
             )
         });
-    }, [gender, activeContext, activeStyle, season, searchTerm]);
+    }, [gender, activeCategory, season, searchTerm]);
 
-    const allThemes = [...GALLERY_FILTERS.context, ...GALLERY_FILTERS.style];
+    const allCategories = [...GALLERY_FILTERS.category];
 
     return (
         <section id="gallery">
@@ -104,19 +100,11 @@ export function OutfitGallery() {
                 <Separator />
                 
                 <div className="flex flex-wrap gap-2">
-                   {allThemes.map(item => (
+                   {allCategories.map(item => (
                        <FilterButton 
                         key={item.value + item.label} 
-                        onClick={() => {
-                            if (GALLERY_FILTERS.context.some(c => c.value === item.value && c.label === item.label)) {
-                                setActiveContext(prev => prev === item.value ? null : item.value);
-                                setActiveStyle(null);
-                            } else {
-                                setActiveStyle(prev => prev === item.value ? null : item.value)
-                                setActiveContext(null);
-                            }
-                        }} 
-                        isSelected={activeContext === item.value || activeStyle === item.value}>
+                        onClick={() => setActiveCategory(prev => prev === item.value ? null : item.value)}
+                        isSelected={activeCategory === item.value}>
                          {item.label}
                        </FilterButton>
                    ))}
@@ -164,3 +152,4 @@ export function OutfitGallery() {
         </section>
     )
 }
+

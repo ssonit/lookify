@@ -2,8 +2,7 @@
 export type Outfit = {
   id: number;
   gender: 'male' | 'female';
-  context: 'work/office' | 'casual' | 'party/date' | 'sport/active' | 'tet' | 'game-anime';
-  style: 'basic' | 'streetwear' | 'elegant' | 'sporty';
+  category: 'work/office' | 'casual' | 'party/date' | 'sport/active' | 'tet' | 'game-anime' | 'basic' | 'streetwear' | 'elegant' | 'sporty';
   season: 'spring' | 'summer' | 'autumn' | 'winter';
   color: 'black' | 'white' | 'pastel' | 'earth-tone' | 'vibrant';
   mainImage: string;
@@ -24,8 +23,7 @@ export const outfits: Outfit[] = [
   {
     id: 1,
     gender: 'male',
-    context: 'work/office',
-    style: 'elegant',
+    category: 'elegant',
     season: 'autumn',
     color: 'earth-tone',
     mainImage: 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80',
@@ -68,8 +66,7 @@ export const outfits: Outfit[] = [
   {
     id: 2,
     gender: 'female',
-    context: 'casual',
-    style: 'streetwear',
+    category: 'streetwear',
     season: 'summer',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-2-main/400/500',
@@ -115,8 +112,7 @@ export const outfits: Outfit[] = [
   {
     id: 3,
     gender: 'male',
-    context: 'tet',
-    style: 'basic',
+    category: 'basic',
     season: 'summer',
     color: 'vibrant',
     mainImage: 'https://picsum.photos/seed/outfit-3-main/400/500',
@@ -148,8 +144,7 @@ export const outfits: Outfit[] = [
   {
     id: 4,
     gender: 'female',
-    context: 'tet',
-    style: 'elegant',
+    category: 'elegant',
     season: 'spring',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-4-main/400/500',
@@ -181,8 +176,7 @@ export const outfits: Outfit[] = [
   {
     id: 5,
     gender: 'male',
-    context: 'game-anime',
-    style: 'sporty',
+    category: 'sporty',
     season: 'summer',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-5-main/400/500',
@@ -214,8 +208,7 @@ export const outfits: Outfit[] = [
   {
     id: 6,
     gender: 'female',
-    context: 'work/office',
-    style: 'basic',
+    category: 'basic',
     season: 'winter',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-6-main/400/500',
@@ -253,8 +246,7 @@ export const outfits: Outfit[] = [
   {
     id: 7,
     gender: 'male',
-    context: 'game-anime',
-    style: 'streetwear',
+    category: 'streetwear',
     season: 'spring',
     color: 'earth-tone',
     mainImage: 'https://picsum.photos/seed/outfit-7-main/400/500',
@@ -286,8 +278,7 @@ export const outfits: Outfit[] = [
   {
     id: 8,
     gender: 'female',
-    context: 'sport/active',
-    style: 'sporty',
+    category: 'sporty',
     season: 'autumn',
     color: 'vibrant',
     mainImage: 'https://picsum.photos/seed/outfit-8-main/400/500',
@@ -319,8 +310,7 @@ export const outfits: Outfit[] = [
   {
     id: 9,
     gender: 'male',
-    context: 'work/office',
-    style: 'basic',
+    category: 'basic',
     season: 'summer',
     color: 'white',
     mainImage: 'https://picsum.photos/seed/outfit-9-main/400/500',
@@ -352,8 +342,7 @@ export const outfits: Outfit[] = [
   {
     id: 10,
     gender: 'female',
-    context: 'party/date',
-    style: 'elegant',
+    category: 'elegant',
     season: 'winter',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-10-main/400/500',
@@ -390,8 +379,7 @@ export const outfits: Outfit[] = [
   }, {
     id: 11,
     gender: 'male',
-    context: 'tet',
-    style: 'streetwear',
+    category: 'streetwear',
     season: 'spring',
     color: 'vibrant',
     mainImage: 'https://picsum.photos/seed/outfit-11-main/400/500',
@@ -425,8 +413,7 @@ export const outfits: Outfit[] = [
   {
     id: 12,
     gender: 'female',
-    context: 'party/date',
-    style: 'elegant',
+    category: 'elegant',
     season: 'summer',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-12-main/400/500',
@@ -460,8 +447,7 @@ export const outfits: Outfit[] = [
   {
     id: 13,
     gender: 'male',
-    context: 'sport/active',
-    style: 'sporty',
+    category: 'sporty',
     season: 'summer',
     color: 'white',
     mainImage: 'https://picsum.photos/seed/outfit-13-main/400/500',
@@ -493,8 +479,7 @@ export const outfits: Outfit[] = [
   {
     id: 14,
     gender: 'female',
-    context: 'work/office',
-    style: 'basic',
+    category: 'basic',
     season: 'spring',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-14-main/400/500',
@@ -532,8 +517,7 @@ export const outfits: Outfit[] = [
   {
     id: 15,
     gender: 'male',
-    context: 'party/date',
-    style: 'elegant',
+    category: 'elegant',
     season: 'winter',
     color: 'black',
     mainImage: 'https://picsum.photos/seed/outfit-15-main/400/500',
@@ -571,8 +555,7 @@ export const outfits: Outfit[] = [
   {
     id: 16,
     gender: 'female',
-    context: 'sport/active',
-    style: 'sporty',
+    category: 'sporty',
     season: 'autumn',
     color: 'earth-tone',
     mainImage: 'https://picsum.photos/seed/outfit-16-main/400/500',
@@ -610,8 +593,7 @@ export const outfits: Outfit[] = [
   {
     id: 17,
     gender: 'male',
-    context: 'casual',
-    style: 'basic',
+    category: 'basic',
     season: 'summer',
     color: 'white',
     mainImage: 'https://picsum.photos/seed/outfit-17-main/400/500',
@@ -643,8 +625,7 @@ export const outfits: Outfit[] = [
   {
     id: 18,
     gender: 'female',
-    context: 'tet',
-    style: 'streetwear',
+    category: 'streetwear',
     season: 'spring',
     color: 'vibrant',
     mainImage: 'https://picsum.photos/seed/outfit-18-main/400/500',
@@ -676,8 +657,7 @@ export const outfits: Outfit[] = [
   {
     id: 19,
     gender: 'male',
-    context: 'work/office',
-    style: 'basic',
+    category: 'basic',
     season: 'winter',
     color: 'earth-tone',
     mainImage: 'https://picsum.photos/seed/outfit-19-main/400/500',
@@ -715,8 +695,7 @@ export const outfits: Outfit[] = [
   {
     id: 20,
     gender: 'female',
-    context: 'casual',
-    style: 'basic',
+    category: 'basic',
     season: 'autumn',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-20-main/400/500',
@@ -1081,3 +1060,4 @@ export const outfits: Outfit[] = [
     
 
     
+

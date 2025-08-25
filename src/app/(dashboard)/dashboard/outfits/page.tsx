@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { outfits } from "@/lib/outfits";
-import { CONTEXT_MAP, SEASON_MAP, STYLE_MAP } from "@/lib/constants.tsx";
+import { CATEGORY_MAP, SEASON_MAP } from "@/lib/constants.tsx";
 
 
 export default function DashboardOutfitsPage() {
@@ -32,8 +32,7 @@ export default function DashboardOutfitsPage() {
           <TableRow>
             <TableHead>Tiêu đề</TableHead>
             <TableHead>Giới tính</TableHead>
-            <TableHead>Bối cảnh</TableHead>
-            <TableHead>Phong cách</TableHead>
+            <TableHead>Danh mục</TableHead>
             <TableHead>Mùa</TableHead>
             <TableHead>Hành động</TableHead>
           </TableRow>
@@ -44,10 +43,7 @@ export default function DashboardOutfitsPage() {
               <TableCell className="font-medium">{outfit.title}</TableCell>
               <TableCell>{outfit.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
               <TableCell>
-                <Badge variant="outline">{CONTEXT_MAP[outfit.context]}</Badge>
-              </TableCell>
-              <TableCell>
-                 <Badge variant="secondary">{STYLE_MAP[outfit.style]}</Badge>
+                <Badge variant="outline">{CATEGORY_MAP[outfit.category]}</Badge>
               </TableCell>
               <TableCell>{SEASON_MAP[outfit.season]}</TableCell>
               <TableCell>
@@ -64,3 +60,4 @@ export default function DashboardOutfitsPage() {
     </div>
   );
 }
+

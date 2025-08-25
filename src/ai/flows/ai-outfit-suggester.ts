@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI-powered outfit suggestion tool.
@@ -12,9 +13,8 @@ import {z} from 'genkit';
 
 const OutfitSuggestionInputSchema = z.object({
   gender: z.enum(['male', 'female']).describe('The gender of the user.'),
-  context: z.enum(['work/office', 'casual', 'party/date', 'sport/active']).describe('The context or occasion for the outfit.'),
+  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'basic', 'streetwear', 'elegant', 'sporty']).describe('The category or occasion for the outfit.'),
   colorPreference: z.string().describe('The preferred color scheme for the outfit.'),
-  stylePreference: z.string().describe('The preferred style for the outfit (e.g., basic, streetwear, elegant, sporty).'),
   season: z.enum(['spring', 'summer', 'autumn', 'winter']).describe('The season for which the outfit is intended.'),
 });
 export type OutfitSuggestionInput = z.infer<typeof OutfitSuggestionInputSchema>;
@@ -41,9 +41,8 @@ const prompt = ai.definePrompt({
   Suggest an outfit based on the following preferences:
 
   Gender: {{{gender}}}
-  Context: {{{context}}}
+  Category: {{{category}}}
   Color Preference: {{{colorPreference}}}
-  Style Preference: {{{stylePreference}}}
   Season: {{{season}}}
 
   Provide a detailed description of the outfit, including item descriptions, colors, and styling tips. Also, list the key items in the outfit and the colors used.
@@ -61,3 +60,4 @@ const suggestOutfitFlow = ai.defineFlow(
     return output!;
   }
 );
+

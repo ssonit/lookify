@@ -10,13 +10,13 @@ import { HeroSection } from "@/components/hero-section";
 
 export default function Home() {
   const summerOutfits = outfits.filter(o => o.season === 'summer').slice(0, 4);
-  const officeOutfits = outfits.filter(o => o.context === 'work/office').slice(0, 4);
-  const elegantOutfits = outfits.filter(o => o.style === 'elegant').slice(0, 4);
-  const streetwearOutfits = outfits.filter(o => o.style === 'streetwear').slice(0, 4);
-  const schoolOutfits = outfits.filter(o => o.context === 'casual' && (o.style === 'basic' || o.style === 'streetwear')).slice(0,4);
-  const dateOutfits = outfits.filter(o => o.context === 'party/date').slice(0,4);
-  const beachOutfits = outfits.filter(o => o.season === 'summer' && o.context === 'casual').slice(0,4);
-  const gameAnimeOutfits = outfits.filter(o => o.context === 'game-anime').slice(0, 4);
+  const officeOutfits = outfits.filter(o => o.category === 'work/office').slice(0, 4);
+  const elegantOutfits = outfits.filter(o => o.category === 'elegant').slice(0, 4);
+  const streetwearOutfits = outfits.filter(o => o.category === 'streetwear').slice(0, 4);
+  const schoolOutfits = outfits.filter(o => o.category === 'casual').slice(0,4);
+  const dateOutfits = outfits.filter(o => o.category === 'party/date').slice(0,4);
+  const beachOutfits = outfits.filter(o => o.season === 'summer' && o.category === 'casual').slice(0,4);
+  const gameAnimeOutfits = outfits.filter(o => o.category === 'game-anime').slice(0, 4);
 
 
   return (
@@ -27,19 +27,19 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8 md:py-16 space-y-12">
            <ThemedOutfitSection title="Phối đồ mùa hè" outfits={summerOutfits} viewAllLink="/gallery?season=summer" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ đi học" outfits={schoolOutfits} viewAllLink="/gallery?context=casual" />
+           <ThemedOutfitSection title="Phối đồ đi học" outfits={schoolOutfits} viewAllLink="/gallery?category=casual" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ đi hẹn hò" outfits={dateOutfits} viewAllLink="/gallery?context=party/date" />
+           <ThemedOutfitSection title="Phối đồ đi hẹn hò" outfits={dateOutfits} viewAllLink="/gallery?category=party/date" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ đi biển" outfits={beachOutfits} viewAllLink="/gallery?season=summer&context=casual" />
+           <ThemedOutfitSection title="Phối đồ đi biển" outfits={beachOutfits} viewAllLink="/gallery?season=summer&category=casual" />
            <Separator />
-            <ThemedOutfitSection title="Phối đồ Game/Anime" outfits={gameAnimeOutfits} viewAllLink="/gallery?context=game-anime" />
+            <ThemedOutfitSection title="Phối đồ Game/Anime" outfits={gameAnimeOutfits} viewAllLink="/gallery?category=game-anime" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?context=work/office" />
+           <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?category=work/office" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ thanh lịch" outfits={elegantOutfits} viewAllLink="/gallery?style=elegant" />
+           <ThemedOutfitSection title="Phối đồ thanh lịch" outfits={elegantOutfits} viewAllLink="/gallery?category=elegant" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ dạo phố" outfits={streetwearOutfits} viewAllLink="/gallery?style=streetwear" />
+           <ThemedOutfitSection title="Phối đồ dạo phố" outfits={streetwearOutfits} viewAllLink="/gallery?category=streetwear" />
         </div>
       </main>
       <Footer />
@@ -50,3 +50,5 @@ export default function Home() {
     
 
     
+
+

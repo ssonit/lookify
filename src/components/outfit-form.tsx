@@ -28,7 +28,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from './ui/textarea';
 import { PlusCircle, Trash2, UploadCloud, X } from 'lucide-react';
-import { COLOR_OPTIONS, CONTEXT_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, STYLE_OPTIONS } from '@/lib/constants.tsx';
+import { COLOR_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, CATEGORY_OPTIONS } from '@/lib/constants.tsx';
 
 const shoppingLinkSchema = z.object({
   store: z.string().min(1, { message: 'Tên cửa hàng không được để trống.' }),
@@ -46,8 +46,7 @@ const outfitFormSchema = z.object({
   title: z.string().min(10, { message: 'Tiêu đề cần ít nhất 10 ký tự.' }),
   description: z.string().min(20, { message: 'Mô tả chi tiết cần ít nhất 20 ký tự.' }),
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  context: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'tet', 'game-anime'], { required_error: 'Vui lòng chọn bối cảnh.' }),
-  style: z.enum(['basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn phong cách.' }),
+  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'tet', 'game-anime', 'basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn danh mục.' }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
   color: z.enum(['black', 'white', 'pastel', 'earth-tone', 'vibrant'], { required_error: 'Vui lòng chọn màu chủ đạo.' }),
   mainImage: z.any().refine((file) => file, 'Vui lòng tải ảnh chính.'),
@@ -220,8 +219,7 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
       title: '',
       description: '',
       gender: 'female',
-      context: 'casual',
-      style: 'basic',
+      category: 'casual',
       season: 'summer',
       color: 'white',
       mainImage: null,
@@ -312,34 +310,16 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
             />
             <FormField
               control={form.control}
-              name="context"
+              name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Bối cảnh</FormLabel>
+                  <FormLabel>Danh mục</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Chọn bối cảnh" /></SelectTrigger>
+                      <SelectTrigger><SelectValue placeholder="Chọn danh mục" /></SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {CONTEXT_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="style"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phong cách</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Chọn phong cách" /></SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                       {STYLE_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                      {CATEGORY_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -423,3 +403,4 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
     </Form>
   );
 }
+

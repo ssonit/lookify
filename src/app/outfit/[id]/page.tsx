@@ -18,7 +18,7 @@ import { OutfitReview } from '@/components/outfit-review';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { COLOR_MAP, CONTEXT_MAP, OUTFIT_IMAGE_LABELS, SEASON_MAP, STYLE_MAP } from '@/lib/constants.tsx';
+import { COLOR_MAP, CATEGORY_MAP, OUTFIT_IMAGE_LABELS, SEASON_MAP } from '@/lib/constants.tsx';
 
 
 export default function OutfitDetailPage() {
@@ -75,8 +75,7 @@ export default function OutfitDetailPage() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{STYLE_MAP[outfit.style]}</Badge>
-                    <Badge variant="outline" className='shrink-0'><CalendarRange className="mr-1.5" />{CONTEXT_MAP[outfit.context]}</Badge>
+                    <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{CATEGORY_MAP[outfit.category]}</Badge>
                     <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{SEASON_MAP[outfit.season]}</Badge>
                 </div>
             </div>
@@ -174,8 +173,8 @@ export default function OutfitDetailPage() {
                         <p className="text-sm text-muted-foreground">{outfit.description}</p>
                         <div className="mt-4 grid grid-cols-2 gap-3">
                             <div className="rounded-xl border bg-card p-3">
-                                <div className="text-xs text-muted-foreground">Phong cách</div>
-                                <div className="mt-1 text-sm font-medium">{STYLE_MAP[outfit.style]}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
+                                <div className="text-xs text-muted-foreground">Danh mục</div>
+                                <div className="mt-1 text-sm font-medium">{CATEGORY_MAP[outfit.category]}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Màu chủ đạo</div>
@@ -190,7 +189,7 @@ export default function OutfitDetailPage() {
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Dịp phù hợp</div>
-                                <div className="mt-1 text-sm font-medium">{CONTEXT_MAP[outfit.context]}</div>
+                                <div className="mt-1 text-sm font-medium">{CATEGORY_MAP[outfit.category]}</div>
                             </div>
                         </div>
                     </CardContent>
@@ -269,3 +268,4 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
