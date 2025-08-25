@@ -47,7 +47,7 @@ export default function ProfilePage() {
 
                     {/* Tabs */}
                     <Tabs defaultValue="saved" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
+                        <TabsList className="grid w-full grid-cols-2 h-full">
                             <TabsTrigger value="saved"><Heart className="mr-2"/>Outfit đã lưu</TabsTrigger>
                             <TabsTrigger value="settings"><Settings className="mr-2"/>Cài đặt</TabsTrigger>
                         </TabsList>

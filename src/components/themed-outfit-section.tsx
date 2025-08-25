@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
 
 interface ThemedOutfitSectionProps {
     title: string;
@@ -14,6 +15,10 @@ interface ThemedOutfitSectionProps {
 }
 
 export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfitSectionProps) {
+    if (!outfits || outfits.length === 0) {
+        return null;
+    }
+    
     return (
         <section>
             <div className="flex justify-between items-center mb-4">
@@ -22,9 +27,17 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
                     <Link href={viewAllLink}>Xem tất cả</Link>
                 </Button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                 {outfits.map(outfit => (
-                    <Link key={outfit.id} href={`/outfit/${outfit.id}`} passHref>
+            <Carousel 
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-4">
+                {outfits.map(outfit => (
+                  <CarouselItem key={outfit.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-4">
+                    <Link href={`/outfit/${outfit.id}`} passHref>
                         <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full rounded-2xl">
                             <CardContent className="p-0">
                                 <div className="relative aspect-[4/5] overflow-hidden">
@@ -33,8 +46,12 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
                             </CardContent>
                         </Card>
                     </Link>
+                  </CarouselItem>
                 ))}
-            </div>
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex" />
+              <CarouselNext className="hidden sm:flex" />
+            </Carousel>
         </section>
     )
 }
