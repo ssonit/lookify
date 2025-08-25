@@ -1,3 +1,4 @@
+
 'use client';
 import { useState } from 'react';
 import type { z } from 'zod';
@@ -31,20 +32,20 @@ export default function OutfitSuggester() {
 
   return (
     <section>
-      <Card className="max-w-4xl mx-auto shadow-lg">
-        <CardHeader className="text-center">
-          <CardTitle className="font-headline text-3xl">Gợi ý trang phục AI</CardTitle>
-          <CardDescription>Nhận gợi ý trang phục được cá nhân hóa từ chuyên gia tạo mẫu ảo của chúng tôi.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid md:grid-cols-2 gap-8 items-start">
+      <div className="text-center mb-8">
+          <h1 className="font-headline text-3xl md:text-4xl font-bold">Gợi ý trang phục AI</h1>
+          <p className="mt-2 max-w-2xl mx-auto text-muted-foreground">Nhận gợi ý trang phục được cá nhân hóa từ chuyên gia tạo mẫu ảo của chúng tôi. Hãy điền thông tin bên dưới hoặc tải ảnh của bạn lên!</p>
+      </div>
+      <div className="grid md:grid-cols-2 gap-8 items-start max-w-6xl mx-auto">
+        <Card>
+           <CardContent className="p-6">
             <OutfitSuggesterForm onSubmit={handleSuggestion} isLoading={isLoading} />
-            <div className="mt-8 md:mt-0">
-                <OutfitSuggestionCard suggestion={suggestion} isLoading={isLoading} />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+           </CardContent>
+        </Card>
+        <div className="sticky top-24">
+            <OutfitSuggestionCard suggestion={suggestion} isLoading={isLoading} />
+        </div>
+      </div>
     </section>
   );
 }
