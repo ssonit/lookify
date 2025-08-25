@@ -56,9 +56,9 @@ export default function Home() {
            <Separator />
            <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?context=work/office" />
            <Separator />
-           <ThemedOutfitSection title="Phong cách thanh lịch" outfits={elegantOutfits} viewAllLink="/gallery?style=elegant" />
+           <ThemedOutfitSection title="Phối đồ thanh lịch" outfits={elegantOutfits} viewAllLink="/gallery?style=elegant" />
            <Separator />
-           <ThemedOutfitSection title="Phong cách dạo phố" outfits={streetwearOutfits} viewAllLink="/gallery?style=streetwear" />
+           <ThemedOutfitSection title="Phối đồ dạo phố" outfits={streetwearOutfits} viewAllLink="/gallery?style=streetwear" />
         </div>
       </main>
       <Footer />
