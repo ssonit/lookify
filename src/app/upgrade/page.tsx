@@ -25,8 +25,8 @@ export default function UpgradePage() {
             title: "Tăng cường sự tự tin thông qua giao tiếp",
             description: "Học các kỹ năng chính để giúp bạn thể hiện bản thân một cách rõ ràng và tự tin trong mọi tình huống.",
             link: "#"
-        },
-    ];
+        }
+    ]
 
     return (
         <div className="flex flex-col min-h-screen bg-background font-body">
