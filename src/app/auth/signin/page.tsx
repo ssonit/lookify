@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const GoogleIcon = () => (
-    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2">
         <title>Google</title>
         <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.05 1.05-2.36 1.84-4.26 1.84-5.22 0-9.4-4.18-9.4-9.4s4.18-9.4 9.4-9.4c2.6 0 4.52.99 6.04 2.44l2.7-2.7C19.04 1.36 16.14 0 12.48 0 5.88 0 0 5.88 0 12.48s5.88 12.48 12.48 12.48c6.94 0 12.02-4.82 12.02-12.02 0-.8-.08-1.57-.2-2.32H12.48z" fill="#4285F4" />
     </svg>
