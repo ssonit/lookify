@@ -47,6 +47,8 @@ export default function OutfitDetailPage() {
     );
   }
 
+  const galleryImages = outfit.items.map(item => item.imageUrl);
+
   const contextMap = {
     'work/office': 'Công sở',
     'casual': 'Thường ngày',
@@ -119,10 +121,10 @@ export default function OutfitDetailPage() {
                               </div>
                           </button>
                         </DialogTrigger>
-                        {outfit.galleryImages.length > 0 && (
+                        {galleryImages.length > 0 && (
                             <Carousel opts={{ align: "start", loop: true }} className="w-full p-1.5">
                                 <CarouselContent className="-ml-1.5">
-                                    {outfit.galleryImages.map((image, index) => (
+                                    {galleryImages.map((image, index) => (
                                         <CarouselItem key={index} className="basis-1/3 sm:basis-1/6 pl-1.5">
                                             <DialogTrigger asChild>
                                               <button className="relative w-full" onClick={() => setSelectedImage(image)}>
@@ -216,7 +218,7 @@ export default function OutfitDetailPage() {
                             {outfit.items.map((item, index) => (
                                 <li key={index} className="p-4">
                                     <div className="flex items-start gap-4">
-                                        <Image src={outfit.galleryImages[(index) % outfit.galleryImages.length] || outfit.mainImage} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-xl object-cover border" />
+                                        <Image src={item.imageUrl} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-xl object-cover border" />
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between">
                                                 <div className="font-medium">{item.name}</div>
@@ -278,5 +280,7 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
 
     
