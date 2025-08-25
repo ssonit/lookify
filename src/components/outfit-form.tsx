@@ -62,23 +62,32 @@ interface OutfitFormProps {
 
 function ImageUploadField({ form, name, description }: { form: any; name: string; description: string }) {
   const [preview, setPreview] = React.useState<string | null>(null);
+  const fileRef = form.watch(name);
+
+  React.useEffect(() => {
+    if (fileRef instanceof File) {
+      const objectUrl = URL.createObjectURL(fileRef);
+      setPreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    } else if (typeof fileRef === 'string') { // Handle initial data (if it's a URL)
+        setPreview(fileRef);
+    }
+  }, [fileRef]);
+
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-        form.setValue(name, file);
-      };
-      reader.readAsDataURL(file);
+      form.setValue(name, file, { shouldValidate: true });
     }
   };
 
   const removeImage = () => {
     setPreview(null);
-    form.setValue(name, null);
+    form.setValue(name, null, { shouldValidate: true });
   };
+
 
   return (
     <FormItem>

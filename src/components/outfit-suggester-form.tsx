@@ -4,7 +4,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -53,21 +53,27 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
     },
   });
 
+  const userImageFile = form.watch('userImage');
+
+  useEffect(() => {
+    if (userImageFile && userImageFile instanceof File) {
+      const objectUrl = URL.createObjectURL(userImageFile);
+      setImagePreview(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [userImageFile]);
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-        form.setValue('userImage', file);
-      };
-      reader.readAsDataURL(file);
+      form.setValue('userImage', file, { shouldValidate: true });
     }
   };
 
   const removeImage = () => {
     setImagePreview(null);
-    form.setValue('userImage', null);
+    form.setValue('userImage', null, { shouldValidate: true });
   };
 
   return (
@@ -197,4 +203,3 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
     </Form>
   );
 }
-
