@@ -139,10 +139,6 @@ export default function OutfitDetailPage() {
                   <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
                       <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
                       <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-lg" />
-                      <DialogClose className="absolute -top-2 -right-2 sm:-right-8 bg-background/50 text-white rounded-full p-1.5">
-                        <X className="h-5 w-5" />
-                        <span className="sr-only">Đóng</span>
-                      </DialogClose>
                   </DialogContent>
                 )}
 
