@@ -3,6 +3,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import React, { useState } from 'react';
+import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -21,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { WandSparkles } from 'lucide-react';
+import { WandSparkles, UploadCloud, X } from 'lucide-react';
 
 export const OutfitSuggestionFormSchema = z.object({
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
@@ -29,6 +31,7 @@ export const OutfitSuggestionFormSchema = z.object({
   colorPreference: z.string().min(2, { message: 'Vui lòng nhập sở thích màu sắc.' }),
   stylePreference: z.enum(['basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn phong cách.' }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
+  userImage: z.any().optional(),
 });
 
 interface OutfitSuggesterFormProps {
@@ -37,6 +40,8 @@ interface OutfitSuggesterFormProps {
 }
 
 export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterFormProps) {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof OutfitSuggestionFormSchema>>({
     resolver: zodResolver(OutfitSuggestionFormSchema),
     defaultValues: {
@@ -48,9 +53,66 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
     },
   });
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+        form.setValue('userImage', file);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview(null);
+    form.setValue('userImage', null);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        
+        {/* Image Upload */}
+        <FormItem>
+          <FormLabel>Tải ảnh của bạn (tùy chọn)</FormLabel>
+          <FormControl>
+            <div className="w-full">
+              {imagePreview ? (
+                <div className="relative group w-full aspect-square rounded-xl overflow-hidden border-2 border-dashed">
+                  <Image src={imagePreview} alt="Xem trước ảnh" layout="fill" objectFit="cover" />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                     <Button type="button" variant="destructive" size="icon" onClick={removeImage}>
+                        <X />
+                        <span className="sr-only">Xóa ảnh</span>
+                     </Button>
+                  </div>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full aspect-square border-2 border-dashed rounded-xl cursor-pointer hover:bg-muted transition-colors">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
+                    <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
+                    <p className="mb-2 text-sm text-muted-foreground">
+                      <span className="font-semibold">Nhấn để tải lên</span> hoặc kéo thả
+                    </p>
+                    <p className="text-xs text-muted-foreground">PNG, JPG (tối đa 5MB)</p>
+                  </div>
+                  <Input 
+                    id="dropzone-file" 
+                    type="file" 
+                    className="hidden" 
+                    accept="image/png, image/jpeg"
+                    onChange={handleImageChange}
+                  />
+                </label>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+
+
         <FormField
           control={form.control}
           name="gender"
