@@ -15,6 +15,7 @@ import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Pal
 import Link from 'next/link';
 import React from 'react';
 import { OutfitReview } from '@/components/outfit-review';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 
 export default function OutfitDetailPage() {
@@ -81,14 +82,14 @@ export default function OutfitDetailPage() {
          {/* Title & Meta */}
         <section className="mb-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
+            <div className='flex-2'>
                 <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
                 <p className="mt-1 text-sm text-muted-foreground">{outfit.longDescription}</p>
             </div>
-            <div className="flex items-center flex-wrap gap-2 text-sm text-muted-foreground">
-                <Badge variant="outline"><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
-                <Badge variant="outline"><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
-                <Badge variant="outline"><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
+            <div className="flex items-center flex-1 gap-2 text-sm text-muted-foreground">
+                <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
+                <Badge variant="outline" className='shrink-0'><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
+                <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
             </div>
             </div>
         </section>
@@ -106,18 +107,24 @@ export default function OutfitDetailPage() {
                             </div>
                         </div>
                         {outfit.galleryImages.length > 0 && (
-                             <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 p-1.5">
-                                {outfit.galleryImages.map((image, index) => (
-                                    <div key={index} className="relative">
-                                        <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-md border" />
-                                         {imageLabels[index] && (
-                                            <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
-                                                {imageLabels[index]}
+                            <Carousel opts={{ align: "start", loop: true }} className="w-full p-1.5">
+                                <CarouselContent className="-ml-1.5">
+                                    {outfit.galleryImages.map((image, index) => (
+                                        <CarouselItem key={index} className="basis-1/3 sm:basis-1/6 pl-1.5">
+                                            <div className="relative">
+                                                <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-md border" />
+                                                {imageLabels[index] && (
+                                                    <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
+                                                        {imageLabels[index]}
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className='hidden sm:flex' />
+                                <CarouselNext className='hidden sm:flex'/>
+                            </Carousel>
                         )}
                     </CardContent>
                 </Card>
@@ -247,5 +254,3 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
-
-    
