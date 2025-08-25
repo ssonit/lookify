@@ -13,16 +13,16 @@ export function Header() {
         </Link>
         <nav className="hidden md:flex items-center gap-4 text-lg">
            <Button variant="ghost" asChild>
-                <Link href="/suggester">Gợi ý AI</Link>
+                <Link href="/suggester" className="font-medium">Gợi ý AI</Link>
             </Button>
             <Button variant="ghost" asChild>
-                <Link href="/featured">Nổi bật</Link>
+                <Link href="/featured" className="font-medium">Nổi bật</Link>
             </Button>
             <Button variant="ghost" asChild>
-                <Link href="/gallery">Thư viện</Link>
+                <Link href="/gallery" className="font-medium">Thư viện</Link>
             </Button>
             <Button variant="ghost" asChild>
-                <Link href="/upgrade">Nâng cấp</Link>
+                <Link href="/upgrade" className="font-medium">Nâng cấp</Link>
             </Button>
         </nav>
       </div>
