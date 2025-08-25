@@ -120,7 +120,7 @@ export default function OutfitDetailPage() {
                 <Card className="overflow-hidden rounded-2xl">
                     <CardContent className="p-0">
                         <DialogTrigger asChild>
-                          <button className="relative aspect-[4/3] sm:aspect-[16/10] w-full" onClick={() => openLightbox(outfit.mainImage)}>
+                          <button className="relative aspect-[4/5] sm:aspect-[3/4] w-full" onClick={() => openLightbox(outfit.mainImage)}>
                               <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.description}`} fill className="object-cover"/>
                               <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
                                   <Camera /> Góc chính
@@ -153,14 +153,10 @@ export default function OutfitDetailPage() {
                 </Card>
                 
                 <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
-                  <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-50">
-                    <X className="h-4 w-4" />
-                    <span className="sr-only">Đóng</span>
-                  </DialogClose>
                   <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
                   <DialogDescription className="sr-only">Ảnh lớn của trang phục</DialogDescription>
                   
-                  <div className="relative aspect-[4/3] w-full">
+                  <div className="relative aspect-[3/4] w-full">
                       {isLightboxImageLoading && (
                           <Skeleton className="absolute inset-0 w-full h-full rounded-2xl" />
                       )}
