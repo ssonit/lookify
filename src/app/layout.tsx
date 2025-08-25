@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" suppressHydrationWarning className={`${inter.variable}`}>
-      <body className="font-body">
+    <html lang="vi" className="dark" suppressHydrationWarning={true}>
+      <body className={`${inter.variable} font-body bg-background text-foreground`}>
         {children}
         <Toaster />
       </body>
