@@ -11,10 +11,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut, Heart } from 'lucide-react';
+import { User, Settings, LogOut, Heart, Menu } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from './ui/sheet';
 
 export function Header() {
   const isLoggedIn = true; // Mock login state
+
+  const navLinks = [
+    { href: "/suggester", label: "Gợi ý AI" },
+    { href: "/featured", label: "Nổi bật" },
+    { href: "/gallery", label: "Thư viện" },
+    { href: "/upgrade", label: "Nâng cấp" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -23,22 +31,17 @@ export function Header() {
           <Image src="https://lh3.googleusercontent.com/gg-dl/AJfQ9KRNnfPzFPUeVi07oH9EUrHHvUBq40oMELqTFcGzJ3ZZKY5J4NUPFlIm_iM_xzgHWLGC0fA3Qz9QIYiCTdTHEim7B64HsROKPi8v0JzgjBn0zhM-bmdGN8iTvRAuZuJ47fnZbDICxCj-_RSRNldw3EaGdQLwIEmq53Aa9ZqaFgEDLOdxGg" alt="Lookify Logo" width={32} height={32} className="h-8 w-8" />
            <span className="font-bold font-headline text-2xl mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-foreground">Lookify</span>
         </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-2">
+            {navLinks.map(link => (
+              <Button key={link.href} variant="ghost" asChild>
+                  <Link href={link.href} className="font-medium text-base">{link.label}</Link>
+              </Button>
+            ))}
+        </nav>
+        
         <div className="flex items-center gap-2">
-          <nav className="hidden md:flex items-center gap-2 text-lg">
-             <Button variant="ghost" asChild>
-                  <Link href="/suggester" className="font-medium">Gợi ý AI</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                  <Link href="/featured" className="font-medium">Nổi bật</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                  <Link href="/gallery" className="font-medium">Thư viện</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                  <Link href="/upgrade" className="font-medium">Nâng cấp</Link>
-              </Button>
-          </nav>
-          
           {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -82,6 +85,25 @@ export function Header() {
                 <Link href="/signin">Đăng nhập</Link>
             </Button>
           )}
+
+          {/* Mobile Navigation */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu />
+                <span className="sr-only">Mở menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <nav className="flex flex-col gap-4 mt-8">
+                {navLinks.map(link => (
+                  <SheetClose key={link.href} asChild>
+                    <Link href={link.href} className="text-lg font-medium hover:text-primary transition-colors">{link.label}</Link>
+                  </SheetClose>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
