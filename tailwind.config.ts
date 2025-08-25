@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['var(--font-pt-sans)'],
-        headline: ['var(--font-playfair)'],
+        body: ['var(--font-lato)'],
+        headline: ['var(--font-montserrat)'],
       },
       colors: {
         background: 'hsl(var(--background))',

@@ -1,19 +1,19 @@
 import type {Metadata} from 'next';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
-import { Playfair_Display, PT_Sans } from 'next/font/google';
+import { Montserrat, Lato } from 'next/font/google';
 
-const playfair = Playfair_Display({
+const montserrat = Montserrat({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-montserrat',
   display: 'swap',
   weight: ['400', '500', '600', '700', '800', '900'],
 });
 
-const ptSans = PT_Sans({
+const lato = Lato({
   subsets: ['latin'],
   weight: ['400', '700'],
-  variable: '--font-pt-sans',
+  variable: '--font-lato',
   display: 'swap',
 });
 
@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" suppressHydrationWarning className={`${playfair.variable} ${ptSans.variable}`}>
+    <html lang="vi" suppressHydrationWarning className={`${montserrat.variable} ${lato.variable}`}>
       <body>
         {children}
         <Toaster />
