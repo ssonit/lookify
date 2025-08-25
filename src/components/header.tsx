@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { User, Settings, LogOut, Heart, Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from './ui/sheet';
+import { Separator } from './ui/separator';
 
 export function Header() {
   const isLoggedIn = true; // Mock login state
@@ -23,6 +24,34 @@ export function Header() {
     { href: "/gallery", label: "Thư viện" },
     { href: "/upgrade", label: "Nâng cấp" },
   ];
+
+  const userActions = (
+    <>
+      <DropdownMenuItem asChild>
+        <Link href="/profile">
+          <User className="mr-2 h-4 w-4" />
+          <span>Hồ sơ</span>
+        </Link>
+      </DropdownMenuItem>
+       <DropdownMenuItem asChild>
+        <Link href="/profile#saved">
+          <Heart className="mr-2 h-4 w-4" />
+          <span>Đã lưu</span>
+        </Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem asChild>
+        <Link href="/profile#settings">
+          <Settings className="mr-2 h-4 w-4" />
+          <span>Cài đặt</span>
+        </Link>
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>
+        <LogOut className="mr-2 h-4 w-4" />
+        <span>Đăng xuất</span>
+      </DropdownMenuItem>
+    </>
+  );
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -42,49 +71,31 @@ export function Header() {
         </nav>
         
         <div className="flex items-center gap-2">
-          {isLoggedIn ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button>
-                  <Avatar>
-                      <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
-                      <AvatarFallback>U</AvatarFallback>
-                  </Avatar>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <DropdownMenuLabel>Tài khoản của tôi</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Hồ sơ</span>
-                  </Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                  <Link href="/profile#saved">
-                    <Heart className="mr-2 h-4 w-4" />
-                    <span>Đã lưu</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/profile#settings">
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Cài đặt</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Đăng xuất</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-             <Button asChild>
-                <Link href="/signin">Đăng nhập</Link>
-            </Button>
-          )}
+          {/* Desktop Avatar */}
+          <div className="hidden md:flex">
+             {isLoggedIn ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button>
+                      <Avatar>
+                          <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
+                          <AvatarFallback>U</AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end">
+                    <DropdownMenuLabel>Tài khoản của tôi</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {userActions}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                 <Button asChild>
+                    <Link href="/signin">Đăng nhập</Link>
+                </Button>
+              )}
+          </div>
+          
 
           {/* Mobile Navigation */}
           <div className="md:hidden">
@@ -102,7 +113,34 @@ export function Header() {
                         Điều hướng chính của trang web. Chọn một liên kết để di chuyển đến trang khác.
                     </SheetDescription>
                 </SheetHeader>
-                <nav className="flex flex-col gap-4 mt-8">
+                
+                {/* Mobile User Profile Section */}
+                {isLoggedIn ? (
+                  <div className="mb-4">
+                     <Link href="/profile" className="flex items-center gap-3 mb-4">
+                       <Avatar>
+                          <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
+                          <AvatarFallback>U</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-semibold">An Trần</p>
+                        <p className="text-sm text-muted-foreground">Xem hồ sơ</p>
+                      </div>
+                    </Link>
+                     <div className="flex flex-col gap-1">
+                      {userActions}
+                    </div>
+                  </div>
+                ) : (
+                   <Button asChild className="w-full mb-4">
+                      <Link href="/signin">Đăng nhập</Link>
+                  </Button>
+                )}
+
+                <Separator className="my-4" />
+
+                {/* Mobile Navigation Links */}
+                <nav className="flex flex-col gap-4">
                   {navLinks.map(link => (
                     <SheetClose key={link.href} asChild>
                       <Link href={link.href} className="text-lg font-medium hover:text-primary transition-colors">{link.label}</Link>
