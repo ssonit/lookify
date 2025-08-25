@@ -5,55 +5,94 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { outfits, type Outfit } from '@/lib/outfits';
 import { useSearchParams } from 'next/navigation';
-import { Search } from 'lucide-react';
+import { Search, X, Palette, WandSparkles, Calendar, ListFilter } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
-const FilterSelect = ({ value, onValueChange, placeholder, items }: { value: string, onValueChange: (value: string) => void, placeholder: string, items: { value: string, label: string }[] }) => (
-    <Select value={value} onValueChange={onValueChange}>
-        <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-            <SelectItem value="all">Tất cả</SelectItem>
-            {items.map(item => <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>)}
-        </SelectContent>
-    </Select>
+const FILTERS = {
+    context: [
+        { value: 'work/office', label: 'Công sở' },
+        { value: 'casual', label: 'Thường ngày' },
+        { value: 'party/date', label: 'Tiệc tùng' },
+        { value: 'sport/active', label: 'Thể thao' },
+    ],
+    style: [
+        { value: 'basic', label: 'Cơ bản' },
+        { value: 'streetwear', label: 'Dạo phố' },
+        { value: 'elegant', label: 'Thanh lịch' },
+        { value: 'sporty', label: 'Năng động' },
+    ],
+    season: [
+        { value: 'spring', label: 'Xuân' },
+        { value: 'summer', label: 'Hè' },
+        { value: 'autumn', label: 'Thu' },
+        { value: 'winter', label: 'Đông' },
+    ],
+    color: [
+        { value: 'black', label: 'Đen' },
+        { value: 'white', label: 'Trắng' },
+        { value: 'pastel', label: 'Pastel' },
+        { value: 'earth-tone', label: 'Tone đất' },
+        { value: 'vibrant', label: 'Rực rỡ' },
+    ]
+};
+
+const FilterButton = ({
+  onClick,
+  isSelected,
+  children,
+}: {
+  onClick: () => void;
+  isSelected: boolean;
+  children: React.ReactNode;
+}) => (
+  <Button
+    variant={isSelected ? 'default' : 'outline'}
+    size="sm"
+    onClick={onClick}
+    className={`transition-all duration-200 ${isSelected ? 'shadow-md' : 'shadow-sm'}`}
+  >
+    {children}
+  </Button>
 );
 
 export function OutfitGallery() {
     const searchParams = useSearchParams();
     const [gender, setGender] = useState<'male' | 'female'>('female');
-    const [context, setContext] = useState(searchParams.get('context') || 'all');
-    const [style, setStyle] = useState(searchParams.get('style') || 'all');
-    const [season, setSeason] = useState(searchParams.get('season') || 'all');
-    const [color, setColor] = useState(searchParams.get('color') || 'all');
+    const [context, setContext] = useState<string | null>(searchParams.get('context'));
+    const [style, setStyle] = useState<string | null>(searchParams.get('style'));
+    const [season, setSeason] = useState<string | null>(searchParams.get('season'));
+    const [color, setColor] = useState<string | null>(searchParams.get('color'));
     const [searchTerm, setSearchTerm] = useState('');
     
     useEffect(() => {
-        setContext(searchParams.get('context') || 'all');
-        setStyle(searchParams.get('style') || 'all');
-        setSeason(searchParams.get('season') || 'all');
-        setColor(searchParams.get('color') || 'all');
+        setContext(searchParams.get('context'));
+        setStyle(searchParams.get('style'));
+        setSeason(searchParams.get('season'));
+        setColor(searchParams.get('color'));
     }, [searchParams]);
 
+    const resetFilters = () => {
+        setContext(null);
+        setStyle(null);
+        setSeason(null);
+        setColor(null);
+        setSearchTerm('');
+    };
+
+    const activeFilterCount = [context, style, season, color, searchTerm].filter(Boolean).length;
 
     const filteredOutfits = useMemo(() => {
         const lowercasedSearchTerm = searchTerm.toLowerCase();
         return outfits.filter(o => 
             (o.gender === gender) &&
-            (context === 'all' || o.context === context) &&
-            (style === 'all' || o.style === style) &&
-            (season === 'all' || o.season === season) &&
-            (color === 'all' || o.color === color) &&
+            (!context || o.context === context) &&
+            (!style || o.style === style) &&
+            (!season || o.season === season) &&
+            (!color || o.color === color) &&
             (searchTerm === '' ||
              o.description.toLowerCase().includes(lowercasedSearchTerm) ||
              o.longDescription.toLowerCase().includes(lowercasedSearchTerm) ||
@@ -66,31 +105,70 @@ export function OutfitGallery() {
             <p className="text-muted-foreground text-center mt-2 mb-8 max-w-2xl mx-auto">Duyệt qua bộ sưu tập các phong cách được tuyển chọn của chúng tôi. Sử dụng các bộ lọc để tìm ra vẻ ngoài hoàn hảo cho bất kỳ dịp nào.</p>
             
             <div className="flex flex-col gap-4 mb-8 p-4 bg-card rounded-2xl shadow-sm border">
-                <div className="flex flex-col md:flex-row gap-4 items-center">
-                    <Tabs value={gender} onValueChange={(value) => setGender(value as 'male' | 'female')} className="w-full md:w-auto">
+                 <div className="flex flex-col md:flex-row gap-4">
+                    <div className="relative flex-grow">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Input 
+                            type="search"
+                            placeholder="Tìm theo tên outfit, phong cách, màu sắc..."
+                            className="pl-10 w-full"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <Button variant="outline" onClick={resetFilters} disabled={activeFilterCount === 0}>
+                        <X className="mr-1.5" />
+                        Xóa lọc ({activeFilterCount})
+                    </Button>
+                </div>
+                
+                <Separator />
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h3 className="font-semibold mb-3 flex items-center gap-2"><Palette />Màu sắc</h3>
+                        <div className="flex flex-wrap gap-2">
+                           {FILTERS.color.map(item => (
+                               <FilterButton key={item.value} onClick={() => setColor(prev => prev === item.value ? null : item.value)} isSelected={color === item.value}>
+                                 {item.label}
+                               </FilterButton>
+                           ))}
+                        </div>
+                    </div>
+                    <div>
+                         <h3 className="font-semibold mb-3 flex items-center gap-2"><WandSparkles />Phong cách</h3>
+                        <div className="flex flex-wrap gap-2">
+                           {FILTERS.style.map(item => (
+                               <FilterButton key={item.value} onClick={() => setStyle(prev => prev === item.value ? null : item.value)} isSelected={style === item.value}>
+                                 {item.label}
+                               </FilterButton>
+                           ))}
+                        </div>
+                    </div>
+                     <div>
+                         <h3 className="font-semibold mb-3 flex items-center gap-2"><Calendar />Mùa</h3>
+                        <div className="flex flex-wrap gap-2">
+                           {FILTERS.season.map(item => (
+                               <FilterButton key={item.value} onClick={() => setSeason(prev => prev === item.value ? null : item.value)} isSelected={season === item.value}>
+                                 {item.label}
+                               </FilterButton>
+                           ))}
+                        </div>
+                    </div>
+                </div>
+
+                <Separator />
+
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <Tabs value={gender} onValueChange={(value) => setGender(value as 'male' | 'female')} className="w-full sm:w-auto">
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="female">Nữ</TabsTrigger>
                             <TabsTrigger value="male">Nam</TabsTrigger>
                         </TabsList>
                     </Tabs>
-                    <div className="w-full h-px md:w-px md:h-10 bg-border"></div>
-                    <div className="flex-1 grid grid-cols-2 sm:flex sm:flex-row gap-4 w-full">
-                        <FilterSelect value={context} onValueChange={setContext} placeholder="Bối cảnh" items={[{ value: 'work/office', label: 'Công sở' }, { value: 'casual', label: 'Thường ngày' }, { value: 'party/date', label: 'Tiệc tùng' }, { value: 'sport/active', label: 'Thể thao' }]} />
-                        <FilterSelect value={style} onValueChange={setStyle} placeholder="Phong cách" items={[{ value: 'basic', label: 'Cơ bản' }, { value: 'streetwear', label: 'Dạo phố' }, { value: 'elegant', label: 'Thanh lịch' }, { value: 'sporty', label: 'Năng động' }]} />
-                        <FilterSelect value={season} onValueChange={setSeason} placeholder="Mùa" items={[{ value: 'spring', label: 'Xuân' }, { value: 'summer', label: 'Hè' }, { value: 'autumn', label: 'Thu' }, { value: 'winter', label: 'Đông' }]} />
-                        <FilterSelect value={color} onValueChange={setColor} placeholder="Màu sắc" items={[{ value: 'black', label: 'Đen' }, { value: 'white', label: 'Trắng' }, { value: 'pastel', label: 'Pastel' }, { value: 'earth-tone', label: 'Tone đất' }, { value: 'vibrant', label: 'Rực rỡ' }]} />
-                    </div>
+                    <div className="text-sm text-muted-foreground font-medium">{filteredOutfits.length} kết quả</div>
                 </div>
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input 
-                        type="search"
-                        placeholder="Tìm kiếm theo từ khóa (ví dụ: 'váy', 'công sở', 'mùa hè')..."
-                        className="pl-10 w-full"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
