@@ -13,6 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { OutfitReview } from '@/components/outfit-review';
 
 
 export default function OutfitDetailPage() {
@@ -133,11 +134,8 @@ export default function OutfitDetailPage() {
                         </ul>
                     </CardContent>
                 </Card>
-                <div className="mt-6 text-center">
-                    <Button variant="outline">
-                      <Star className="mr-1.5" />
-                      Viết đánh giá
-                    </Button>
+                <div className="mt-6">
+                    <OutfitReview />
                 </div>
             </div>
 
@@ -241,3 +239,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
