@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 export function Header() {
   return (
@@ -24,6 +25,10 @@ export function Header() {
             <Button variant="ghost" asChild>
                 <Link href="/upgrade" className="font-medium">Nâng cấp</Link>
             </Button>
+            <Avatar>
+                <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
+                <AvatarFallback>U</AvatarFallback>
+            </Avatar>
         </nav>
       </div>
     </header>

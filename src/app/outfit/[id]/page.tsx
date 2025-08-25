@@ -85,13 +85,10 @@ export default function OutfitDetailPage() {
         <section className="mb-8">
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                        <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
-                        <p className="mt-1 text-sm text-muted-foreground">{outfit.longDescription}</p>
-                    </div>
+                    <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
                     <Button variant="outline" size="sm" className="shrink-0"><Share2 className="mr-1.5" /> Chia sẻ</Button>
                 </div>
-                <div className="flex items-center flex-wrap gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
                     <Badge variant="outline" className='shrink-0'><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
                     <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
