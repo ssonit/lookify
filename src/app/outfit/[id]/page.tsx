@@ -26,7 +26,7 @@ export default function OutfitDetailPage() {
   const outfit = outfits.find((o) => o.id === Number(outfitId));
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [isLightboxImageLoading, setIsLightboxImageLoading] = useState(false);
+  const [isLightboxImageLoading, setIsLightboxImageLoading] = useState(true);
 
   const openLightbox = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -156,18 +156,22 @@ export default function OutfitDetailPage() {
                     <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
                     <DialogDescription className="sr-only">Ảnh lớn của trang phục</DialogDescription>
                     
-                    {isLightboxImageLoading && <Skeleton className="w-[1200px] h-[900px] max-w-full aspect-[4/3] rounded-2xl" />}
-                    
-                    {selectedImage && (
-                        <Image 
-                            src={selectedImage} 
-                            alt="Xem ảnh lớn" 
-                            width={1200} 
-                            height={900} 
-                            className={`w-full h-auto object-contain rounded-2xl transition-opacity duration-300 ${isLightboxImageLoading ? 'opacity-0' : 'opacity-100'}`}
-                            onLoadingComplete={() => setIsLightboxImageLoading(false)}
-                        />
-                    )}
+                     <div className="relative aspect-[4/3] w-full h-auto">
+                        {isLightboxImageLoading && (
+                            <Skeleton className="absolute inset-0 w-full h-full rounded-2xl" />
+                        )}
+                        {selectedImage && (
+                            <Image
+                                src={selectedImage}
+                                alt="Xem ảnh lớn"
+                                width={1200}
+                                height={900}
+                                className={`w-full h-auto object-contain rounded-2xl transition-opacity duration-300 ${isLightboxImageLoading ? 'opacity-0' : 'opacity-100'}`}
+                                onLoadingComplete={() => setIsLightboxImageLoading(false)}
+                            />
+                        )}
+                    </div>
+
                   <DialogClose />
                 </DialogContent>
                 
