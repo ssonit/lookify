@@ -53,6 +53,36 @@ export function Header() {
     </>
   );
 
+  const mobileUserActions = (
+    <>
+       <SheetClose asChild>
+          <Link href="/profile" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            <User className="mr-2 h-4 w-4" />
+            <span>Hồ sơ</span>
+          </Link>
+        </SheetClose>
+        <SheetClose asChild>
+          <Link href="/profile#saved" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            <Heart className="mr-2 h-4 w-4" />
+            <span>Đã lưu</span>
+          </Link>
+        </SheetClose>
+        <SheetClose asChild>
+          <Link href="/profile#settings" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Cài đặt</span>
+          </Link>
+        </SheetClose>
+        <Separator className="my-1" />
+        <SheetClose asChild>
+            <button className="relative flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Đăng xuất</span>
+            </button>
+        </SheetClose>
+    </>
+  )
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -128,7 +158,7 @@ export function Header() {
                       </div>
                     </Link>
                      <div className="flex flex-col gap-1">
-                      {userActions}
+                      {mobileUserActions}
                     </div>
                   </div>
                 ) : (
