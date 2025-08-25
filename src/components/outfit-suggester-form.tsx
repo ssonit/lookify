@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { WandSparkles, UploadCloud, X } from 'lucide-react';
-import { CATEGORY_OPTIONS } from '@/lib/constants.tsx';
+import { CATEGORY_OPTIONS } from '@/lib/constants';
 
 export const OutfitSuggestionFormSchema = z.object({
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),

@@ -18,7 +18,7 @@ import { OutfitReview } from '@/components/outfit-review';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { COLOR_MAP, CATEGORY_MAP, OUTFIT_IMAGE_LABELS, SEASON_MAP } from '@/lib/constants.tsx';
+import { COLOR_MAP, CATEGORY_MAP, OUTFIT_IMAGE_LABELS, SEASON_MAP } from '@/lib/constants';
 
 
 export default function OutfitDetailPage() {

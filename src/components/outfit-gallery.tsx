@@ -12,7 +12,7 @@ import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
-import { GALLERY_FILTERS } from '@/lib/constants.tsx';
+import { GALLERY_FILTERS } from '@/lib/constants';
 
 
 const FilterButton = ({

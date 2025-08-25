@@ -1,8 +1,25 @@
 
 import { DashboardNav } from "@/components/dashboard-nav";
 import { Header } from "@/components/header";
-import { DASHBOARD_NAV_ITEMS } from "@/lib/constants.tsx";
+import { LayoutDashboard, Settings, ShoppingBag } from "lucide-react";
 
+const DASHBOARD_NAV_ITEMS = [
+    {
+        label: 'Tổng quan',
+        href: '/dashboard',
+        icon: <LayoutDashboard />,
+    },
+    {
+        label: 'Outfits',
+        href: '/dashboard/outfits',
+        icon: <ShoppingBag />,
+    },
+    {
+        label: 'Cài đặt',
+        href: '/dashboard/settings',
+        icon: <Settings />,
+    },
+];
 
 export default function DashboardLayout({
   children,
