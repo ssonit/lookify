@@ -1,4 +1,3 @@
-
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,9 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
+import { PageHeader } from "@/components/page-header";
 
 export default function UpgradePage() {
-    const courses = [
+    const articles = [
         {
             title: "Cách chọn trang phục theo dáng người",
             description: "Phân loại cơ bản (V, A, H) và công thức chọn áo/quần tôn dáng.",
@@ -46,43 +46,44 @@ export default function UpgradePage() {
             cta: "Học ngay",
             link: "#"
         }
-    ]
+    ];
 
     return (
-        <div className="flex flex-col min-h-screen bg-background font-body text-foreground">
+        <div className="flex flex-col min-h-screen bg-background font-body">
             <Header />
             <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-16">
-                <header className="flex justify-between items-center mb-10">
-                    <div>
-                        <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">Nâng cấp bản thân</h1>
-                        <p className="text-muted-foreground mt-2">Có thể làm dạng blog hoặc video</p>
-                    </div>
-                    <Button variant="outline" className="bg-foreground/5 hover:bg-foreground/10 border-foreground/20">
+                <PageHeader 
+                    title="Nâng cấp bản thân"
+                    description="Có thể làm dạng blog hoặc video"
+                />
+                
+                <div className="text-center mb-10">
+                    <Button variant="outline" className="mt-4">
                         <PlusCircle className="mr-2" /> Mới
                     </Button>
-                </header>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {courses.map((course, index) => (
-                        <Link key={index} href={course.link} passHref>
-                            <Card className="bg-card border-border/50 rounded-2xl overflow-hidden group h-full flex flex-col hover:border-foreground/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10">
+                    {articles.map((article, index) => (
+                        <Link key={index} href={article.link} passHref>
+                            <Card className="bg-card rounded-2xl overflow-hidden group h-full flex flex-col hover:shadow-lg transition-all duration-300">
                                 <div className="relative">
-                                    <Image src={course.imageUrl} alt={course.title} width={400} height={250} className="object-cover w-full h-48 group-hover:scale-105 transition-transform duration-300" data-ai-hint="abstract texture" />
+                                    <Image src={article.imageUrl} alt={article.title} width={400} height={250} className="object-cover w-full h-48" data-ai-hint="abstract texture" />
                                     <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-                                        {course.tags.map(tag => (
-                                            <Badge key={tag} variant="secondary" className="bg-black/40 text-white backdrop-blur-sm border-white/20 text-xs">
+                                        {article.tags.map(tag => (
+                                            <Badge key={tag} variant="secondary" className="text-xs">
                                                 {tag}
                                             </Badge>
                                         ))}
                                     </div>
                                 </div>
                                 <CardContent className="p-4 flex flex-col flex-grow">
-                                    <h3 className="font-bold text-lg font-headline flex-grow">{course.title}</h3>
-                                    <p className="text-sm text-muted-foreground mt-1 mb-4 flex-grow">{course.description}</p>
-                                    <div className="flex justify-between items-center mt-auto pt-2 border-t border-border/20">
-                                        <p className="text-xs text-muted-foreground">{course.level}</p>
-                                        <Button variant="secondary" size="sm" className="bg-foreground/5 hover:bg-foreground/10 text-foreground rounded-lg">
-                                            {course.cta}
+                                    <h3 className="font-bold text-lg font-headline flex-grow">{article.title}</h3>
+                                    <p className="text-sm text-muted-foreground mt-1 mb-4 flex-grow">{article.description}</p>
+                                    <div className="flex justify-between items-center mt-auto pt-2 border-t">
+                                        <p className="text-xs text-muted-foreground">{article.level}</p>
+                                        <Button variant="secondary" size="sm" className="rounded-lg">
+                                            {article.cta}
                                         </Button>
                                     </div>
                                 </CardContent>

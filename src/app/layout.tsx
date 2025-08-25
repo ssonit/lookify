@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className="dark" suppressHydrationWarning={true}>
+    <html lang="vi" suppressHydrationWarning={true}>
       <body className={`${inter.variable} font-body bg-background text-foreground`}>
         {children}
         <Toaster />
