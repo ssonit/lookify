@@ -22,6 +22,7 @@ const FILTERS = {
         { value: 'elegant', label: 'Thanh lịch' },
         { value: 'streetwear', label: 'Dạo phố' },
         { value: 'tet', label: 'Tết' },
+        { value: 'game-anime', label: 'Game/Anime' },
     ],
     season: [
         { value: 'spring', label: 'Xuân' },
@@ -80,7 +81,8 @@ export function OutfitGallery() {
                 (theme === 'office' && o.context === 'work/office') ||
                 (theme === 'elegant' && o.style === 'elegant') ||
                 (theme === 'streetwear' && o.style === 'streetwear') ||
-                (theme === 'tet' && o.specialOccasion === 'tet')
+                (theme === 'tet' && o.specialOccasion === 'tet') ||
+                (theme === 'game-anime' && o.specialOccasion === 'game-anime')
             );
 
             return (

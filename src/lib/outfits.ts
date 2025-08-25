@@ -12,7 +12,7 @@ export type Outfit = {
   description: string;
   longDescription: string;
   aiHint: string;
-  specialOccasion?: 'tet';
+  specialOccasion?: 'tet' | 'game-anime';
   items: {
     name: string;
     type: string;
@@ -188,6 +188,7 @@ export const outfits: Outfit[] = [
     style: 'sporty',
     season: 'summer',
     color: 'black',
+    specialOccasion: 'game-anime',
     mainImage: 'https://picsum.photos/seed/outfit-5-main/400/500',
     description: 'Đồ tập gym nam mạnh mẽ và năng động.',
     longDescription:
@@ -260,6 +261,7 @@ export const outfits: Outfit[] = [
     style: 'streetwear',
     season: 'spring',
     color: 'earth-tone',
+    specialOccasion: 'game-anime',
     mainImage: 'https://picsum.photos/seed/outfit-7-main/400/500',
     description: 'Streetwear nam xuân đơn giản nhưng cá tính.',
     longDescription:
