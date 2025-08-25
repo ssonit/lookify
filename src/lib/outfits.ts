@@ -12,8 +12,11 @@ export type Outfit = {
   description: string;
   longDescription: string;
   aiHint: string;
-  items: { name: string; type: string }[];
-  shoppingLinks: { store: string; url: string }[];
+  items: { 
+    name: string; 
+    type: string;
+    shoppingLinks: { store: string; url: string }[];
+  }[];
 };
 
 export const outfits: Outfit[] = [
@@ -31,15 +34,11 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục thanh lịch và chuyên nghiệp, hoàn hảo cho mùa thu trong môi trường công sở. Bảng màu đất toát lên vẻ tinh tế và ấm áp, phù hợp cho các cuộc họp quan trọng hoặc trang phục công sở hàng ngày.',
     aiHint: 'woman office fashion',
     items: [
-      { name: 'Áo khoác trench màu be', type: 'Áo khoác' },
-      { name: 'Áo blouse lụa trắng', type: 'Áo' },
-      { name: 'Quần kẻ sọc màu nâu', type: 'Quần' },
-      { name: 'Bốt da cổ ngắn', type: 'Giày' },
-      { name: 'Túi tote', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Zara', url: '#' },
-      { store: 'Uniqlo', url: '#' },
+      { name: 'Áo khoác trench màu be', type: 'Áo khoác', shoppingLinks: [{ store: 'Zara', url: '#' }] },
+      { name: 'Áo blouse lụa trắng', type: 'Áo', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
+      { name: 'Quần kẻ sọc màu nâu', type: 'Quần', shoppingLinks: [] },
+      { name: 'Bốt da cổ ngắn', type: 'Giày', shoppingLinks: [{ store: 'Shopee', url: '#' }] },
+      { name: 'Túi tote', type: 'Phụ kiện', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
     ],
   },
   { 
@@ -56,14 +55,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục thoải mái và tươi mới, lý tưởng cho một ngày dạo phố vào mùa xuân. Các màu pastel mang lại cảm giác nhẹ nhàng và thoáng đãng, hoàn hảo cho một cuộc dạo chơi trong công viên hoặc một buổi hẹn cà phê.',
     aiHint: 'woman casual fashion',
     items: [
-      { name: 'Áo len hồng nhạt', type: 'Áo' },
-      { name: 'Quần jean màu sáng', type: 'Quần' },
-      { name: 'Giày sneaker trắng', type: 'Giày' },
-      { name: 'Túi tote vải', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Lazada', url: '#' },
-      { store: 'Uniqlo', url: '#' },
+      { name: 'Áo len hồng nhạt', type: 'Áo', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
+      { name: 'Quần jean màu sáng', type: 'Quần', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
+      { name: 'Giày sneaker trắng', type: 'Giày', shoppingLinks: [] },
+      { name: 'Túi tote vải', type: 'Phụ kiện', shoppingLinks: [] },
     ],
   },
   { 
@@ -80,14 +75,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một chiếc váy đen lộng lẫy và tinh tế cho một sự kiện buổi tối mùa hè hoặc một buổi hẹn hò lãng mạn. Vẻ đẹp thanh lịch vượt thời gian của nó đảm bảo bạn sẽ tạo nên một tuyên bố.',
     aiHint: 'woman party dress',
     items: [
-      { name: 'Váy bodycon đen', type: 'Váy' },
-      { name: 'Giày cao gót quai mảnh', type: 'Giày' },
-      { name: 'Túi clutch', type: 'Phụ kiện' },
-      { name: 'Bông tai mạ vàng', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Zara', url: '#' },
-      { store: 'Shopee', url: '#' },
+      { name: 'Váy bodycon đen', type: 'Váy', shoppingLinks: [{ store: 'Zara', url: '#' }, { store: 'Shopee', url: '#' }] },
+      { name: 'Giày cao gót quai mảnh', type: 'Giày', shoppingLinks: [] },
+      { name: 'Túi clutch', type: 'Phụ kiện', shoppingLinks: [] },
+      { name: 'Bông tai mạ vàng', type: 'Phụ kiện', shoppingLinks: [] },
     ],
   },
   { 
@@ -104,12 +95,9 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ đồ thể thao tươi sáng và năng động cho các buổi tập luyện mùa hè của bạn. Màu sắc rực rỡ sẽ giúp bạn có động lực, trong khi chất liệu vải giúp bạn mát mẻ.',
     aiHint: 'woman sportswear',
     items: [
-      { name: 'Áo bra thể thao neon', type: 'Áo' },
-      { name: 'Quần legging cạp cao', type: 'Quần' },
-      { name: 'Giày chạy bộ', type: 'Giày' },
-    ],
-    shoppingLinks: [
-        { store: 'Lazada', url: '#' },
+      { name: 'Áo bra thể thao neon', type: 'Áo', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
+      { name: 'Quần legging cạp cao', type: 'Quần', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
+      { name: 'Giày chạy bộ', type: 'Giày', shoppingLinks: [] },
     ],
   },
   { 
@@ -126,14 +114,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục sắc sảo và hiện đại cho văn phòng vào mùa đông. Vẻ ngoài nhiều lớp vừa phong cách vừa thiết thực để giữ ấm.',
     aiHint: 'man office fashion',
     items: [
-      { name: 'Áo cổ lọ đen', type: 'Áo' },
-      { name: 'Áo khoác len xám', type: 'Áo khoác' },
-      { name: 'Quần tây màu than', type: 'Quần' },
-      { name: 'Bốt Chelsea da', type: 'Giày' },
-    ],
-    shoppingLinks: [
-      { store: 'Zara', url: '#' },
-      { store: 'Uniqlo', url: '#' },
+      { name: 'Áo cổ lọ đen', type: 'Áo', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
+      { name: 'Áo khoác len xám', type: 'Áo khoác', shoppingLinks: [{ store: 'Zara', url: '#' }] },
+      { name: 'Quần tây màu than', type: 'Quần', shoppingLinks: [] },
+      { name: 'Bốt Chelsea da', type: 'Giày', shoppingLinks: [] },
     ],
   },
   { 
@@ -150,13 +134,10 @@ export const outfits: Outfit[] = [
     aiHint: 'man streetwear',
     longDescription: 'Một phong cách streetwear mát mẻ và giản dị cho mùa thu. Các tông màu đất và các món đồ nhiều lớp là hoàn hảo cho thời tiết thay đổi.',
     items: [
-      { name: 'Áo hoodie oversized', type: 'Áo' },
-      { name: 'Quần cargo', type: 'Quần' },
-      { name: 'Giày sneaker cao cổ', type: 'Giày' },
-      { name: 'Mũ beanie', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Shopee', url: '#' },
+      { name: 'Áo hoodie oversized', type: 'Áo', shoppingLinks: [{ store: 'Shopee', url: '#' }] },
+      { name: 'Quần cargo', type: 'Quần', shoppingLinks: [] },
+      { name: 'Giày sneaker cao cổ', type: 'Giày', shoppingLinks: [] },
+      { name: 'Mũ beanie', type: 'Phụ kiện', shoppingLinks: [{ store: 'Shopee', url: '#' }] },
     ],
   },
   { 
@@ -173,14 +154,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục sắc sảo và thanh lịch cho một buổi hẹn hò mùa xuân. Màu sắc tươi sáng hoàn hảo cho một vẻ ngoài buổi tối trong lành.',
     aiHint: 'man elegant suit',
     items: [
-      { name: 'Áo sơ mi linen trắng', type: 'Áo' },
-      { name: 'Quần chinos màu navy', type: 'Quần' },
-      { name: 'Giày lười màu nâu', type: 'Giày' },
-      { name: 'Thắt lưng da', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Zara', url: '#' },
-      { store: 'Uniqlo', url: '#' },
+      { name: 'Áo sơ mi linen trắng', type: 'Áo', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
+      { name: 'Quần chinos màu navy', type: 'Quần', shoppingLinks: [{ store: 'Zara', url: '#' }] },
+      { name: 'Giày lười màu nâu', type: 'Giày', shoppingLinks: [] },
+      { name: 'Thắt lưng da', type: 'Phụ kiện', shoppingLinks: [] },
     ],
   },
   { 
@@ -197,12 +174,9 @@ export const outfits: Outfit[] = [
     longDescription: 'Trang phục năng động, tiện dụng và phong cách cho các môn thể thao mùa hè. Chất liệu vải thoáng khí và màu sắc rực rỡ sẽ giúp bạn tiếp tục.',
     aiHint: 'man sportswear',
     items: [
-      { name: 'Áo thun thấm mồ hôi', type: 'Áo' },
-      { name: 'Quần short thể thao', type: 'Quần' },
-      { name: 'Giày tập luyện đa năng', type: 'Giày' },
-    ],
-    shoppingLinks: [
-      { store: 'Lazada', url: '#' },
+      { name: 'Áo thun thấm mồ hôi', type: 'Áo', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
+      { name: 'Quần short thể thao', type: 'Quần', shoppingLinks: [{ store: 'Lazada', url: '#' }] },
+      { name: 'Giày tập luyện đa năng', type: 'Giày', shoppingLinks: [] },
     ],
   },
   { 
@@ -219,14 +193,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một phong cách streetwear sắc sảo và ấm áp cho mùa đông. Bộ trang phục toàn màu đen vừa sang trọng vừa thiết thực cho cái lạnh.',
     aiHint: 'woman streetwear',
     items: [
-      { name: 'Áo khoác phao đen', type: 'Áo khoác' },
-      { name: 'Áo hoodie đen', type: 'Áo' },
-      { name: 'Quần jean skinny đen', type: 'Quần' },
-      { name: 'Bốt chiến binh', type: 'Giày' },
-    ],
-    shoppingLinks: [
-      { store: 'Zara', url: '#' },
-      { store: 'Shopee', url: '#' },
+      { name: 'Áo khoác phao đen', type: 'Áo khoác', shoppingLinks: [{ store: 'Zara', url: '#' }] },
+      { name: 'Áo hoodie đen', type: 'Áo', shoppingLinks: [{ store: 'Shopee', url: '#' }] },
+      { name: 'Quần jean skinny đen', type: 'Quần', shoppingLinks: [] },
+      { name: 'Bốt chiến binh', type: 'Giày', shoppingLinks: [] },
     ],
   },
   { 
@@ -243,13 +213,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục thường ngày vượt thời gian và đơn giản cho mùa hè. Sự kết hợp giữa áo phông trắng và quần jean thật dễ dàng.',
     aiHint: 'man summer casual',
     items: [
-      { name: 'Áo thun cổ tròn trắng', type: 'Áo' },
-      { name: 'Quần short denim', type: 'Quần' },
-      { name: 'Giày espadrilles vải', type: 'Giày' },
-      { name: 'Kính râm', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Uniqlo', url: '#' },
+      { name: 'Áo thun cổ tròn trắng', type: 'Áo', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
+      { name: 'Quần short denim', type: 'Quần', shoppingLinks: [] },
+      { name: 'Giày espadrilles vải', type: 'Giày', shoppingLinks: [] },
+      { name: 'Kính râm', type: 'Phụ kiện', shoppingLinks: [] },
     ],
   },
   { 
@@ -266,13 +233,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục gọn gàng và tối giản cho văn phòng vào mùa xuân. Bảng màu đơn giản tạo ra một vẻ ngoài bóng bẩy và chuyên nghiệp.',
     aiHint: 'woman minimalist office',
     items: [
-      { name: 'Áo blazer trắng', type: 'Áo khoác' },
-      { name: 'Áo hai dây trắng', type: 'Áo' },
-      { name: 'Quần tây màu be', type: 'Quần' },
-      { name: 'Giày cao gót màu nude', type: 'Giày' },
-    ],
-    shoppingLinks: [
-      { store: 'Zara', url: '#' },
+      { name: 'Áo blazer trắng', type: 'Áo khoác', shoppingLinks: [{ store: 'Zara', url: '#' }] },
+      { name: 'Áo hai dây trắng', type: 'Áo', shoppingLinks: [] },
+      { name: 'Quần tây màu be', type: 'Quần', shoppingLinks: [] },
+      { name: 'Giày cao gót màu nude', type: 'Giày', shoppingLinks: [] },
     ],
   },
   { 
@@ -289,13 +253,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục streetwear nhiều lớp hoàn hảo cho một bữa tiệc mùa thu. Chiếc áo khoác rực rỡ tạo thêm điểm nhấn màu sắc cho vẻ ngoài.',
     aiHint: 'man party streetwear',
     items: [
-      { name: 'Áo khoác bomber rực rỡ', type: 'Áo khoác' },
-      { name: 'Áo phông in hình', type: 'Áo' },
-      { name: 'Quần jean rách', type: 'Quần' },
-      { name: 'Bốt da lộn', type: 'Giày' },
-    ],
-    shoppingLinks: [
-      { store: 'Shopee', url: '#' },
+      { name: 'Áo khoác bomber rực rỡ', type: 'Áo khoác', shoppingLinks: [{ store: 'Shopee', url: '#' }] },
+      { name: 'Áo phông in hình', type: 'Áo', shoppingLinks: [] },
+      { name: 'Quần jean rách', type: 'Quần', shoppingLinks: [] },
+      { name: 'Bốt da lộn', type: 'Giày', shoppingLinks: [] },
     ],
   },
   { 
@@ -312,14 +273,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một chiếc váy maxi màu trắng nhẹ nhàng và thoáng mát, hoàn hảo cho một ngày đi biển hoặc một kỳ nghỉ hè. Nó đơn giản nhưng thanh lịch.',
     aiHint: 'woman beach dress',
     items: [
-      { name: 'Váy maxi trắng', type: 'Váy' },
-      { name: 'Sandal quai mảnh', type: 'Giày' },
-      { name: 'Mũ rơm', type: 'Phụ kiện' },
-      { name: 'Túi cói', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Lazada', url: '#' },
-      { store: 'Shopee', url: '#' },
+      { name: 'Váy maxi trắng', type: 'Váy', shoppingLinks: [{ store: 'Lazada', url: '#' }, { store: 'Shopee', url: '#' }] },
+      { name: 'Sandal quai mảnh', type: 'Giày', shoppingLinks: [] },
+      { name: 'Mũ rơm', type: 'Phụ kiện', shoppingLinks: [] },
+      { name: 'Túi cói', type: 'Phụ kiện', shoppingLinks: [] },
     ],
   },
    { 
@@ -336,13 +293,10 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục thư giãn và thoải mái cho một ngày đi biển, gồm áo sơ mi và quần short linen.',
     aiHint: 'man beach outfit',
     items: [
-      { name: 'Áo sơ mi linen màu be', type: 'Áo' },
-      { name: 'Quần short trắng', type: 'Quần' },
-      { name: 'Dép xỏ ngón da', type: 'Giày' },
-      { name: 'Kính râm phi công', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Uniqlo', url: '#' },
+      { name: 'Áo sơ mi linen màu be', type: 'Áo', shoppingLinks: [{ store: 'Uniqlo', url: '#' }] },
+      { name: 'Quần short trắng', type: 'Quần', shoppingLinks: [] },
+      { name: 'Dép xỏ ngón da', type: 'Giày', shoppingLinks: [] },
+      { name: 'Kính râm phi công', type: 'Phụ kiện', shoppingLinks: [] },
     ],
   },
   { 
@@ -359,12 +313,9 @@ export const outfits: Outfit[] = [
     longDescription: 'Một chiếc váy nhung màu đỏ đậm quyến rũ cho một buổi hẹn hò lãng mạn vào mùa đông.',
     aiHint: 'woman velvet dress',
     items: [
-      { name: 'Váy nhung đỏ', type: 'Váy' },
-      { name: 'Giày cao gót đen', type: 'Giày' },
-      { name: 'Túi clutch bạc', type: 'Phụ kiện' },
-    ],
-    shoppingLinks: [
-      { store: 'Zara', url: '#' },
+      { name: 'Váy nhung đỏ', type: 'Váy', shoppingLinks: [{ store: 'Zara', url: '#' }] },
+      { name: 'Giày cao gót đen', type: 'Giày', shoppingLinks: [] },
+      { name: 'Túi clutch bạc', type: 'Phụ kiện', shoppingLinks: [] },
     ],
   },
   { 
@@ -381,14 +332,12 @@ export const outfits: Outfit[] = [
     longDescription: 'Một bộ trang phục streetwear thoải mái và phong cách, hoàn hảo cho việc đi học.',
     aiHint: 'man school streetwear',
     items: [
-      { name: 'Áo khoác denim', type: 'Áo khoác' },
-      { name: 'Áo thun trắng', type: 'Áo' },
-      { name: 'Quần jogger đen', type: 'Quần' },
-      { name: 'Giày sneaker cổ điển', type: 'Giày' },
-    ],
-    shoppingLinks: [
-      { store: 'Lazada', url: '#' },
-      { store: 'Shopee', url: '#' },
+      { name: 'Áo khoác denim', type: 'Áo khoác', shoppingLinks: [{ store: 'Lazada', url: '#' }, { store: 'Shopee', url: '#' }] },
+      { name: 'Áo thun trắng', type: 'Áo', shoppingLinks: [] },
+      { name: 'Quần jogger đen', type: 'Quần', shoppingLinks: [] },
+      { name: 'Giày sneaker cổ điển', type: 'Giày', shoppingLinks: [] },
     ],
   },
 ];
+
+    

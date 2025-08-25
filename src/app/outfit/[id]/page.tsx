@@ -21,6 +21,7 @@ import {
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
 import React from 'react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const StarRating = ({ totalStars = 5 }) => {
     const [rating, setRating] = React.useState(0);
@@ -152,7 +153,7 @@ export default function OutfitDetailPage() {
             <Separator className="my-6" />
             <p className="text-muted-foreground">{outfit.longDescription}</p>
             
-            <div className="mt-6 space-y-6">
+            <div className="mt-6 space-y-4">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl font-headline">
@@ -161,33 +162,35 @@ export default function OutfitDetailPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 text-muted-foreground">
-                    {outfit.items.map((item) => (
-                      <li key={item.name} className="flex justify-between">
-                        <span>{item.name}</span>
-                        <span className="text-xs text-foreground/50">{item.type}</span>
-                      </li>
+                  <Accordion type="single" collapsible className="w-full">
+                    {outfit.items.map((item, index) => (
+                      <AccordionItem value={`item-${index}`} key={item.name}>
+                        <AccordionTrigger>
+                          <div className="flex justify-between items-center w-full">
+                            <span>{item.name}</span>
+                            <span className="text-xs text-foreground/50 mr-4">{item.type}</span>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          {item.shoppingLinks.length > 0 ? (
+                            <div className="flex flex-col gap-2 pl-4">
+                              <p className="text-sm font-semibold mb-1">Gợi ý mua sắm:</p>
+                              {item.shoppingLinks.map(link => (
+                                <Button key={link.store} variant="outline" size="sm" asChild className="justify-between group">
+                                  <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                    <span className="font-semibold">{link.store}</span>
+                                    <ExternalLink className="group-hover:translate-x-1 transition-transform" />
+                                  </a>
+                                </Button>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="pl-4 text-sm text-muted-foreground">Không có gợi ý mua sắm cho món đồ này.</p>
+                          )}
+                        </AccordionContent>
+                      </AccordionItem>
                     ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-xl font-headline">
-                    <ShoppingCart />
-                    Mua sắm (Affiliate)
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-col gap-2">
-                  {outfit.shoppingLinks.map((link) => (
-                    <Button key={link.store} variant="outline" asChild className="justify-between group">
-                      <a href={link.url} target="_blank" rel="noopener noreferrer">
-                        <span className="font-semibold">{link.store}</span>
-                        <ExternalLink className="group-hover:translate-x-1 transition-transform" />
-                      </a>
-                    </Button>
-                  ))}
+                  </Accordion>
                 </CardContent>
               </Card>
             </div>
@@ -252,3 +255,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
