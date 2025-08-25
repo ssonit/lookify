@@ -88,8 +88,8 @@ function ImageUploadField({ form, name, description }: { form: any; name: string
           {preview ? (
             <div className="relative group w-48 h-48 rounded-xl overflow-hidden border-2 border-dashed">
               <Image src={preview} alt="Xem trước ảnh" layout="fill" objectFit="cover" />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button type="button" variant="destructive" size="icon" onClick={removeImage}>
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button type="button" variant="destructive" size="icon" onClick={removeImage} className="absolute top-2 right-2">
                   <X />
                 </Button>
               </div>
