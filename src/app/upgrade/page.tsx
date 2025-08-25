@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PlusCircle, Youtube } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
-import { TiktokIcon } from "@/components/tiktok-icon";
+import { TiktokIcon } from "@/components/icons";
 
 export default function UpgradePage() {
     const articles = [

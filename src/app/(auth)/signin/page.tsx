@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, FileText, Lock, ShieldCheck, LifeBuoy } from "lucide-react";
-import { GoogleIcon } from "@/components/google-icon";
+import { GoogleIcon } from "@/components/icons";
 
 export default function SignInPage() {
     return (
