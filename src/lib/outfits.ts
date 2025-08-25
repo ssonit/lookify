@@ -2,7 +2,7 @@
 export type Outfit = {
   id: number;
   gender: 'male' | 'female';
-  category: 'work/office' | 'casual' | 'party/date' | 'sport/active' | 'tet' | 'game-anime' | 'basic' | 'streetwear' | 'elegant' | 'sporty';
+  category: 'work/office' | 'casual' | 'party/date' | 'sport/active' | 'tet' | 'game-anime' | 'basic' | 'streetwear' | 'elegant' | 'sporty' | 'beach';
   season: 'spring' | 'summer' | 'autumn' | 'winter';
   color: 'black' | 'white' | 'pastel' | 'earth-tone' | 'vibrant';
   mainImage: string;
@@ -593,14 +593,14 @@ export const outfits: Outfit[] = [
   {
     id: 17,
     gender: 'male',
-    category: 'casual',
+    category: 'beach',
     season: 'summer',
     color: 'white',
     mainImage: 'https://picsum.photos/seed/outfit-17-main/400/500',
-    title: 'Outfit basic nam mùa hè với áo thun trắng và quần jean.',
+    title: 'Outfit đi biển nam mùa hè với áo thun trắng và quần short.',
     description:
-      'Áo thun trắng đơn giản kết hợp quần jean xanh và sneaker trắng. Phong cách cơ bản nhưng không lỗi thời, phù hợp mọi hoàn cảnh thường ngày.',
-    aiHint: 'Suggest simple casual summer outfits with white t-shirt and jeans.',
+      'Áo thun trắng đơn giản kết hợp quần short và dép lê. Phong cách thoải mái, mát mẻ cho ngày hè trên biển.',
+    aiHint: 'Suggest simple beach summer outfits with white t-shirt and shorts.',
     items: [
       {
         name: 'Áo thun trắng',
@@ -609,16 +609,16 @@ export const outfits: Outfit[] = [
         shoppingLinks: [{ store: 'Uniqlo', url: 'https://www.uniqlo.com/' }],
       },
       {
-        name: 'Quần jean xanh',
+        name: 'Quần short',
         type: 'bottom',
         imageUrl: 'https://picsum.photos/seed/outfit-17-item-2/200/200',
-        shoppingLinks: [{ store: 'Levis', url: 'https://www.levi.com/' }],
+        shoppingLinks: [{ store: 'H&M', url: 'https://www.hm.com/' }],
       },
       {
-        name: 'Sneaker trắng',
+        name: 'Dép lê',
         type: 'shoes',
         imageUrl: 'https://picsum.photos/seed/outfit-17-item-3/200/200',
-        shoppingLinks: [{ store: 'Nike', url: 'https://www.nike.com/' }],
+        shoppingLinks: [{ store: 'Havaianas', url: 'https://www.havaianas.com/' }],
       },
     ],
   },
@@ -695,38 +695,32 @@ export const outfits: Outfit[] = [
   {
     id: 20,
     gender: 'female',
-    category: 'casual',
-    season: 'autumn',
+    category: 'beach',
+    season: 'summer',
     color: 'pastel',
     mainImage: 'https://picsum.photos/seed/outfit-20-main/400/500',
-    title: 'Áo cardigan pastel cho nữ mùa thu.',
+    title: 'Đầm maxi pastel cho nữ đi biển mùa hè.',
     description:
-      'Cardigan pastel kết hợp áo thun trắng, quần jean skinny và sneaker. Tạo phong cách thoải mái, trẻ trung cho mùa thu se lạnh.',
-    aiHint: 'Suggest pastel casual outfits for women in autumn.',
+      'Đầm maxi pastel thướt tha, nón rộng vành và dép sandal. Tạo phong cách nhẹ nhàng, bay bổng cho chuyến đi biển mùa hè.',
+    aiHint: 'Suggest pastel beach outfits for women in summer.',
     items: [
       {
-        name: 'Cardigan pastel',
-        type: 'outerwear',
+        name: 'Đầm maxi pastel',
+        type: 'dress',
         imageUrl: 'https://picsum.photos/seed/outfit-20-item-1/200/200',
         shoppingLinks: [{ store: 'Zara', url: 'https://www.zara.com/' }],
       },
       {
-        name: 'Áo thun trắng',
-        type: 'top',
+        name: 'Nón rộng vành',
+        type: 'accessory',
         imageUrl: 'https://picsum.photos/seed/outfit-20-item-2/200/200',
-        shoppingLinks: [{ store: 'Uniqlo', url: 'https://www.uniqlo.com/' }],
+        shoppingLinks: [{ store: 'H&M', url: 'https://www.hm.com/' }],
       },
       {
-        name: 'Quần jean skinny',
-        type: 'bottom',
-        imageUrl: 'https://picsum.photos/seed/outfit-20-item-3/200/200',
-        shoppingLinks: [{ store: 'Levis', url: 'https://www.levi.com/' }],
-      },
-      {
-        name: 'Sneaker trắng',
+        name: 'Dép sandal',
         type: 'shoes',
         imageUrl: 'https://picsum.photos/seed/outfit-20-item-4/200/200',
-        shoppingLinks: [{ store: 'Adidas', url: 'https://www.adidas.com/' }],
+        shoppingLinks: [{ store: 'Aldo', url: 'https://www.aldoshoes.com/' }],
       },
     ],
   },

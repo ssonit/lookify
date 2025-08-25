@@ -46,7 +46,7 @@ const outfitFormSchema = z.object({
   title: z.string().min(10, { message: 'Tiêu đề cần ít nhất 10 ký tự.' }),
   description: z.string().min(20, { message: 'Mô tả chi tiết cần ít nhất 20 ký tự.' }),
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'tet', 'game-anime', 'basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn danh mục.' }),
+  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'tet', 'game-anime', 'basic', 'streetwear', 'elegant', 'sporty', 'beach'], { required_error: 'Vui lòng chọn danh mục.' }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
   color: z.enum(['black', 'white', 'pastel', 'earth-tone', 'vibrant'], { required_error: 'Vui lòng chọn màu chủ đạo.' }),
   mainImage: z.any().refine((file) => file, 'Vui lòng tải ảnh chính.'),

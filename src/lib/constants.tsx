@@ -18,6 +18,7 @@ export const CATEGORY_OPTIONS = [
     { value: 'streetwear', label: 'Dạo phố' },
     { value: 'elegant', label: 'Thanh lịch' },
     { value: 'sporty', label: 'Năng động' },
+    { value: 'beach', label: 'Đi biển' },
 ];
 
 
@@ -47,7 +48,7 @@ export const GALLERY_FILTERS = {
     category: [
         { value: 'casual', label: 'Đi học' },
         { value: 'party/date', label: 'Đi hẹn hò' },
-        { value: 'casual', label: 'Đi biển' }, // Note: This needs season combo
+        { value: 'beach', label: 'Đi biển' },
         { value: 'work/office', label: 'Công sở' },
         { value: 'tet', label: 'Tết' },
         { value: 'game-anime', label: 'Game/Anime' },
@@ -82,4 +83,3 @@ export const DASHBOARD_NAV_ITEMS = [
 ];
 
 export const OUTFIT_IMAGE_LABELS = ['Layer', 'Fabric', 'Fit', 'Footwear', 'Accessory', 'Bag'];
-

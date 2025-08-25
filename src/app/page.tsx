@@ -15,7 +15,7 @@ export default function Home() {
   const streetwearOutfits = outfits.filter(o => o.category === 'streetwear').slice(0, 4);
   const schoolOutfits = outfits.filter(o => o.category === 'casual').slice(0,4);
   const dateOutfits = outfits.filter(o => o.category === 'party/date').slice(0,4);
-  const beachOutfits = outfits.filter(o => o.season === 'summer' && o.category === 'casual').slice(0,4);
+  const beachOutfits = outfits.filter(o => o.category === 'beach').slice(0,4);
 
 
   return (
@@ -30,7 +30,7 @@ export default function Home() {
            <Separator />
            <ThemedOutfitSection title="Phối đồ đi hẹn hò" outfits={dateOutfits} viewAllLink="/gallery?category=party/date" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ đi biển" outfits={beachOutfits} viewAllLink="/gallery?season=summer&category=casual" />
+           <ThemedOutfitSection title="Phối đồ đi biển" outfits={beachOutfits} viewAllLink="/gallery?category=beach" />
            <Separator />
            <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?category=work/office" />
            <Separator />
@@ -47,6 +47,7 @@ export default function Home() {
     
 
     
+
 
 
 
