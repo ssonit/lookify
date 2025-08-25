@@ -13,7 +13,7 @@ const HeroSection = () => {
   return (
     <section className="w-full py-20 md:py-24 bg-card border-b">
       <div className="container mx-auto px-4 text-center">
-        <h1 className="font-headline text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+        <h1 className="font-headline text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent py-2">
           Lookify
         </h1>
         <p className="mt-4 font-headline text-2xl md:text-4xl font-medium text-foreground">
@@ -22,8 +22,8 @@ const HeroSection = () => {
         <p className="mt-6 max-w-2xl mx-auto text-lg text-body text-muted-foreground">
           Khám phá các gợi ý trang phục được cá nhân hóa và khám phá các phong cách tuyển chọn để nâng tầm tủ quần áo và sự tự tin của bạn.
         </p>
-        <Button size="lg" className="mt-8 text-body" asChild>
-          <Link href="/suggester">Khám phá ngay</Link>
+        <Button size="lg" className="mt-8 text-body text-white" asChild>
+          <Link href="/suggester" className="text-white">Khám phá ngay</Link>
         </Button>
       </div>
     </section>
@@ -46,7 +46,6 @@ export default function Home() {
       <main className="flex-1 w-full">
         <HeroSection />
         <div className="container mx-auto px-4 py-8 md:py-16 space-y-12">
-           <Separator />
            <ThemedOutfitSection title="Phối đồ mùa hè" outfits={summerOutfits} viewAllLink="/gallery?season=summer" />
            <Separator />
            <ThemedOutfitSection title="Phối đồ đi học" outfits={schoolOutfits} viewAllLink="/gallery?context=casual" />
