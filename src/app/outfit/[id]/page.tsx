@@ -71,8 +71,6 @@ export default function OutfitDetailPage() {
     'vibrant': { name: 'Rực rỡ', hex: '#ff4d4d' },
   };
 
-  const mainImage = outfit.images[0];
-  const galleryImages = outfit.images.slice(1);
   const imageLabels = ['Layer', 'Fabric', 'Fit', 'Footwear', 'Accessory', 'Bag'];
 
 
@@ -102,14 +100,14 @@ export default function OutfitDetailPage() {
                 <Card className="overflow-hidden">
                     <CardContent className="p-0">
                         <div className="relative aspect-[4/3] sm:aspect-[16/10]">
-                            <Image src={mainImage} alt={`Outfit chính - ${outfit.description}`} fill className="object-cover"/>
+                            <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.description}`} fill className="object-cover"/>
                             <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
                                 <Camera /> Góc chính
                             </div>
                         </div>
-                        {galleryImages.length > 0 && (
+                        {outfit.galleryImages.length > 0 && (
                              <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 p-1.5">
-                                {galleryImages.map((image, index) => (
+                                {outfit.galleryImages.map((image, index) => (
                                     <div key={index} className="relative">
                                         <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-md border" />
                                          {imageLabels[index] && (
@@ -187,7 +185,7 @@ export default function OutfitDetailPage() {
                             {outfit.items.map((item, index) => (
                                 <li key={index} className="p-4">
                                     <div className="flex items-start gap-4">
-                                        <Image src={outfit.images[(index + 1) % outfit.images.length]} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-lg object-cover border" />
+                                        <Image src={outfit.galleryImages[(index) % outfit.galleryImages.length] || outfit.mainImage} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-lg object-cover border" />
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between">
                                                 <div className="font-medium">{item.name}</div>
