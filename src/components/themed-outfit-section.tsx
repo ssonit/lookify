@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { Outfit } from "@/lib/outfits";
@@ -49,8 +48,6 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
             </Carousel>
         </section>
     )
