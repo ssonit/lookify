@@ -23,7 +23,7 @@ export default function SignInPage() {
                 <Card className="shadow-lg bg-card border-border/60">
                     <CardHeader className="flex flex-row items-center gap-4">
                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-                            <Image src="https://lh3.googleusercontent.com/gg-dl/AJfQ9KRNnfPzFPUeVi07oH9EUrHHvUBq40oMELqTFcGzJ3ZZKY5J4NUPFlIm_iM_xzgHWLGC0fA3Qz9QIYiCTdTHEim7B64HsROKPi8v0JzgjBn0zhM-bmdGN8iTvRAuZuJ47fnZbDICxCj-_RSRNldw3EaGdQLwIEmq53Aa9ZqaFgEDLOdxGg" alt="Lookify Logo" width={32} height={32} />
+                            <Image src="https://placehold.co/32x32.png" alt="Lookify Logo" width={32} height={32} data-ai-hint="logo" />
                         </div>
                         <div>
                             <CardTitle className="font-headline text-2xl">Đăng nhập</CardTitle>
