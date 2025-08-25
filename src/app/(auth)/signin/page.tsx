@@ -31,12 +31,12 @@ export default function SignInPage() {
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                        <Button variant="outline" className="w-full justify-between text-base py-6 bg-white hover:bg-gray-100 text-foreground">
+                        <Button variant="outline" className="w-full justify-between text-base py-6 bg-white hover:bg-gray-100 text-foreground group">
                             <div className="flex items-center">
                                 <GoogleIcon />
                                 <span>Đăng nhập với Google</span>
                             </div>
-                            <ArrowRight />
+                            <ArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Button>
 
                         <div className="flex items-center gap-2 text-sm text-muted-foreground p-3 rounded-lg bg-muted/50 border border-border/50">
