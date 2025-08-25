@@ -156,7 +156,7 @@ export default function OutfitDetailPage() {
                     <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
                     <DialogDescription className="sr-only">Ảnh lớn của trang phục</DialogDescription>
                     
-                     <div className="relative aspect-[4/3] w-full h-auto">
+                    <div className="relative aspect-[4/3] w-full">
                         {isLightboxImageLoading && (
                             <Skeleton className="absolute inset-0 w-full h-full rounded-2xl" />
                         )}
@@ -164,9 +164,8 @@ export default function OutfitDetailPage() {
                             <Image
                                 src={selectedImage}
                                 alt="Xem ảnh lớn"
-                                width={1200}
-                                height={900}
-                                className={`w-full h-auto object-contain rounded-2xl transition-opacity duration-300 ${isLightboxImageLoading ? 'opacity-0' : 'opacity-100'}`}
+                                fill
+                                className={`object-contain rounded-2xl transition-opacity duration-300 ${isLightboxImageLoading ? 'opacity-0' : 'opacity-100'}`}
                                 onLoadingComplete={() => setIsLightboxImageLoading(false)}
                             />
                         )}
