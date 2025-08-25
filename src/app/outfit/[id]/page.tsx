@@ -102,7 +102,7 @@ export default function OutfitDetailPage() {
             {/* Gallery */}
             <div className="lg:col-span-7">
               <Dialog>
-                <Card className="overflow-hidden">
+                <Card className="overflow-hidden rounded-2xl">
                     <CardContent className="p-0">
                         <DialogTrigger asChild>
                           <button className="relative aspect-[4/3] sm:aspect-[16/10] w-full" onClick={() => setSelectedImage(outfit.mainImage)}>
@@ -119,7 +119,7 @@ export default function OutfitDetailPage() {
                                         <CarouselItem key={index} className="basis-1/3 sm:basis-1/6 pl-1.5">
                                             <DialogTrigger asChild>
                                               <button className="relative w-full" onClick={() => setSelectedImage(image)}>
-                                                  <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-md border" />
+                                                  <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-xl border" />
                                                   {imageLabels[index] && (
                                                       <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
                                                           {imageLabels[index]}
@@ -139,13 +139,12 @@ export default function OutfitDetailPage() {
                 {selectedImage && (
                   <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
                       <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
-                      <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-lg" />
-                      <DialogClose />
+                      <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-2xl" />
                   </DialogContent>
                 )}
 
                  {/* Styling notes */}
-                <Card className="mt-6">
+                <Card className="mt-6 rounded-2xl">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-xl font-headline"><Wand2 />Gợi ý phối & fit</CardTitle>
                     </CardHeader>
@@ -167,29 +166,29 @@ export default function OutfitDetailPage() {
 
             {/* Details */}
             <div className="lg:col-span-5 space-y-6">
-                <Card>
+                <Card className="rounded-2xl">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-xl font-headline"><Info />Mô tả</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">{outfit.longDescription}</p>
                         <div className="mt-4 grid grid-cols-2 gap-3">
-                            <div className="rounded-lg border bg-card p-3">
+                            <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Phong cách</div>
                                 <div className="mt-1 text-sm font-medium">{styleMap[outfit.style]}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
                             </div>
-                            <div className="rounded-lg border bg-card p-3">
+                            <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Màu chủ đạo</div>
                                 <div className="mt-1 flex items-center gap-2">
                                      <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: colorMap[outfit.color].hex }}></span>
                                      <span>{colorMap[outfit.color].name}</span>
                                 </div>
                             </div>
-                             <div className="rounded-lg border bg-card p-3">
+                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Mùa</div>
                                 <div className="mt-1 text-sm font-medium">{seasonMap[outfit.season]}</div>
                             </div>
-                            <div className="rounded-lg border bg-card p-3">
+                            <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Dịp phù hợp</div>
                                 <div className="mt-1 text-sm font-medium">{contextMap[outfit.context]}</div>
                             </div>
@@ -198,7 +197,7 @@ export default function OutfitDetailPage() {
                 </Card>
 
                  {/* Items list */}
-                <Card>
+                <Card className="rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between border-b">
                         <CardTitle className="flex items-center gap-2 text-xl font-headline"><ListChecks />Các item trong outfit</CardTitle>
                         <span className="text-xs text-muted-foreground">{outfit.items.length} món</span>
@@ -208,7 +207,7 @@ export default function OutfitDetailPage() {
                             {outfit.items.map((item, index) => (
                                 <li key={index} className="p-4">
                                     <div className="flex items-start gap-4">
-                                        <Image src={outfit.galleryImages[(index) % outfit.galleryImages.length] || outfit.mainImage} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-lg object-cover border" />
+                                        <Image src={outfit.galleryImages[(index) % outfit.galleryImages.length] || outfit.mainImage} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-xl object-cover border" />
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between">
                                                 <div className="font-medium">{item.name}</div>
@@ -232,17 +231,17 @@ export default function OutfitDetailPage() {
                     </CardContent>
                 </Card>
 
-                 <Card>
+                 <Card className="rounded-2xl">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-xl font-headline"><Ruler />Gợi ý size & chăm sóc</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                             <div className="rounded-lg border bg-card p-3">
+                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Chiều cao 1m68–1m75</div>
                                 <div className="mt-1 font-medium">Áo thun L · Overshirt M/L · Quần 30–32</div>
                             </div>
-                            <div className="rounded-lg border bg-card p-3">
+                            <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Chăm sóc</div>
                                 <div className="mt-1 font-medium">Giặt nhẹ (30°C), lộn trái, tránh sấy nhiệt cao.</div>
                             </div>
@@ -270,5 +269,3 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
-
-    

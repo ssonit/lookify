@@ -65,7 +65,7 @@ export function OutfitGallery() {
             <h2 className="text-3xl font-headline font-bold text-center">Thư viện Trang phục</h2>
             <p className="text-muted-foreground text-center mt-2 mb-8 max-w-2xl mx-auto">Duyệt qua bộ sưu tập các phong cách được tuyển chọn của chúng tôi. Sử dụng các bộ lọc để tìm ra vẻ ngoài hoàn hảo cho bất kỳ dịp nào.</p>
             
-            <div className="flex flex-col gap-4 mb-8 p-4 bg-card rounded-lg shadow-sm border">
+            <div className="flex flex-col gap-4 mb-8 p-4 bg-card rounded-2xl shadow-sm border">
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                     <Tabs value={gender} onValueChange={(value) => setGender(value as 'male' | 'female')} className="w-full md:w-auto">
                         <TabsList className="grid w-full grid-cols-2">
@@ -96,7 +96,7 @@ export function OutfitGallery() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredOutfits.map(outfit => (
                     <Link key={outfit.id} href={`/outfit/${outfit.id}`} passHref>
-                        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full">
+                        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full rounded-2xl">
                             <CardContent className="p-0">
                                 <div className="relative aspect-[4/5] overflow-hidden">
                                     <Image src={outfit.mainImage} width={400} height={500} alt={outfit.description} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
@@ -115,5 +115,3 @@ export function OutfitGallery() {
         </section>
     )
 }
-
-    

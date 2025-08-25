@@ -1,3 +1,4 @@
+
 import type { OutfitSuggestionOutput } from '@/ai/flows/ai-outfit-suggester';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,12 +12,12 @@ interface OutfitSuggestionCardProps {
 }
 
 const LoadingSkeleton = () => (
-  <Card className="h-full">
+  <Card className="h-full rounded-2xl">
     <CardHeader>
       <Skeleton className="h-7 w-48" />
     </CardHeader>
     <CardContent className="space-y-4">
-      <Skeleton className="h-64 w-full rounded-md" />
+      <Skeleton className="h-64 w-full rounded-xl" />
       <div className="space-y-2">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-12 w-full" />
@@ -44,7 +45,7 @@ export function OutfitSuggestionCard({ suggestion, isLoading }: OutfitSuggestion
 
   if (!suggestion) {
     return (
-      <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed rounded-lg h-full bg-muted/50">
+      <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed rounded-2xl h-full bg-muted/50">
         <Paintbrush className="h-12 w-12 text-muted-foreground mb-4" />
         <p className="text-muted-foreground font-medium">Gợi ý trang phục của bạn sẽ xuất hiện ở đây.</p>
         <p className="text-sm text-muted-foreground">Điền vào biểu mẫu và để AI của chúng tôi tạo kiểu cho bạn!</p>
@@ -55,12 +56,12 @@ export function OutfitSuggestionCard({ suggestion, isLoading }: OutfitSuggestion
   const unsplashUrl = `https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=500&fit=crop`;
 
   return (
-    <Card className="overflow-hidden h-full">
+    <Card className="overflow-hidden h-full rounded-2xl">
         <CardHeader>
           <CardTitle className="font-headline">Gợi ý phong cách của bạn</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl">
               <Image src={suggestion.imageUrl || unsplashUrl} alt={suggestion.outfitDescription} fill className="object-cover" data-ai-hint="fashion style" />
             </div>
             <div>

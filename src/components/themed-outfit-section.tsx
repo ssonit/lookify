@@ -25,7 +25,7 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
                  {outfits.map(outfit => (
                     <Link key={outfit.id} href={`/outfit/${outfit.id}`} passHref>
-                        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full">
+                        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full rounded-2xl">
                             <CardContent className="p-0">
                                 <div className="relative aspect-[4/5] overflow-hidden">
                                     <Image src={outfit.mainImage} width={400} height={500} alt={outfit.description} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
@@ -38,5 +38,3 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
         </section>
     )
 }
-
-    
