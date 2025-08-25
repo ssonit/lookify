@@ -42,8 +42,8 @@ export default function DashboardOutfitsPage() {
             <TableRow key={outfit.id}>
               <TableCell className="font-medium">{outfit.title}</TableCell>
               <TableCell>{outfit.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
-              <TableCell>
-                <Badge variant="outline">{CATEGORY_MAP[outfit.category]}</Badge>
+              <TableCell className="flex">
+                <Badge variant="outline" className="shrink-0">{CATEGORY_MAP[outfit.category]}</Badge>
               </TableCell>
               <TableCell>{SEASON_MAP[outfit.season]}</TableCell>
               <TableCell>

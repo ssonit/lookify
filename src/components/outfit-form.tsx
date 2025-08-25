@@ -53,7 +53,7 @@ const outfitFormSchema = z.object({
   items: z.array(itemSchema).min(1, { message: 'Cần có ít nhất một item trong outfit.' }),
 });
 
-type OutfitFormValues = z.infer<typeof outfitFormSchema>;
+export type OutfitFormValues = z.infer<typeof outfitFormSchema>;
 
 interface OutfitFormProps {
   onSave: (data: OutfitFormValues) => void;
@@ -244,6 +244,12 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
   function onSubmit(data: OutfitFormValues) {
     onSave(data);
   }
+  
+  React.useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form]);
 
   return (
     <Form {...form}>
@@ -412,4 +418,3 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
     </Form>
   );
 }
-
