@@ -1,4 +1,6 @@
 
+'use client';
+
 import { PageTitle } from "@/components/page-title";
 import { OutfitForm } from "@/components/outfit-form";
 
