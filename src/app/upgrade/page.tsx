@@ -47,7 +47,7 @@ export default function UpgradePage() {
                             <CardContent>
                                 <a href={article.link} className="text-sm font-semibold text-primary hover:underline">
                                     Đọc thêm...
-                                a>
+                                </a>
                             </CardContent>
                         </Card>
                     ))}
