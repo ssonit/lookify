@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -85,10 +84,6 @@ export default function OutfitDetailPage() {
                 <p className="mt-1 text-sm text-muted-foreground">{outfit.longDescription}</p>
             </div>
             <div className="flex items-center flex-wrap gap-2 text-sm text-muted-foreground">
-                <Button variant="outline" size="sm">
-                  <Star className="mr-1.5" />
-                  Viết đánh giá
-                </Button>
                 <Badge variant="outline"><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
                 <Badge variant="outline"><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
                 <Badge variant="outline"><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
@@ -138,6 +133,12 @@ export default function OutfitDetailPage() {
                         </ul>
                     </CardContent>
                 </Card>
+                <div className="mt-6 text-center">
+                    <Button variant="outline">
+                      <Star className="mr-1.5" />
+                      Viết đánh giá
+                    </Button>
+                </div>
             </div>
 
             {/* Details */}
