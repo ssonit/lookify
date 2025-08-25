@@ -87,29 +87,31 @@ export function Header() {
           )}
 
           {/* Mobile Navigation */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu />
-                <span className="sr-only">Mở menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <SheetHeader className="sr-only">
-                  <SheetTitle>Menu</SheetTitle>
-                  <SheetDescription>
-                      Điều hướng chính của trang web. Chọn một liên kết để di chuyển đến trang khác.
-                  </SheetDescription>
-              </SheetHeader>
-              <nav className="flex flex-col gap-4 mt-8">
-                {navLinks.map(link => (
-                  <SheetClose key={link.href} asChild>
-                    <Link href={link.href} className="text-lg font-medium hover:text-primary transition-colors">{link.label}</Link>
-                  </SheetClose>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu />
+                  <span className="sr-only">Mở menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <SheetHeader className="sr-only">
+                    <SheetTitle>Menu</SheetTitle>
+                    <SheetDescription>
+                        Điều hướng chính của trang web. Chọn một liên kết để di chuyển đến trang khác.
+                    </SheetDescription>
+                </SheetHeader>
+                <nav className="flex flex-col gap-4 mt-8">
+                  {navLinks.map(link => (
+                    <SheetClose key={link.href} asChild>
+                      <Link href={link.href} className="text-lg font-medium hover:text-primary transition-colors">{link.label}</Link>
+                    </SheetClose>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
