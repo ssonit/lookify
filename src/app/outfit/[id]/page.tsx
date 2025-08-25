@@ -11,17 +11,19 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler } from 'lucide-react';
+import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler, X } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { OutfitReview } from '@/components/outfit-review';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Dialog, DialogContent, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 
 
 export default function OutfitDetailPage() {
   const params = useParams();
   const outfitId = params.id;
   const outfit = outfits.find((o) => o.id === Number(outfitId));
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   if (!outfit) {
     return (
@@ -98,27 +100,32 @@ export default function OutfitDetailPage() {
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Gallery */}
             <div className="lg:col-span-7">
+              <Dialog>
                 <Card className="overflow-hidden">
                     <CardContent className="p-0">
-                        <div className="relative aspect-[4/3] sm:aspect-[16/10]">
-                            <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.description}`} fill className="object-cover"/>
-                            <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
-                                <Camera /> Góc chính
-                            </div>
-                        </div>
+                        <DialogTrigger asChild>
+                          <button className="relative aspect-[4/3] sm:aspect-[16/10] w-full" onClick={() => setSelectedImage(outfit.mainImage)}>
+                              <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.description}`} fill className="object-cover"/>
+                              <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
+                                  <Camera /> Góc chính
+                              </div>
+                          </button>
+                        </DialogTrigger>
                         {outfit.galleryImages.length > 0 && (
                             <Carousel opts={{ align: "start", loop: true }} className="w-full p-1.5">
                                 <CarouselContent className="-ml-1.5">
                                     {outfit.galleryImages.map((image, index) => (
                                         <CarouselItem key={index} className="basis-1/3 sm:basis-1/6 pl-1.5">
-                                            <div className="relative">
-                                                <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-md border" />
-                                                {imageLabels[index] && (
-                                                    <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
-                                                        {imageLabels[index]}
-                                                    </div>
-                                                )}
-                                            </div>
+                                            <DialogTrigger asChild>
+                                              <button className="relative w-full" onClick={() => setSelectedImage(image)}>
+                                                  <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-md border" />
+                                                  {imageLabels[index] && (
+                                                      <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
+                                                          {imageLabels[index]}
+                                                      </div>
+                                                  )}
+                                              </button>
+                                            </DialogTrigger>
                                         </CarouselItem>
                                     ))}
                                 </CarouselContent>
@@ -128,6 +135,15 @@ export default function OutfitDetailPage() {
                         )}
                     </CardContent>
                 </Card>
+                {selectedImage && (
+                  <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
+                      <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-lg" />
+                      <DialogClose className="absolute -top-2 -right-2 sm:-right-8 bg-background/50 text-white rounded-full p-1.5">
+                        <X className="h-5 w-5" />
+                        <span className="sr-only">Đóng</span>
+                      </DialogClose>
+                  </DialogContent>
+                )}
 
                  {/* Styling notes */}
                 <Card className="mt-6">
@@ -147,6 +163,7 @@ export default function OutfitDetailPage() {
                         </ul>
                     </CardContent>
                 </Card>
+              </Dialog>
             </div>
 
             {/* Details */}
@@ -254,3 +271,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
