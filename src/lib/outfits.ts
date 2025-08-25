@@ -12,6 +12,7 @@ export type Outfit = {
   description: string;
   longDescription: string;
   aiHint: string;
+  specialOccasion?: 'tet';
   items: {
     name: string;
     type: string;
@@ -119,6 +120,7 @@ export const outfits: Outfit[] = [
     style: 'basic',
     season: 'summer',
     color: 'vibrant',
+    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-3-main/400/500',
     description: 'Outfit nam đơn giản nhưng nổi bật cho buổi hẹn hò.',
     longDescription:
@@ -152,6 +154,7 @@ export const outfits: Outfit[] = [
     style: 'elegant',
     season: 'spring',
     color: 'pastel',
+    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-4-main/400/500',
     description: 'Váy pastel nữ tính cho buổi hẹn mùa xuân.',
     longDescription:
@@ -394,6 +397,7 @@ export const outfits: Outfit[] = [
     style: 'streetwear',
     season: 'spring',
     color: 'vibrant',
+    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-11-main/400/500',
     imageSourceText: 'Placeholder',
     imageSourceUrl: 'https://picsum.photos',
@@ -647,6 +651,7 @@ export const outfits: Outfit[] = [
     style: 'streetwear',
     season: 'spring',
     color: 'vibrant',
+    specialOccasion: 'tet',
     mainImage: 'https://picsum.photos/seed/outfit-18-main/400/500',
     description: 'Set streetwear nữ nổi bật với crop top và chân váy ngắn.',
     longDescription:

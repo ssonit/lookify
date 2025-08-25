@@ -21,6 +21,7 @@ const FILTERS = {
         { value: 'office', label: 'Công sở' },
         { value: 'elegant', label: 'Thanh lịch' },
         { value: 'streetwear', label: 'Dạo phố' },
+        { value: 'tet', label: 'Tết' },
     ],
     season: [
         { value: 'spring', label: 'Xuân' },
@@ -78,7 +79,8 @@ export function OutfitGallery() {
                 (theme === 'beach' && o.context === 'casual' && o.season === 'summer') ||
                 (theme === 'office' && o.context === 'work/office') ||
                 (theme === 'elegant' && o.style === 'elegant') ||
-                (theme === 'streetwear' && o.style === 'streetwear')
+                (theme === 'streetwear' && o.style === 'streetwear') ||
+                (theme === 'tet' && o.specialOccasion === 'tet')
             );
 
             return (
