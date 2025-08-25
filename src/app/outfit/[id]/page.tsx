@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -83,7 +84,11 @@ export default function OutfitDetailPage() {
                 <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
                 <p className="mt-1 text-sm text-muted-foreground">{outfit.longDescription}</p>
             </div>
-            <div className="flex items-center flex-wrap gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center flex-wrap gap-2 text-sm text-muted-foreground">
+                <Button variant="outline" size="sm">
+                  <Star className="mr-1.5" />
+                  Viết đánh giá
+                </Button>
                 <Badge variant="outline"><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
                 <Badge variant="outline"><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
                 <Badge variant="outline"><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
@@ -219,6 +224,15 @@ export default function OutfitDetailPage() {
                         </div>
                     </CardContent>
                 </Card>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                    <Button size="lg" className="flex-1">
+                        <ShoppingBag className="mr-2" /> Mua nhanh trên Shopee
+                    </Button>
+                    <Button size="lg" variant="secondary" className="flex-1">
+                        <ShoppingBag className="mr-2" /> Mua nhanh trên Lazada
+                    </Button>
+                </div>
             </div>
         </section>
       </main>
