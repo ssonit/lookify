@@ -72,6 +72,8 @@ export default function OutfitDetailPage() {
 
   const mainImage = outfit.images[0];
   const galleryImages = outfit.images.slice(1);
+  const imageLabels = ['Layer', 'Fabric', 'Fit', 'Footwear', 'Accessory', 'Bag'];
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-body">
@@ -105,10 +107,15 @@ export default function OutfitDetailPage() {
                             </div>
                         </div>
                         {galleryImages.length > 0 && (
-                            <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 p-1.5">
+                             <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 p-1.5">
                                 {galleryImages.map((image, index) => (
                                     <div key={index} className="relative">
                                         <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-md border" />
+                                         {imageLabels[index] && (
+                                            <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
+                                                {imageLabels[index]}
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
