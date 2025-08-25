@@ -83,17 +83,19 @@ export default function OutfitDetailPage() {
        <main className="w-full container mx-auto px-4 py-8">
          {/* Title & Meta */}
         <section className="mb-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-                <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
-                <p className="mt-1 text-sm text-muted-foreground">{outfit.longDescription}</p>
-            </div>
-            <div className="flex items-center shrink-0 gap-2 text-sm text-muted-foreground">
-                <Button variant="outline" size="sm"><Share2 className="mr-1.5" /> Chia sẻ</Button>
-                <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
-                <Badge variant="outline" className='shrink-0'><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
-                <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
-            </div>
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                        <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.description}</h1>
+                        <p className="mt-1 text-sm text-muted-foreground">{outfit.longDescription}</p>
+                    </div>
+                    <Button variant="outline" size="sm" className="shrink-0"><Share2 className="mr-1.5" /> Chia sẻ</Button>
+                </div>
+                <div className="flex items-center flex-wrap gap-2 text-sm text-muted-foreground">
+                    <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{styleMap[outfit.style]}</Badge>
+                    <Badge variant="outline" className='shrink-0'><CalendarRange className="mr-1.5" />{contextMap[outfit.context]}</Badge>
+                    <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{seasonMap[outfit.season]}</Badge>
+                </div>
             </div>
         </section>
 
@@ -140,6 +142,7 @@ export default function OutfitDetailPage() {
                   <DialogContent className="max-w-3xl p-0 border-0 bg-transparent">
                       <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
                       <Image src={selectedImage} alt="Xem ảnh lớn" width={1200} height={900} className="w-full h-auto object-contain rounded-2xl" />
+                      <DialogClose />
                   </DialogContent>
                 )}
 
@@ -269,3 +272,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
