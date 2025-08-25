@@ -58,6 +58,7 @@ export type OutfitFormValues = z.infer<typeof outfitFormSchema>;
 interface OutfitFormProps {
   onSave: (data: OutfitFormValues) => void;
   initialData?: Partial<OutfitFormValues>;
+  isLoading?: boolean;
 }
 
 function ImageUploadField({ form, name, description }: { form: any; name: string; description: string }) {
@@ -68,10 +69,9 @@ function ImageUploadField({ form, name, description }: { form: any; name: string
     if (fileRef instanceof File) {
       const objectUrl = URL.createObjectURL(fileRef);
       setPreview(objectUrl);
-
       return () => URL.revokeObjectURL(objectUrl);
-    } else if (typeof fileRef === 'string') { // Handle initial data (if it's a URL)
-        setPreview(fileRef);
+    } else if (typeof fileRef === 'string') {
+      setPreview(fileRef);
     }
   }, [fileRef]);
 
@@ -221,7 +221,7 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
 }
 
 
-export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
+export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFormProps) {
   const form = useForm<OutfitFormValues>({
     resolver: zodResolver(outfitFormSchema),
     defaultValues: initialData || {
@@ -254,166 +254,168 @@ export function OutfitForm({ onSave, initialData }: OutfitFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Thông tin cơ bản</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tiêu đề</FormLabel>
-                  <FormControl>
-                    <Input placeholder="ví dụ: Bộ suit nam thanh lịch..." {...field} />
-                  </FormControl>
-                  <FormDescription>Đây là tiêu đề chính của outfit.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mô tả chi tiết</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Mô tả chi tiết về outfit, các item, và gợi ý phối đồ..."
-                      className="resize-y"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-                control={form.control}
-                name="mainImage"
-                render={() => (
-                   <ImageUploadField form={form} name="mainImage" description="Ảnh chính" />
-                )}
-            />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Phân loại</CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Giới tính</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Chọn giới tính" /></SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {GENDER_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Danh mục</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Chọn danh mục" /></SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {CATEGORY_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="season"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mùa</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {SEASON_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="color"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Màu chủ đạo</FormLabel>
-                   <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger><SelectValue placeholder="Chọn màu chủ đạo" /></SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {COLOR_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
-        
-        <Card>
+        <fieldset disabled={isLoading} className="space-y-8">
+          <Card>
             <CardHeader>
-                <CardTitle>Các item trong outfit</CardTitle>
-                <FormDescription>Thêm các sản phẩm cụ thể tạo nên bộ trang phục này.</FormDescription>
+              <CardTitle>Thông tin cơ bản</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                {fields.map((field, index) => (
-                    <ItemFields key={field.id} control={form.control} itemIndex={index} remove={remove} form={form} />
-                ))}
-                 <Button
-                    type="button"
-                    variant="outline"
-                    size="lg"
-                    className="w-full"
-                    onClick={() => append({ name: '', type: '', imageUrl: null, shoppingLinks: [] })}
-                    >
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Thêm Item mới
-                </Button>
-                <FormField
-                    control={form.control}
-                    name="items"
-                    render={() => (
-                        <FormItem>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tiêu đề</FormLabel>
+                    <FormControl>
+                      <Input placeholder="ví dụ: Bộ suit nam thanh lịch..." {...field} />
+                    </FormControl>
+                    <FormDescription>Đây là tiêu đề chính của outfit.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mô tả chi tiết</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Mô tả chi tiết về outfit, các item, và gợi ý phối đồ..."
+                        className="resize-y"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                  control={form.control}
+                  name="mainImage"
+                  render={() => (
+                     <ImageUploadField form={form} name="mainImage" description="Ảnh chính" />
+                  )}
+              />
             </CardContent>
-        </Card>
+          </Card>
 
-        <div className="flex justify-end">
-          <Button type="submit">Lưu lại</Button>
-        </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Phân loại</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Giới tính</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Chọn giới tính" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {GENDER_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Danh mục</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Chọn danh mục" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {CATEGORY_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="season"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mùa</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {SEASON_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="color"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Màu chủ đạo</FormLabel>
+                     <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Chọn màu chủ đạo" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {COLOR_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+          
+          <Card>
+              <CardHeader>
+                  <CardTitle>Các item trong outfit</CardTitle>
+                  <FormDescription>Thêm các sản phẩm cụ thể tạo nên bộ trang phục này.</FormDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                  {fields.map((field, index) => (
+                      <ItemFields key={field.id} control={form.control} itemIndex={index} remove={remove} form={form} />
+                  ))}
+                   <Button
+                      type="button"
+                      variant="outline"
+                      size="lg"
+                      className="w-full"
+                      onClick={() => append({ name: '', type: '', imageUrl: null, shoppingLinks: [] })}
+                      >
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      Thêm Item mới
+                  </Button>
+                  <FormField
+                      control={form.control}
+                      name="items"
+                      render={() => (
+                          <FormItem>
+                              <FormMessage />
+                          </FormItem>
+                      )}
+                  />
+              </CardContent>
+          </Card>
+
+          <div className="flex justify-end">
+            <Button type="submit">Lưu lại</Button>
+          </div>
+        </fieldset>
       </form>
     </Form>
   );
