@@ -169,7 +169,7 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
       
 
       <div className="mt-4 space-y-3">
-        <FormLabel>Link mua sắm</FormLabel>
+        <FormLabel className="mr-2">Link mua sắm</FormLabel>
         {fields.map((field, linkIndex) => (
           <div key={field.id} className="flex items-end gap-2">
             <FormField
@@ -203,7 +203,7 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
           size="sm"
           onClick={() => append({ store: '', url: '' })}
         >
-          <PlusCircle className="mr-2 h-4 w-4" />
+          <PlusCircle className="mr-1 h-4 w-4" />
           Thêm link
         </Button>
       </div>
