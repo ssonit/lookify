@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Youtube } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 
 export default function UpgradePage() {
@@ -14,19 +14,19 @@ export default function UpgradePage() {
             title: "Cách chọn trang phục theo dáng người",
             description: "Phân loại cơ bản (V, A, H) và công thức chọn áo/quần tôn dáng.",
             imageUrl: "https://images.unsplash.com/photo-1551028487-5c7a40c6ab63?w=800&q=80",
-            tags: ["Bài viết", "Video 12:30"],
+            tags: ["Video", "12:30"],
             level: "Starter",
-            cta: "Xem",
-            link: "#"
+            cta: "Xem trên Youtube",
+            link: "https://www.youtube.com/"
         },
         {
             title: "Phối màu cơ bản & nâng cao",
             description: "Bánh xe màu, 60-30-10, tương phản/đồng sắc, tông da.",
             imageUrl: "https://images.unsplash.com/photo-1593693397640-03208c02d740?w=800&q=80",
-            tags: ["Mini-course • 6 bài", "Bài viết"],
+            tags: ["Hướng dẫn video", "Bài viết"],
             level: "~45 phút",
-            cta: "Bắt đầu",
-            link: "#"
+            cta: "Xem trên Youtube",
+            link: "https://www.youtube.com/"
         },
         {
             title: "Chăm sóc da & tóc",
@@ -34,17 +34,17 @@ export default function UpgradePage() {
             imageUrl: "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?w=800&q=80",
             tags: ["Bài viết", "Routine 7 bước"],
             level: "Everyday",
-            cta: "Xem",
+            cta: "Xem ngay",
             link: "#"
         },
         {
-            title: "Phát triển kỹ năng giao tiếp & tự tin",
+            title: "Kỹ năng giao tiếp & tự tin",
             description: "Ngôn ngữ cơ thể, giọng nói, mô hình trả lời & luyện tập.",
             imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
-            tags: ["Video course • 8 bài"],
+            tags: ["Hướng dẫn video"],
             level: "Beginner-Intermediate",
-            cta: "Học ngay",
-            link: "#"
+            cta: "Xem trên Youtube",
+            link: "https://www.youtube.com/"
         }
     ];
 
@@ -54,12 +54,12 @@ export default function UpgradePage() {
             <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-16">
                 <PageHeader 
                     title="Nâng cấp bản thân"
-                    description="Có thể làm dạng blog hoặc video"
+                    description="Khám phá các video và bài viết hướng dẫn để hoàn thiện phong cách và kỹ năng mỗi ngày."
                 />
                 
                 <div className="text-center mb-10">
                     <Button variant="outline" className="mt-4">
-                        <PlusCircle className="mr-2" /> Mới
+                        <PlusCircle className="mr-2" /> Đề xuất chủ đề mới
                     </Button>
                 </div>
 
@@ -71,7 +71,7 @@ export default function UpgradePage() {
                                     <Image src={article.imageUrl} alt={article.title} width={400} height={250} className="object-cover w-full h-48" data-ai-hint="abstract texture" />
                                     <div className="absolute top-3 left-3 flex flex-wrap gap-2">
                                         {article.tags.map(tag => (
-                                            <Badge key={tag} variant="secondary" className="text-xs">
+                                            <Badge key={tag} variant="secondary" className="text-xs backdrop-blur-sm bg-background/70">
                                                 {tag}
                                             </Badge>
                                         ))}
@@ -83,6 +83,7 @@ export default function UpgradePage() {
                                     <div className="flex justify-between items-center mt-auto pt-2 border-t">
                                         <p className="text-xs text-muted-foreground">{article.level}</p>
                                         <Button variant="secondary" size="sm" className="rounded-lg">
+                                            {article.link.includes('youtube') && <Youtube className="mr-1.5" />}
                                             {article.cta}
                                         </Button>
                                     </div>
