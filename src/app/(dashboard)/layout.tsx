@@ -1,7 +1,7 @@
 
 import { DashboardNav } from "@/components/dashboard-nav";
 import { Header } from "@/components/header";
-import { DASHBOARD_NAV_ITEMS } from "@/lib/constants";
+import { DASHBOARD_NAV_ITEMS } from "@/lib/constants.tsx";
 
 
 export default function DashboardLayout({

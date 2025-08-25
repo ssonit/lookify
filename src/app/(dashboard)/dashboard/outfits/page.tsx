@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { outfits } from "@/lib/outfits";
-import { CONTEXT_MAP, SEASON_MAP, STYLE_MAP } from "@/lib/constants";
+import { CONTEXT_MAP, SEASON_MAP, STYLE_MAP } from "@/lib/constants.tsx";
 
 
 export default function DashboardOutfitsPage() {
@@ -64,5 +64,3 @@ export default function DashboardOutfitsPage() {
     </div>
   );
 }
-
-    

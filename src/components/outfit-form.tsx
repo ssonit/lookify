@@ -4,7 +4,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
-import React, 'react';
+import React from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -28,7 +28,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from './ui/textarea';
 import { PlusCircle, Trash2, UploadCloud, X } from 'lucide-react';
-import { COLOR_OPTIONS, CONTEXT_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, STYLE_OPTIONS } from '@/lib/constants';
+import { COLOR_OPTIONS, CONTEXT_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, STYLE_OPTIONS } from '@/lib/constants.tsx';
 
 const shoppingLinkSchema = z.object({
   store: z.string().min(1, { message: 'Tên cửa hàng không được để trống.' }),

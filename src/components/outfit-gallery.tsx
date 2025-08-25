@@ -12,7 +12,7 @@ import { Search, X, WandSparkles, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
-import { GALLERY_FILTERS } from '@/lib/constants';
+import { GALLERY_FILTERS } from '@/lib/constants.tsx';
 
 
 const FilterButton = ({
@@ -173,7 +173,3 @@ export function OutfitGallery() {
         </section>
     )
 }
-
-    
-
-    
