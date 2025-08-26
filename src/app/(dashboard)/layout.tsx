@@ -1,7 +1,8 @@
 
+
 import { DashboardNav } from "@/components/dashboard-nav";
 import { Header } from "@/components/header";
-import { LayoutDashboard, Settings, ShoppingBag, Users } from "lucide-react";
+import { BookText, LayoutDashboard, Settings, ShoppingBag, Users } from "lucide-react";
 
 const DASHBOARD_NAV_ITEMS = [
     {
@@ -18,6 +19,11 @@ const DASHBOARD_NAV_ITEMS = [
         label: 'Người dùng',
         href: '/dashboard/users',
         icon: <Users />,
+    },
+     {
+        label: 'Bài viết',
+        href: '/dashboard/articles',
+        icon: <BookText />,
     },
     {
         label: 'Cài đặt',
