@@ -352,6 +352,42 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="season"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mùa</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {SEASON_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="color"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Màu chủ đạo</FormLabel>
+                     <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Chọn màu chủ đạo" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {COLOR_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
                <FormField
                 control={form.control}
                 name="categories"
@@ -389,42 +425,6 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                             );
                         })}
                     </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="season"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Mùa</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {SEASON_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="color"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Màu chủ đạo</FormLabel>
-                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger><SelectValue placeholder="Chọn màu chủ đạo" /></SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {COLOR_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
