@@ -31,12 +31,6 @@ export default function SettingsPage() {
     bannerUrl: settings.bannerUrl,
     seoTitle: settings.seoTitle,
     seoDescription: settings.seoDescription,
-    theme: {
-        background: '0 0% 100%',
-        foreground: '222.2 84% 4.9%',
-        primary: '222.2 47.4% 11.2%',
-        accent: '210 40% 96.1%',
-    }
   };
 
   return (

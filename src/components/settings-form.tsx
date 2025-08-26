@@ -26,12 +26,6 @@ const settingsFormSchema = z.object({
   bannerUrl: z.string().url('URL banner không hợp lệ.').optional(),
   seoTitle: z.string().min(1, 'Meta title không được để trống.'),
   seoDescription: z.string().optional(),
-  theme: z.object({
-      background: z.string(),
-      foreground: z.string(),
-      primary: z.string(),
-      accent: z.string(),
-  })
 });
 
 export type SettingsFormValues = z.infer<typeof settingsFormSchema>;
@@ -151,50 +145,6 @@ export function SettingsForm({ onSave, initialData, section }: SettingsFormProps
                             </FormControl>
                             <FormDescription>Đoạn mô tả ngắn gọn về trang web của bạn trên kết quả tìm kiếm.</FormDescription>
                             <FormMessage />
-                        </FormItem>
-                        )}
-                    />
-                </CardContent>
-            </Card>
-             <Card>
-                <CardHeader>
-                <CardTitle>Theme</CardTitle>
-                <CardDescription>Các giá trị màu HSL CSS được sử dụng trong `globals.css`. (Hiện tại ở chế độ chỉ đọc).</CardDescription>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                        control={form.control}
-                        name="theme.background"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Background Color</FormLabel>
-                            <FormControl>
-                                <Input {...field} readOnly />
-                            </FormControl>
-                        </FormItem>
-                        )}
-                    />
-                     <FormField
-                        control={form.control}
-                        name="theme.primary"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Primary Color</FormLabel>
-                            <FormControl>
-                                <Input {...field} readOnly />
-                            </FormControl>
-                        </FormItem>
-                        )}
-                    />
-                     <FormField
-                        control={form.control}
-                        name="theme.accent"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Accent Color</FormLabel>
-                            <FormControl>
-                                <Input {...field} readOnly />
-                            </FormControl>
                         </FormItem>
                         )}
                     />
