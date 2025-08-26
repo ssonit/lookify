@@ -77,10 +77,10 @@ export default function DashboardOutfitsPage() {
           <TableHeader>
             <TableRow>
               <TableHead>Tiêu đề</TableHead>
-              <TableHead className="w-[100px]">Giới tính</TableHead>
-              <TableHead className="w-[150px]">Danh mục</TableHead>
-              <TableHead className="w-[100px]">Mùa</TableHead>
-              <TableHead className="w-[120px]">Hành động</TableHead>
+              <TableHead className="w-[15%]">Giới tính</TableHead>
+              <TableHead className="w-[20%]">Danh mục</TableHead>
+              <TableHead className="w-[15%]">Mùa</TableHead>
+              <TableHead className="w-[15%]">Hành động</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

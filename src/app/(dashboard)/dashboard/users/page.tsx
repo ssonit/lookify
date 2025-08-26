@@ -41,12 +41,12 @@ export default function DashboardUsersPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[200px]">Tên</TableHead>
+              <TableHead className="w-[20%]">Tên</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead className="w-[100px]">Vai trò</TableHead>
-              <TableHead className="w-[150px]">Ngày tạo</TableHead>
-              <TableHead className="w-[120px]">Trạng thái</TableHead>
-              <TableHead className="w-[120px]">Hành động</TableHead>
+              <TableHead className="w-[10%]">Vai trò</TableHead>
+              <TableHead className="w-[15%]">Ngày tạo</TableHead>
+              <TableHead className="w-[15%]">Trạng thái</TableHead>
+              <TableHead className="w-[10%]">Hành động</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
