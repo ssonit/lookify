@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { SettingsProvider } from '@/contexts/settings-context';
+import { ScrollToTopButton } from '@/components/scroll-to-top-button';
 
 
 const inter = Inter({
@@ -30,6 +31,7 @@ export default function RootLayout({
           {children}
         </SettingsProvider>
         <Toaster />
+        <ScrollToTopButton />
       </body>
     </html>
   );
