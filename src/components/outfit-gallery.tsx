@@ -152,4 +152,3 @@ export function OutfitGallery() {
         </section>
     )
 }
-

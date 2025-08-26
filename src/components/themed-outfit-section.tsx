@@ -53,5 +53,3 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
         </section>
     )
 }
-
-    
