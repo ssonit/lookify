@@ -39,52 +39,70 @@ export function OutfitGallery() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const [gender, setGender] = useState<'male' | 'female'>('female');
-    const [activeCategory, setActiveCategory] = useState<string | null>(searchParams.get('category'));
-    const [season, setSeason] = useState<string | null>(searchParams.get('season'));
-    
+    // States are now derived from URL search params
+    const activeGender = (searchParams.get('gender') as 'male' | 'female') || 'female';
+    const activeCategory = searchParams.get('category');
+    const activeSeason = searchParams.get('season');
     const urlSearchTerm = searchParams.get('search') || '';
+    
     const [localSearchTerm, setLocalSearchTerm] = useState(urlSearchTerm);
     
+    // Sync local search input with URL search term
     useEffect(() => {
-        setActiveCategory(searchParams.get('category'));
-        setSeason(searchParams.get('season'));
         setLocalSearchTerm(searchParams.get('search') || '');
     }, [searchParams]);
-
-    const handleSearch = () => {
+    
+    const updateSearchParams = (key: string, value: string | null) => {
         const newSearchParams = new URLSearchParams(searchParams);
-        if (localSearchTerm) {
-          newSearchParams.set('search', localSearchTerm);
+        if (value) {
+            newSearchParams.set(key, value);
         } else {
-          newSearchParams.delete('search');
+            newSearchParams.delete(key);
         }
         router.push(`${pathname}?${newSearchParams.toString()}`);
+    }
+
+    const handleSearch = () => {
+        updateSearchParams('search', localSearchTerm || null);
+    };
+    
+    const handleToggleCategory = (category: string) => {
+        const newCategory = activeCategory === category ? null : category;
+        updateSearchParams('category', newCategory);
+    };
+
+    const handleToggleSeason = (season: string) => {
+        const newSeason = activeSeason === season ? null : season;
+        updateSearchParams('season', newSeason);
+    };
+
+    const handleGenderChange = (gender: 'male' | 'female') => {
+        updateSearchParams('gender', gender);
     };
 
     const resetFilters = () => {
-        setActiveCategory(null);
-        setSeason(null);
-        setLocalSearchTerm('');
         router.push(pathname);
     };
 
-    const activeFilterCount = [activeCategory, season, urlSearchTerm].filter(Boolean).length;
+    const activeFilterCount = [activeCategory, activeSeason, urlSearchTerm, searchParams.get('gender') ? 1 : 0].filter(Boolean).length;
+    // Adjust filter count logic to not count default gender
+    const displayFilterCount = [activeCategory, activeSeason, urlSearchTerm, searchParams.get('gender') && searchParams.get('gender') !== 'female' ? 1: 0].filter(Boolean).length;
+
 
     const filteredOutfits = useMemo(() => {
         const lowercasedSearchTerm = urlSearchTerm.toLowerCase();
         return outfits.filter(o => {
             return (
-                (o.gender === gender) &&
+                (o.gender === activeGender) &&
                 (!activeCategory || o.categories.includes(activeCategory as any)) &&
-                (!season || o.season === season) &&
+                (!activeSeason || o.season === activeSeason) &&
                 (urlSearchTerm === '' ||
                  o.title.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.description.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
             )
         });
-    }, [gender, activeCategory, season, urlSearchTerm]);
+    }, [activeGender, activeCategory, activeSeason, urlSearchTerm]);
 
     const allCategories = [...GALLERY_FILTERS.category];
 
@@ -114,9 +132,9 @@ export function OutfitGallery() {
                         />
                     </div>
                     <Button onClick={handleSearch}>Tìm kiếm</Button>
-                    <Button variant="outline" onClick={resetFilters} disabled={activeFilterCount === 0}>
+                    <Button variant="outline" onClick={resetFilters} disabled={displayFilterCount === 0}>
                         <X className="mr-1.5" />
-                        Xóa lọc ({activeFilterCount})
+                        Xóa lọc ({displayFilterCount})
                     </Button>
                 </div>
                 
@@ -126,14 +144,14 @@ export function OutfitGallery() {
                    {allCategories.map(item => (
                        <FilterButton 
                         key={item.value + item.label} 
-                        onClick={() => setActiveCategory(prev => prev === item.value ? null : item.value)}
+                        onClick={() => handleToggleCategory(item.value)}
                         isSelected={activeCategory === item.value}>
                          {item.label}
                        </FilterButton>
                    ))}
                    <Separator orientation="vertical" className="h-auto mx-2" />
                    {GALLERY_FILTERS.season.map(item => (
-                       <FilterButton key={item.value} onClick={() => setSeason(prev => prev === item.value ? null : item.value)} isSelected={season === item.value}>
+                       <FilterButton key={item.value} onClick={() => handleToggleSeason(item.value)} isSelected={activeSeason === item.value}>
                          {item.label}
                        </FilterButton>
                    ))}
@@ -142,7 +160,7 @@ export function OutfitGallery() {
                 <Separator />
 
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <Tabs value={gender} onValueChange={(value) => setGender(value as 'male' | 'female')} className="w-full sm:w-auto">
+                    <Tabs value={activeGender} onValueChange={(value) => handleGenderChange(value as 'male' | 'female')} className="w-full sm:w-auto">
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="female">Nữ</TabsTrigger>
                             <TabsTrigger value="male">Nam</TabsTrigger>
