@@ -17,7 +17,7 @@ export default function Home() {
   const dateOutfits = outfits.filter(o => o.categories.includes('party/date')).slice(0,4);
   const beachOutfits = outfits.filter(o => o.categories.includes('beach')).slice(0,4);
   const tetOutfits = outfits.filter(o => o.categories.includes('tet')).slice(0, 4);
-  const gameAnimeOutfits = outfits.filter(o => o.categories.includes('game-anime')).slice(0, 4);
+  const gameAnimeOutfits = outfits.filter(o => o.categories.includes('game/anime')).slice(0, 4);
 
 
   return (
@@ -36,7 +36,7 @@ export default function Home() {
            <Separator />
            <ThemedOutfitSection title="Phối đồ Tết" outfits={tetOutfits} viewAllLink="/gallery?category=tet" />
            <Separator />
-           <ThemedOutfitSection title="Phối đồ Game/Anime" outfits={gameAnimeOutfits} viewAllLink="/gallery?category=game-anime" />
+           <ThemedOutfitSection title="Phối đồ Game/Anime" outfits={gameAnimeOutfits} viewAllLink="/gallery?category=game/anime" />
            <Separator />
            <ThemedOutfitSection title="Phối đồ công sở" outfits={officeOutfits} viewAllLink="/gallery?category=work/office" />
            <Separator />
@@ -53,6 +53,7 @@ export default function Home() {
     
 
     
+
 
 
 

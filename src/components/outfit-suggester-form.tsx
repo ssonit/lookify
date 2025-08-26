@@ -29,7 +29,7 @@ import { CATEGORY_OPTIONS } from '@/lib/constants';
 
 export const OutfitSuggestionFormSchema = z.object({
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'basic', 'streetwear', 'elegant', 'sporty'], { required_error: 'Vui lòng chọn danh mục.' }),
+  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'basic', 'streetwear', 'elegant', 'sporty', 'tet', 'game/anime', 'beach'], { required_error: 'Vui lòng chọn danh mục.' }),
   colorPreference: z.string().min(2, { message: 'Vui lòng nhập sở thích màu sắc.' }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
   userImage: z.any().optional(),
