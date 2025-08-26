@@ -78,8 +78,8 @@ export default function DashboardArticlesPage() {
             <TableRow>
               <TableHead className="w-[80px]">Ảnh</TableHead>
               <TableHead>Tiêu đề</TableHead>
-              <TableHead>Nền tảng</TableHead>
-              <TableHead>Hành động</TableHead>
+              <TableHead className="w-[120px]">Nền tảng</TableHead>
+              <TableHead className="w-[120px]">Hành động</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
