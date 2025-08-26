@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut, Heart, Menu } from 'lucide-react';
+import { User, Settings, LogOut, Heart, Menu, LayoutDashboard } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from './ui/sheet';
 import { Separator } from './ui/separator';
 
@@ -46,6 +46,13 @@ export function Header() {
         </Link>
       </DropdownMenuItem>
       <DropdownMenuSeparator />
+       <DropdownMenuItem asChild>
+        <Link href="/dashboard">
+          <LayoutDashboard className="mr-2 h-4 w-4" />
+          <span>Dashboard</span>
+        </Link>
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
       <DropdownMenuItem>
         <LogOut className="mr-2 h-4 w-4" />
         <span>Đăng xuất</span>
@@ -71,6 +78,13 @@ export function Header() {
           <Link href="/profile#settings" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
             <Settings className="mr-2 h-4 w-4" />
             <span>Cài đặt</span>
+          </Link>
+        </SheetClose>
+        <Separator className="my-1" />
+         <SheetClose asChild>
+          <Link href="/dashboard" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            <span>Dashboard</span>
           </Link>
         </SheetClose>
         <Separator className="my-1" />
