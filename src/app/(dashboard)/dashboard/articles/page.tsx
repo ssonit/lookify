@@ -29,19 +29,19 @@ import {
 import Image from "next/image";
 import { TiktokIcon } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-
-const ITEMS_PER_PAGE = 5;
 
 export default function DashboardArticlesPage() {
   const [articles, setArticles] = React.useState<Article[]>(initialArticles);
   const [articleToDelete, setArticleToDelete] = React.useState<Article | null>(null);
+  const [itemsPerPage, setItemsPerPage] = React.useState(5);
   const [currentPage, setCurrentPage] = React.useState(1);
   
-  const totalPages = Math.ceil(articles.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(articles.length / itemsPerPage);
   const paginatedArticles = articles.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const handleDelete = () => {
@@ -50,12 +50,17 @@ export default function DashboardArticlesPage() {
       setArticles(newArticles);
       setArticleToDelete(null);
 
-      // Reset to page 1 if the last item on the last page is deleted
-      if (paginatedArticles.length === 1 && currentPage > 1 && currentPage === totalPages) {
-         setCurrentPage(currentPage - 1);
+      const newTotalPages = Math.ceil(newArticles.length / itemsPerPage);
+      if (currentPage > newTotalPages) {
+         setCurrentPage(newTotalPages || 1);
       }
     }
   };
+
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number(value));
+    setCurrentPage(1);
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -122,11 +127,27 @@ export default function DashboardArticlesPage() {
           </TableBody>
         </Table>
       </div>
-       <Pagination 
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+       <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+             <span>Hiển thị</span>
+              <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                  <SelectTrigger className="w-[70px]">
+                      <SelectValue placeholder={itemsPerPage} />
+                  </SelectTrigger>
+                  <SelectContent>
+                      <SelectItem value="5">5</SelectItem>
+                      <SelectItem value="10">10</SelectItem>
+                      <SelectItem value="20">20</SelectItem>
+                  </SelectContent>
+              </Select>
+              <span>mỗi trang</span>
+          </div>
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+       </div>
     </div>
   );
 }

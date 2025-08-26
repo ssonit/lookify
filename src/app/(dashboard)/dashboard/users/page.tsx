@@ -16,18 +16,24 @@ import { Button } from "@/components/ui/button";
 import { Edit, Trash } from "lucide-react";
 import { Pagination } from "@/components/pagination";
 import React from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const ITEMS_PER_PAGE = 5;
 
 export default function DashboardUsersPage() {
-  const [currentPage, setCurrentPage] = React.useState(1);
   const users = initialUsers; // In a real app, this would come from state or an API
+  const [itemsPerPage, setItemsPerPage] = React.useState(5);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-  const totalPages = Math.ceil(users.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(users.length / itemsPerPage);
   const paginatedUsers = users.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
+
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number(value));
+    setCurrentPage(1);
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -74,11 +80,27 @@ export default function DashboardUsersPage() {
           </TableBody>
         </Table>
       </div>
-      <Pagination 
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+             <span>Hiển thị</span>
+              <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                  <SelectTrigger className="w-[70px]">
+                      <SelectValue placeholder={itemsPerPage} />
+                  </SelectTrigger>
+                  <SelectContent>
+                      <SelectItem value="5">5</SelectItem>
+                      <SelectItem value="10">10</SelectItem>
+                      <SelectItem value="20">20</SelectItem>
+                  </SelectContent>
+              </Select>
+              <span>mỗi trang</span>
+          </div>
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+       </div>
     </div>
   );
 }
