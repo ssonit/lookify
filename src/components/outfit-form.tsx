@@ -29,6 +29,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from './ui/textarea';
 import { PlusCircle, Trash2, UploadCloud, X } from 'lucide-react';
 import { COLOR_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, CATEGORY_OPTIONS } from '@/lib/constants';
+import { Checkbox } from './ui/checkbox';
 
 const shoppingLinkSchema = z.object({
   store: z.string().min(1, { message: 'Tên cửa hàng không được để trống.' }),
@@ -46,7 +47,9 @@ const outfitFormSchema = z.object({
   title: z.string().min(10, { message: 'Tiêu đề cần ít nhất 10 ký tự.' }),
   description: z.string().min(20, { message: 'Mô tả chi tiết cần ít nhất 20 ký tự.' }),
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'tet', 'game-anime', 'basic', 'streetwear', 'elegant', 'sporty', 'beach'], { required_error: 'Vui lòng chọn danh mục.' }),
+  categories: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: 'Bạn phải chọn ít nhất một danh mục.',
+  }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
   color: z.enum(['black', 'white', 'pastel', 'earth-tone', 'vibrant'], { required_error: 'Vui lòng chọn màu chủ đạo.' }),
   mainImage: z.any().refine((file) => file, 'Vui lòng tải ảnh chính.'),
@@ -224,11 +227,14 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
 export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFormProps) {
   const form = useForm<OutfitFormValues>({
     resolver: zodResolver(outfitFormSchema),
-    defaultValues: initialData || {
+    defaultValues: {
+      ...initialData,
+      categories: initialData?.categories || [],
+    } || {
       title: '',
       description: '',
       gender: 'female',
-      category: 'casual',
+      categories: [],
       season: 'summer',
       color: 'white',
       mainImage: null,
@@ -247,7 +253,10 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
   
   React.useEffect(() => {
     if (initialData) {
-      form.reset(initialData);
+      form.reset({
+        ...initialData,
+        categories: initialData.categories || [],
+      });
     }
   }, [initialData, form]);
 
@@ -324,20 +333,52 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                   </FormItem>
                 )}
               />
-              <FormField
+               <FormField
                 control={form.control}
-                name="category"
-                render={({ field }) => (
+                name="categories"
+                render={() => (
                   <FormItem>
-                    <FormLabel>Danh mục</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger><SelectValue placeholder="Chọn danh mục" /></SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {CATEGORY_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
+                    <div className="mb-4">
+                      <FormLabel>Danh mục</FormLabel>
+                      <FormDescription>
+                        Chọn một hoặc nhiều danh mục cho outfit này.
+                      </FormDescription>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                    {CATEGORY_OPTIONS.map((item) => (
+                      <FormField
+                        key={item.value}
+                        control={form.control}
+                        name="categories"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={item.value}
+                              className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(item.value)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([...(field.value || []), item.value])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== item.value
+                                          )
+                                        )
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                {item.label}
+                              </FormLabel>
+                            </FormItem>
+                          )
+                        }}
+                      />
+                    ))}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

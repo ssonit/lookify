@@ -25,6 +25,7 @@ export default function EditOutfitPage() {
         // Map the loaded outfit data to match the form's expected structure
         const initialData = {
           ...foundOutfit,
+          categories: foundOutfit.categories,
           mainImage: foundOutfit.mainImage,
           items: foundOutfit.items.map(item => ({
               ...item,
