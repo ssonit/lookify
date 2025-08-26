@@ -28,7 +28,7 @@ const FilterButton = ({
     variant={isSelected ? 'default' : 'outline'}
     size="sm"
     onClick={onClick}
-    className={`transition-all duration-200 ${isSelected ? 'shadow-md' : 'shadow-sm'}`}
+    className="transition-all duration-200"
   >
     {children}
   </Button>
