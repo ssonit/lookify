@@ -54,9 +54,6 @@ export default function OutfitDetailPage() {
     );
   }
 
-  const galleryImages = outfit.items.map(item => item.imageUrl);
-
-
   return (
     <div className="flex flex-col min-h-screen bg-background font-body">
       <Header />
@@ -96,19 +93,17 @@ export default function OutfitDetailPage() {
                               </div>
                           </button>
                         </DialogTrigger>
-                        {galleryImages.length > 0 && (
+                        {outfit.items.length > 0 && (
                             <Carousel opts={{ align: "start", loop: true }} className="w-full p-1.5">
                                 <CarouselContent className="-ml-1.5">
-                                    {galleryImages.map((image, index) => (
+                                    {outfit.items.map((item, index) => (
                                         <CarouselItem key={index} className="basis-1/3 sm:basis-1/6 pl-1.5">
                                             <DialogTrigger asChild>
-                                              <button className="relative w-full" onClick={() => openLightbox(image)}>
-                                                  <Image src={image} alt={`Xem chi tiết ${index + 1}`} width={200} height={200} className="h-28 w-full object-cover rounded-xl border" />
-                                                  {OUTFIT_IMAGE_LABELS[index] && (
-                                                      <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80">
-                                                          {OUTFIT_IMAGE_LABELS[index]}
-                                                      </div>
-                                                  )}
+                                              <button className="relative w-full" onClick={() => openLightbox(item.imageUrl)}>
+                                                  <Image src={item.imageUrl} alt={`Xem chi tiết ${item.name}`} width={200} height={200} className="h-28 w-full object-cover rounded-xl border" />
+                                                  <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80 capitalize">
+                                                      {item.type}
+                                                  </div>
                                               </button>
                                             </DialogTrigger>
                                         </CarouselItem>
