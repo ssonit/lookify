@@ -99,8 +99,8 @@ export default function DashboardOutfitsPage() {
           <TableBody>
             {paginatedOutfits.map((outfit) => (
               <TableRow key={outfit.id}>
-                <TableCell>
-                  <div className="w-20">
+                <TableCell className="p-2">
+                  <div className="w-16">
                      <AspectRatio ratio={4 / 5}>
                         <Image src={outfit.mainImage} alt={outfit.title} fill className="rounded-md object-cover" />
                     </AspectRatio>
