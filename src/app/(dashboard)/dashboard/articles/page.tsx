@@ -45,11 +45,13 @@ export default function DashboardArticlesPage() {
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
-  const searchTerm = searchParams.get('search') || '';
+  const urlSearchTerm = searchParams.get('search') || '';
+  const [localSearchTerm, setLocalSearchTerm] = React.useState(urlSearchTerm);
+
 
   const filteredArticles = articles.filter(article => 
-    article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.description.toLowerCase().includes(searchTerm.toLowerCase())
+    article.title.toLowerCase().includes(urlSearchTerm.toLowerCase()) ||
+    article.description.toLowerCase().includes(urlSearchTerm.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
@@ -80,14 +82,18 @@ export default function DashboardArticlesPage() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('search', e.target.value);
+    newSearchParams.set('search', localSearchTerm);
     newSearchParams.set('page', '1'); // Reset to first page on search
     startTransition(() => {
       router.replace(`${pathname}?${newSearchParams.toString()}`);
     });
   };
+
+  React.useEffect(() => {
+    setLocalSearchTerm(urlSearchTerm);
+  }, [urlSearchTerm]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -105,8 +111,13 @@ export default function DashboardArticlesPage() {
               type="search"
               placeholder="Tìm kiếm bài viết..."
               className="pl-10 w-full"
-              value={searchTerm}
-              onChange={handleSearchChange}
+              value={localSearchTerm}
+              onChange={(e) => setLocalSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                      handleSearch();
+                  }
+              }}
           />
       </div>
       <div className="border rounded-lg">

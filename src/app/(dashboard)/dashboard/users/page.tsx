@@ -32,11 +32,13 @@ export default function DashboardUsersPage() {
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
-  const searchTerm = searchParams.get('search') || '';
+  const urlSearchTerm = searchParams.get('search') || '';
+  const [localSearchTerm, setLocalSearchTerm] = React.useState(urlSearchTerm);
+
 
   const filteredUsers = users.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    user.name.toLowerCase().includes(urlSearchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(urlSearchTerm.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
@@ -52,14 +54,18 @@ export default function DashboardUsersPage() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('search', e.target.value);
+    newSearchParams.set('search', localSearchTerm);
     newSearchParams.set('page', '1'); // Reset to first page on search
     startTransition(() => {
       router.replace(`${pathname}?${newSearchParams.toString()}`);
     });
   };
+
+  React.useEffect(() => {
+    setLocalSearchTerm(urlSearchTerm);
+  }, [urlSearchTerm]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -70,8 +76,13 @@ export default function DashboardUsersPage() {
                 type="search"
                 placeholder="Tìm kiếm người dùng..."
                 className="pl-10 w-full"
-                value={searchTerm}
-                onChange={handleSearchChange}
+                value={localSearchTerm}
+                onChange={(e) => setLocalSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                }}
             />
         </div>
       <div className="border rounded-lg">

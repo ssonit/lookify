@@ -47,10 +47,12 @@ export default function DashboardOutfitsPage() {
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
-  const searchTerm = searchParams.get('search') || '';
+  const urlSearchTerm = searchParams.get('search') || '';
+  const [localSearchTerm, setLocalSearchTerm] = React.useState(urlSearchTerm);
+
 
   const filteredOutfits = outfits.filter(outfit => {
-    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    const lowercasedSearchTerm = urlSearchTerm.toLowerCase();
     return (
       outfit.title.toLowerCase().includes(lowercasedSearchTerm) ||
       outfit.description.toLowerCase().includes(lowercasedSearchTerm) ||
@@ -86,14 +88,18 @@ export default function DashboardOutfitsPage() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('search', e.target.value);
+    newSearchParams.set('search', localSearchTerm);
     newSearchParams.set('page', '1'); // Reset to first page on search
     startTransition(() => {
       router.replace(`${pathname}?${newSearchParams.toString()}`);
     });
   };
+
+  React.useEffect(() => {
+    setLocalSearchTerm(urlSearchTerm);
+  }, [urlSearchTerm]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -111,8 +117,13 @@ export default function DashboardOutfitsPage() {
               type="search"
               placeholder="Tìm kiếm outfits..."
               className="pl-10 w-full"
-              value={searchTerm}
-              onChange={handleSearchChange}
+              value={localSearchTerm}
+              onChange={(e) => setLocalSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                      handleSearch();
+                  }
+              }}
           />
       </div>
       <div className="border rounded-lg">
