@@ -213,15 +213,15 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
                           >
                             <FormItem className="flex items-center space-x-2 space-y-0">
                               <FormControl>
-                                <RadioGroupItem value="youtube" />
+                                <RadioGroupItem value="youtube" id="youtube" />
                               </FormControl>
-                              <Label className="font-normal flex items-center gap-2"><Youtube className="text-red-600" /> Youtube</Label>
+                              <Label htmlFor="youtube" className="font-normal flex items-center gap-2"><Youtube className="text-red-600" /> Youtube</Label>
                             </FormItem>
                             <FormItem className="flex items-center space-x-2 space-y-0">
                               <FormControl>
-                                <RadioGroupItem value="tiktok" />
+                                <RadioGroupItem value="tiktok" id="tiktok"/>
                               </FormControl>
-                              <Label className="font-normal flex items-center gap-2"><TiktokIcon className="h-5 w-5" /> Tiktok</Label>
+                              <Label htmlFor="tiktok" className="font-normal flex items-center gap-2"><TiktokIcon className="h-5 w-5" /> Tiktok</Label>
                             </FormItem>
                           </RadioGroup>
                         </FormControl>
