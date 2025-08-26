@@ -30,14 +30,20 @@ import Image from "next/image";
 import { TiktokIcon } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 
 export default function DashboardArticlesPage() {
   const [articles, setArticles] = React.useState<Article[]>(initialArticles);
   const [articleToDelete, setArticleToDelete] = React.useState<Article | null>(null);
-  const [itemsPerPage, setItemsPerPage] = React.useState(5);
-  const [currentPage, setCurrentPage] = React.useState(1);
   
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const itemsPerPage = Number(searchParams.get('per_page')) || 5;
+
   const totalPages = Math.ceil(articles.length / itemsPerPage);
   const paginatedArticles = articles.slice(
     (currentPage - 1) * itemsPerPage,
@@ -52,14 +58,18 @@ export default function DashboardArticlesPage() {
 
       const newTotalPages = Math.ceil(newArticles.length / itemsPerPage);
       if (currentPage > newTotalPages) {
-         setCurrentPage(newTotalPages || 1);
+          const newSearchParams = new URLSearchParams(searchParams);
+          newSearchParams.set('page', (newTotalPages || 1).toString());
+          router.push(`${pathname}?${newSearchParams.toString()}`);
       }
     }
   };
 
   const handleItemsPerPageChange = (value: string) => {
-    setItemsPerPage(Number(value));
-    setCurrentPage(1);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('per_page', value);
+    newSearchParams.set('page', '1'); // Reset to first page
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
   return (
@@ -143,9 +153,7 @@ export default function DashboardArticlesPage() {
               <span>mỗi trang</span>
           </div>
           <Pagination 
-            currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={setCurrentPage}
           />
        </div>
     </div>

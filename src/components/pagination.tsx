@@ -4,25 +4,36 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 interface PaginationProps {
-  currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
   className?: string;
 }
 
-export function Pagination({ currentPage, totalPages, onPageChange, className }: PaginationProps) {
+export function Pagination({ totalPages, className }: PaginationProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || 1;
+  
+  const createPageURL = (pageNumber: number | string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
+  };
+
   const handlePrevious = () => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      router.push(createPageURL(currentPage - 1));
     }
   };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+       router.push(createPageURL(currentPage + 1));
     }
   };
 
@@ -30,17 +41,18 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
     const value = e.target.value;
     const pageNumber = Number(value);
     
-    // Only update if the input is a valid number within the page range
-    if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages) {
-      onPageChange(pageNumber);
+    if (value === '' || (pageNumber >= 1 && pageNumber <= totalPages)) {
+        const newUrl = createPageURL(pageNumber || 1);
+        // We use router.replace here for the input to not create new browser history entries for each number typed
+        router.replace(newUrl); 
     }
   };
   
-  // When the input loses focus, if it's empty or invalid, reset to 1 or the current page
+  // When the input loses focus, if it's empty or invalid, reset to 1
   const handlePageInputBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
      const value = e.target.value;
      if (value === '' || Number(value) < 1 || Number(value) > totalPages) {
-        onPageChange(currentPage); // or reset to 1: onPageChange(1)
+        router.push(createPageURL(1));
      }
   }
 
@@ -71,7 +83,13 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
           onKeyDown={(e) => {
              if (e.key === 'Enter') {
                 const target = e.target as HTMLInputElement;
-                target.blur(); // Trigger onBlur to validate
+                const pageNumber = Number(target.value);
+                 if (pageNumber >= 1 && pageNumber <= totalPages) {
+                    router.push(createPageURL(pageNumber));
+                } else {
+                    router.push(createPageURL(1));
+                }
+                target.blur();
              }
           }}
           className="h-9 w-14 text-center"

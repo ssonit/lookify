@@ -18,12 +18,18 @@ import { Pagination } from "@/components/pagination";
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 
 export default function DashboardUsersPage() {
   const users = initialUsers; // In a real app, this would come from state or an API
-  const [itemsPerPage, setItemsPerPage] = React.useState(5);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const itemsPerPage = Number(searchParams.get('per_page')) || 5;
 
   const totalPages = Math.ceil(users.length / itemsPerPage);
   const paginatedUsers = users.slice(
@@ -32,8 +38,10 @@ export default function DashboardUsersPage() {
   );
 
   const handleItemsPerPageChange = (value: string) => {
-    setItemsPerPage(Number(value));
-    setCurrentPage(1);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('per_page', value);
+    newSearchParams.set('page', '1'); // Reset to first page
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
   return (
@@ -109,9 +117,7 @@ export default function DashboardUsersPage() {
               <span>mỗi trang</span>
           </div>
           <Pagination 
-            currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={setCurrentPage}
           />
        </div>
     </div>
