@@ -16,7 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { outfits as initialOutfits, type Outfit } from "@/lib/outfits";
 import { CATEGORY_MAP, SEASON_MAP } from "@/lib/constants";
-import React, { useTransition } from "react";
+import React from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,7 +43,6 @@ export default function DashboardOutfitsPage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
@@ -92,9 +91,7 @@ export default function DashboardOutfitsPage() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('search', localSearchTerm);
     newSearchParams.set('page', '1'); // Reset to first page on search
-    startTransition(() => {
-      router.replace(`${pathname}?${newSearchParams.toString()}`);
-    });
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   React.useEffect(() => {
@@ -130,7 +127,7 @@ export default function DashboardOutfitsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[10%]">Ảnh</TableHead>
+              <TableHead className="w-[64px]">Ảnh</TableHead>
               <TableHead>Tiêu đề</TableHead>
               <TableHead className="w-[15%]">Giới tính</TableHead>
               <TableHead className="w-[15%]">Danh mục</TableHead>

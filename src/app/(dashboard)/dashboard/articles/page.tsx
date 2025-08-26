@@ -14,7 +14,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { articles as initialArticles, type Article } from "@/lib/articles";
-import React, { useTransition } from "react";
+import React from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,7 +41,6 @@ export default function DashboardArticlesPage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
@@ -86,9 +85,7 @@ export default function DashboardArticlesPage() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('search', localSearchTerm);
     newSearchParams.set('page', '1'); // Reset to first page on search
-    startTransition(() => {
-      router.replace(`${pathname}?${newSearchParams.toString()}`);
-    });
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   React.useEffect(() => {

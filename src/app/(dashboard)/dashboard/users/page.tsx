@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Shield, Trash, Search } from "lucide-react";
 import { Pagination } from "@/components/pagination";
-import React, { useTransition } from "react";
+import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -28,7 +28,6 @@ export default function DashboardUsersPage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
@@ -58,9 +57,7 @@ export default function DashboardUsersPage() {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('search', localSearchTerm);
     newSearchParams.set('page', '1'); // Reset to first page on search
-    startTransition(() => {
-      router.replace(`${pathname}?${newSearchParams.toString()}`);
-    });
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   React.useEffect(() => {
