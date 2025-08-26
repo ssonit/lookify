@@ -31,6 +31,7 @@ import {
 import { Pagination } from "@/components/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Image from "next/image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 
 export default function DashboardOutfitsPage() {
@@ -89,7 +90,11 @@ export default function DashboardOutfitsPage() {
             {paginatedOutfits.map((outfit) => (
               <TableRow key={outfit.id}>
                 <TableCell>
-                  <Image src={outfit.mainImage} alt={outfit.title} width={64} height={64} className="rounded-md object-cover" />
+                  <div className="w-20">
+                     <AspectRatio ratio={4 / 5}>
+                        <Image src={outfit.mainImage} alt={outfit.title} fill className="rounded-md object-cover" />
+                    </AspectRatio>
+                  </div>
                 </TableCell>
                 <TableCell className="font-medium">{outfit.title}</TableCell>
                 <TableCell>{outfit.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
