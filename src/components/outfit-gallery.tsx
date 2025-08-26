@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { outfits, type Outfit } from '@/lib/outfits';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -35,39 +35,56 @@ const FilterButton = ({
 );
 
 export function OutfitGallery() {
+    const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
+
     const [gender, setGender] = useState<'male' | 'female'>('female');
     const [activeCategory, setActiveCategory] = useState<string | null>(searchParams.get('category'));
     const [season, setSeason] = useState<string | null>(searchParams.get('season'));
-    const [searchTerm, setSearchTerm] = useState('');
+    
+    const urlSearchTerm = searchParams.get('search') || '';
+    const [localSearchTerm, setLocalSearchTerm] = useState(urlSearchTerm);
     
     useEffect(() => {
         setActiveCategory(searchParams.get('category'));
         setSeason(searchParams.get('season'));
+        setLocalSearchTerm(searchParams.get('search') || '');
     }, [searchParams]);
+
+    const handleSearch = () => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        if (localSearchTerm) {
+          newSearchParams.set('search', localSearchTerm);
+        } else {
+          newSearchParams.delete('search');
+        }
+        router.push(`${pathname}?${newSearchParams.toString()}`);
+    };
 
     const resetFilters = () => {
         setActiveCategory(null);
         setSeason(null);
-        setSearchTerm('');
+        setLocalSearchTerm('');
+        router.push(pathname);
     };
 
-    const activeFilterCount = [activeCategory, season, searchTerm].filter(Boolean).length;
+    const activeFilterCount = [activeCategory, season, urlSearchTerm].filter(Boolean).length;
 
     const filteredOutfits = useMemo(() => {
-        const lowercasedSearchTerm = searchTerm.toLowerCase();
+        const lowercasedSearchTerm = urlSearchTerm.toLowerCase();
         return outfits.filter(o => {
             return (
                 (o.gender === gender) &&
                 (!activeCategory || o.categories.includes(activeCategory as any)) &&
                 (!season || o.season === season) &&
-                (searchTerm === '' ||
+                (urlSearchTerm === '' ||
                  o.title.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.description.toLowerCase().includes(lowercasedSearchTerm) ||
                  o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
             )
         });
-    }, [gender, activeCategory, season, searchTerm]);
+    }, [gender, activeCategory, season, urlSearchTerm]);
 
     const allCategories = [...GALLERY_FILTERS.category];
 
@@ -87,10 +104,16 @@ export function OutfitGallery() {
                             type="search"
                             placeholder="Tìm theo tên outfit, phong cách, màu sắc..."
                             className="pl-10 w-full"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            value={localSearchTerm}
+                            onChange={(e) => setLocalSearchTerm(e.target.value)}
+                             onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleSearch();
+                                }
+                            }}
                         />
                     </div>
+                    <Button onClick={handleSearch}>Tìm kiếm</Button>
                     <Button variant="outline" onClick={resetFilters} disabled={activeFilterCount === 0}>
                         <X className="mr-1.5" />
                         Xóa lọc ({activeFilterCount})
