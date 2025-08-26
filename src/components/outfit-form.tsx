@@ -30,6 +30,7 @@ import { Textarea } from './ui/textarea';
 import { PlusCircle, Trash2, UploadCloud, X } from 'lucide-react';
 import { COLOR_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, CATEGORY_OPTIONS } from '@/lib/constants';
 import { Checkbox } from './ui/checkbox';
+import { Badge } from './ui/badge';
 
 const shoppingLinkSchema = z.object({
   store: z.string().min(1, { message: 'Tên cửa hàng không được để trống.' }),
@@ -47,7 +48,7 @@ const outfitFormSchema = z.object({
   title: z.string().min(10, { message: 'Tiêu đề cần ít nhất 10 ký tự.' }),
   description: z.string().min(20, { message: 'Mô tả chi tiết cần ít nhất 20 ký tự.' }),
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  categories: z.array(z.string()).refine((value) => value.some((item) => item), {
+  categories: z.array(z.string()).refine((value) => value.length > 0, {
     message: 'Bạn phải chọn ít nhất một danh mục.',
   }),
   season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
@@ -260,6 +261,24 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
     }
   }, [initialData, form]);
 
+  const watchedCategories = form.watch('categories');
+
+  const handleCategorySelect = (categoryValue: string) => {
+    const currentCategories = form.getValues('categories') || [];
+    if (!currentCategories.includes(categoryValue)) {
+      form.setValue('categories', [...currentCategories, categoryValue], { shouldValidate: true });
+    }
+  };
+
+  const handleCategoryRemove = (categoryValue: string) => {
+    const currentCategories = form.getValues('categories') || [];
+    form.setValue(
+      'categories',
+      currentCategories.filter(c => c !== categoryValue),
+      { shouldValidate: true }
+    );
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -338,46 +357,40 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                 name="categories"
                 render={() => (
                   <FormItem>
-                    <div className="mb-4">
-                      <FormLabel>Danh mục</FormLabel>
-                      <FormDescription>
-                        Chọn một hoặc nhiều danh mục cho outfit này.
-                      </FormDescription>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                    {CATEGORY_OPTIONS.map((item) => (
-                      <FormField
-                        key={item.value}
-                        control={form.control}
-                        name="categories"
-                        render={({ field }) => {
-                          return (
-                            <FormItem
-                              key={item.value}
-                              className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(item.value)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...(field.value || []), item.value])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== item.value
-                                          )
-                                        )
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className="font-normal">
+                    <FormLabel>Danh mục</FormLabel>
+                     <Select onValueChange={handleCategorySelect}>
+                        <FormControl>
+                            <SelectTrigger>
+                            <SelectValue placeholder="Chọn danh mục để thêm" />
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            {CATEGORY_OPTIONS.map((item) => (
+                            <SelectItem key={item.value} value={item.value} disabled={watchedCategories.includes(item.value)}>
                                 {item.label}
-                              </FormLabel>
-                            </FormItem>
-                          )
-                        }}
-                      />
-                    ))}
+                            </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      Chọn một hoặc nhiều danh mục cho outfit này.
+                    </FormDescription>
+                     <div className="mt-2 flex flex-wrap gap-2">
+                        {watchedCategories.map((categoryValue) => {
+                            const category = CATEGORY_OPTIONS.find(c => c.value === categoryValue);
+                            return (
+                                <Badge key={categoryValue} variant="secondary">
+                                {category ? category.label : categoryValue}
+                                <button
+                                    type="button"
+                                    className="ml-1.5 rounded-full p-0.5 hover:bg-destructive/20"
+                                    onClick={() => handleCategoryRemove(categoryValue)}
+                                >
+                                    <X className="h-3 w-3" />
+                                </button>
+                                </Badge>
+                            );
+                        })}
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -461,3 +474,4 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
     </Form>
   );
 }
+
