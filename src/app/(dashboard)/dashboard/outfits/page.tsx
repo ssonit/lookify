@@ -155,7 +155,11 @@ export default function DashboardOutfitsPage() {
                 <TableCell className="font-medium">{outfit.title}</TableCell>
                 <TableCell>{outfit.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
                 <TableCell>
-                  <Badge variant="outline" className="shrink-0">{CATEGORY_MAP[outfit.category]}</Badge>
+                  <div className="flex flex-wrap gap-1">
+                    {outfit.categories.map(category => (
+                      <Badge key={category} variant="outline" className="shrink-0">{CATEGORY_MAP[category] || category}</Badge>
+                    ))}
+                  </div>
                 </TableCell>
                 <TableCell>{SEASON_MAP[outfit.season]}</TableCell>
                 <TableCell>

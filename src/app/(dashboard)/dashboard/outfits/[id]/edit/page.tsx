@@ -32,7 +32,7 @@ export default function EditOutfitPage() {
               imageUrl: item.imageUrl
           }))
         };
-        setOutfitToEdit(initialData);
+        setOutfitToEdit(initialData as OutfitFormValues);
       }
       setIsLoading(false);
     };

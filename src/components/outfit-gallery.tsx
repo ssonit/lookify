@@ -59,7 +59,7 @@ export function OutfitGallery() {
         return outfits.filter(o => {
             return (
                 (o.gender === gender) &&
-                (!activeCategory || o.category === activeCategory) &&
+                (!activeCategory || o.categories.includes(activeCategory as any)) &&
                 (!season || o.season === season) &&
                 (searchTerm === '' ||
                  o.title.toLowerCase().includes(lowercasedSearchTerm) ||

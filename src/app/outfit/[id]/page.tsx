@@ -71,8 +71,10 @@ export default function OutfitDetailPage() {
                       <Button variant="outline" size="sm" className="shrink-0"><Share2 className="mr-1.5" /> Chia sẻ</Button>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Badge variant="outline" className='shrink-0'><Palette className="mr-1.5" />{CATEGORY_MAP[outfit.category]}</Badge>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+                    {outfit.categories.map(category => (
+                         <Badge key={category} variant="outline" className='shrink-0'><Palette className="mr-1.5" />{CATEGORY_MAP[category] || category}</Badge>
+                    ))}
                     <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{SEASON_MAP[outfit.season]}</Badge>
                 </div>
             </div>
@@ -169,7 +171,7 @@ export default function OutfitDetailPage() {
                         <div className="mt-4 grid grid-cols-2 gap-3">
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Danh mục</div>
-                                <div className="mt-1 text-sm font-medium">{CATEGORY_MAP[outfit.category]}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
+                                <div className="mt-1 text-sm font-medium">{outfit.categories.map(c => CATEGORY_MAP[c] || c).join(', ')}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Màu chủ đạo</div>
@@ -184,7 +186,7 @@ export default function OutfitDetailPage() {
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Dịp phù hợp</div>
-                                <div className="mt-1 text-sm font-medium">{CATEGORY_MAP[outfit.category]}</div>
+                                <div className="mt-1 text-sm font-medium">{outfit.categories.map(c => CATEGORY_MAP[c] || c).join(', ')}</div>
                             </div>
                         </div>
                     </CardContent>
