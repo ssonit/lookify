@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Shield, Trash, Search } from "lucide-react";
 import { Pagination } from "@/components/pagination";
-import React from "react";
+import React, { useTransition } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -24,14 +24,15 @@ import { Input } from "@/components/ui/input";
 
 export default function DashboardUsersPage() {
   const users = initialUsers; // In a real app, this would come from state or an API
-  const [searchTerm, setSearchTerm] = React.useState('');
   
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
+  const searchTerm = searchParams.get('search') || '';
 
   const filteredUsers = users.filter(user => 
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -51,6 +52,15 @@ export default function DashboardUsersPage() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('search', e.target.value);
+    newSearchParams.set('page', '1'); // Reset to first page on search
+    startTransition(() => {
+      router.replace(`${pathname}?${newSearchParams.toString()}`);
+    });
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <PageTitle title="Quản lý người dùng" />
@@ -61,7 +71,7 @@ export default function DashboardUsersPage() {
                 placeholder="Tìm kiếm người dùng..."
                 className="pl-10 w-full"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchChange}
             />
         </div>
       <div className="border rounded-lg">

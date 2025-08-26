@@ -14,7 +14,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { articles as initialArticles, type Article } from "@/lib/articles";
-import React from "react";
+import React, { useTransition } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,14 +37,15 @@ import { Input } from "@/components/ui/input";
 export default function DashboardArticlesPage() {
   const [articles, setArticles] = React.useState<Article[]>(initialArticles);
   const [articleToDelete, setArticleToDelete] = React.useState<Article | null>(null);
-  const [searchTerm, setSearchTerm] = React.useState('');
   
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
+  const searchTerm = searchParams.get('search') || '';
 
   const filteredArticles = articles.filter(article => 
     article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -79,6 +80,15 @@ export default function DashboardArticlesPage() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('search', e.target.value);
+    newSearchParams.set('page', '1'); // Reset to first page on search
+    startTransition(() => {
+      router.replace(`${pathname}?${newSearchParams.toString()}`);
+    });
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <PageTitle title="Quản lý Bài viết">
@@ -96,7 +106,7 @@ export default function DashboardArticlesPage() {
               placeholder="Tìm kiếm bài viết..."
               className="pl-10 w-full"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleSearchChange}
           />
       </div>
       <div className="border rounded-lg">

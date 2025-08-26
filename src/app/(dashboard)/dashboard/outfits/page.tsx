@@ -16,7 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { outfits as initialOutfits, type Outfit } from "@/lib/outfits";
 import { CATEGORY_MAP, SEASON_MAP } from "@/lib/constants";
-import React from "react";
+import React, { useTransition } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,14 +39,15 @@ import { Input } from "@/components/ui/input";
 export default function DashboardOutfitsPage() {
   const [outfits, setOutfits] = React.useState<Outfit[]>(initialOutfits);
   const [outfitToDelete, setOutfitToDelete] = React.useState<Outfit | null>(null);
-  const [searchTerm, setSearchTerm] = React.useState('');
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
+  const searchTerm = searchParams.get('search') || '';
 
   const filteredOutfits = outfits.filter(outfit => {
     const lowercasedSearchTerm = searchTerm.toLowerCase();
@@ -85,6 +86,15 @@ export default function DashboardOutfitsPage() {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   }
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('search', e.target.value);
+    newSearchParams.set('page', '1'); // Reset to first page on search
+    startTransition(() => {
+      router.replace(`${pathname}?${newSearchParams.toString()}`);
+    });
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <PageTitle title="Quản lý Outfits">
@@ -102,7 +112,7 @@ export default function DashboardOutfitsPage() {
               placeholder="Tìm kiếm outfits..."
               className="pl-10 w-full"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleSearchChange}
           />
       </div>
       <div className="border rounded-lg">
