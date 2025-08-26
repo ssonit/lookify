@@ -1,4 +1,6 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -14,9 +16,14 @@ import {
 import { User, Settings, LogOut, Heart, Menu, LayoutDashboard } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from './ui/sheet';
 import { Separator } from './ui/separator';
+import { useContext } from 'react';
+import { SettingsContext } from '@/app/layout';
 
 export function Header() {
   const isLoggedIn = true; // Mock login state
+  const settingsContext = useContext(SettingsContext);
+  const siteName = settingsContext?.settings?.siteName || 'Lookify';
+  const logoUrl = settingsContext?.settings?.logoUrl || 'https://placehold.co/32x32.png';
 
   const navLinks = [
     { href: "/suggester", label: "Gợi ý AI" },
@@ -101,8 +108,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <Image src="https://placehold.co/32x32.png" alt="Lookify Logo" width={32} height={32} className="h-8 w-8" data-ai-hint="logo" />
-           <span className="font-bold font-headline text-2xl mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-foreground">Lookify</span>
+          <Image src={logoUrl} alt="Lookify Logo" width={32} height={32} className="h-8 w-8" data-ai-hint="logo" />
+           <span className="font-bold font-headline text-2xl mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-foreground">{siteName}</span>
         </Link>
 
         {/* Desktop Navigation */}

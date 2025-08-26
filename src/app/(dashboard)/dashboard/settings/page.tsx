@@ -4,21 +4,33 @@
 import { PageTitle } from "@/components/page-title";
 import { SettingsForm } from "@/components/settings-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useContext } from "react";
+import { SettingsContext } from "@/app/layout";
+import type { SettingsFormValues } from "@/components/settings-form";
+
 
 export default function SettingsPage() {
+  const settingsContext = useContext(SettingsContext);
 
-  const handleSave = (data: any) => {
+  if (!settingsContext) {
+    return null; 
+  }
+
+  const { settings, setSettings } = settingsContext;
+
+  const handleSave = (data: Partial<SettingsFormValues>) => {
+    setSettings(prevSettings => ({...prevSettings, ...data}));
     console.log("Settings saved:", data);
     // In a real app, you would call an API to save these settings.
   };
 
   const initialData = {
-    siteName: 'Lookify',
-    siteDescription: 'Nâng cấp phong cách – Nâng cấp chính mình',
-    logoUrl: 'https://placehold.co/32x32.png',
-    bannerUrl: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80',
-    seoTitle: 'Lookify | Nâng cấp phong cách – Nâng cấp chính mình',
-    seoDescription: 'Khám phá các gợi ý trang phục được cá nhân hóa và khám phá các phong cách tuyển chọn để nâng tầm tủ quần áo và sự tự tin của bạn.',
+    siteName: settings.siteName,
+    siteDescription: settings.siteDescription,
+    logoUrl: settings.logoUrl,
+    bannerUrl: settings.bannerUrl,
+    seoTitle: settings.seoTitle,
+    seoDescription: settings.seoDescription,
     theme: {
         background: '0 0% 100%',
         foreground: '222.2 84% 4.9%',
