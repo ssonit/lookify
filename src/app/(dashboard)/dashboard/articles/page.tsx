@@ -76,7 +76,7 @@ export default function DashboardArticlesPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[10%]">Ảnh</TableHead>
+              <TableHead className="w-[64px]">Ảnh</TableHead>
               <TableHead>Tiêu đề</TableHead>
               <TableHead className="w-[15%]">Nền tảng</TableHead>
               <TableHead className="w-[15%]">Hành động</TableHead>
@@ -86,7 +86,7 @@ export default function DashboardArticlesPage() {
             {paginatedArticles.map((article) => (
               <TableRow key={article.id}>
                 <TableCell>
-                  <Image src={article.imageUrl} alt={article.title} width={64} height={64} className="rounded-md object-cover" />
+                  <Image src={article.imageUrl} alt={article.title} width={64} height={64} className="rounded-md object-cover aspect-square" />
                 </TableCell>
                 <TableCell className="font-medium">{article.title}</TableCell>
                 <TableCell>
