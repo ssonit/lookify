@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useContext } from 'react';
-import { SettingsContext } from '@/app/layout';
+import { SettingsContext } from "@/contexts/settings-context";
 
 
 export const HeroSection = () => {

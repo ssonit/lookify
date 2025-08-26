@@ -5,14 +5,16 @@ import { PageTitle } from "@/components/page-title";
 import { SettingsForm } from "@/components/settings-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useContext } from "react";
-import { SettingsContext } from "@/app/layout";
 import type { SettingsFormValues } from "@/components/settings-form";
+import { SettingsContext } from "@/contexts/settings-context";
 
 
 export default function SettingsPage() {
   const settingsContext = useContext(SettingsContext);
 
   if (!settingsContext) {
+    // This can happen if the context is not yet available.
+    // You might want to show a loader or return null.
     return null; 
   }
 

@@ -52,7 +52,7 @@ export default function EditOutfitPage() {
     return (
       <div className="flex flex-col gap-5">
         <Skeleton className="h-9 w-1/3" />
-         <div className="space-y-8">
+         <div className="space-y-8 mt-5">
             <Skeleton className="h-48 w-full" />
             <Skeleton className="h-64 w-full" />
             <Skeleton className="h-96 w-full" />

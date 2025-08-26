@@ -17,7 +17,7 @@ import { User, Settings, LogOut, Heart, Menu, LayoutDashboard } from 'lucide-rea
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from './ui/sheet';
 import { Separator } from './ui/separator';
 import { useContext } from 'react';
-import { SettingsContext } from '@/app/layout';
+import { SettingsContext } from '@/contexts/settings-context';
 
 export function Header() {
   const isLoggedIn = true; // Mock login state
