@@ -89,7 +89,11 @@ export default function DashboardOutfitsPage() {
 
   const handleSearch = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('search', localSearchTerm);
+    if (localSearchTerm) {
+      newSearchParams.set('search', localSearchTerm);
+    } else {
+      newSearchParams.delete('search');
+    }
     newSearchParams.set('page', '1'); // Reset to first page on search
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
