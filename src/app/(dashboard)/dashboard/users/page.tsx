@@ -71,20 +71,23 @@ export default function DashboardUsersPage() {
   return (
     <div className="flex flex-col gap-5">
       <PageTitle title="Quản lý người dùng" />
-        <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input 
-                type="search"
-                placeholder="Tìm kiếm người dùng..."
-                className="pl-10 w-full"
-                value={localSearchTerm}
-                onChange={(e) => setLocalSearchTerm(e.target.value)}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleSearch();
-                    }
-                }}
-            />
+        <div className="flex gap-2">
+          <div className="relative flex-grow">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input 
+                  type="search"
+                  placeholder="Tìm kiếm người dùng..."
+                  className="pl-10 w-full"
+                  value={localSearchTerm}
+                  onChange={(e) => setLocalSearchTerm(e.target.value)}
+                  onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                          handleSearch();
+                      }
+                  }}
+              />
+          </div>
+          <Button onClick={handleSearch}>Tìm kiếm</Button>
         </div>
       <div className="border rounded-lg">
         <Table>

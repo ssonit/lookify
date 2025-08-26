@@ -106,20 +106,23 @@ export default function DashboardArticlesPage() {
           </Link>
         </Button>
       </PageTitle>
-      <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input 
-              type="search"
-              placeholder="Tìm kiếm bài viết..."
-              className="pl-10 w-full"
-              value={localSearchTerm}
-              onChange={(e) => setLocalSearchTerm(e.target.value)}
-              onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                      handleSearch();
-                  }
-              }}
-          />
+      <div className="flex gap-2">
+        <div className="relative flex-grow">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input 
+                type="search"
+                placeholder="Tìm kiếm bài viết..."
+                className="pl-10 w-full"
+                value={localSearchTerm}
+                onChange={(e) => setLocalSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                }}
+            />
+        </div>
+        <Button onClick={handleSearch}>Tìm kiếm</Button>
       </div>
       <div className="border rounded-lg">
         <Table>
