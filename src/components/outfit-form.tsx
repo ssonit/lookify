@@ -372,9 +372,6 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                             ))}
                         </SelectContent>
                     </Select>
-                    <FormDescription>
-                      Chọn một hoặc nhiều danh mục cho outfit này.
-                    </FormDescription>
                      <div className="mt-2 flex flex-wrap gap-2">
                         {watchedCategories.map((categoryValue) => {
                             const category = CATEGORY_OPTIONS.find(c => c.value === categoryValue);
@@ -474,4 +471,3 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
     </Form>
   );
 }
-
