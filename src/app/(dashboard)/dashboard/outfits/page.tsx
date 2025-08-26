@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Pagination } from "@/components/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Image from "next/image";
 
 
 export default function DashboardOutfitsPage() {
@@ -76,9 +77,10 @@ export default function DashboardOutfitsPage() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[10%]">Ảnh</TableHead>
               <TableHead>Tiêu đề</TableHead>
               <TableHead className="w-[15%]">Giới tính</TableHead>
-              <TableHead className="w-[20%]">Danh mục</TableHead>
+              <TableHead className="w-[15%]">Danh mục</TableHead>
               <TableHead className="w-[15%]">Mùa</TableHead>
               <TableHead className="w-[15%]">Hành động</TableHead>
             </TableRow>
@@ -86,6 +88,9 @@ export default function DashboardOutfitsPage() {
           <TableBody>
             {paginatedOutfits.map((outfit) => (
               <TableRow key={outfit.id}>
+                <TableCell>
+                  <Image src={outfit.mainImage} alt={outfit.title} width={64} height={64} className="rounded-md object-cover" />
+                </TableCell>
                 <TableCell className="font-medium">{outfit.title}</TableCell>
                 <TableCell>{outfit.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
                 <TableCell>
