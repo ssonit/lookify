@@ -4,6 +4,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import React from 'react';
+import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -22,8 +24,8 @@ import { Textarea } from './ui/textarea';
 const settingsFormSchema = z.object({
   siteName: z.string().min(1, 'Tên trang web không được để trống.'),
   siteDescription: z.string().optional(),
-  logoUrl: z.string().url('URL logo không hợp lệ.').optional(),
-  bannerUrl: z.string().url('URL banner không hợp lệ.').optional(),
+  logoUrl: z.string().url('URL logo không hợp lệ.').optional().or(z.literal('')),
+  bannerUrl: z.string().url('URL banner không hợp lệ.').optional().or(z.literal('')),
   seoTitle: z.string().min(1, 'Meta title không được để trống.'),
   seoDescription: z.string().optional(),
 });
@@ -36,11 +38,23 @@ interface SettingsFormProps {
   section: 'general' | 'seo';
 }
 
+const isValidUrl = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 export function SettingsForm({ onSave, initialData, section }: SettingsFormProps) {
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(settingsFormSchema),
     defaultValues: initialData,
   });
+
+  const watchedLogoUrl = form.watch('logoUrl');
+  const watchedBannerUrl = form.watch('bannerUrl');
 
   function onSubmit(data: SettingsFormValues) {
     onSave(data);
@@ -91,6 +105,9 @@ export function SettingsForm({ onSave, initialData, section }: SettingsFormProps
                     <FormControl>
                       <Input placeholder="https://..." {...field} />
                     </FormControl>
+                    {watchedLogoUrl && isValidUrl(watchedLogoUrl) && (
+                      <Image src={watchedLogoUrl} alt="Xem trước Logo" width={64} height={64} className="mt-2 rounded-md object-contain" />
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -104,6 +121,9 @@ export function SettingsForm({ onSave, initialData, section }: SettingsFormProps
                     <FormControl>
                       <Input placeholder="https://images.unsplash.com/..." {...field} />
                     </FormControl>
+                     {watchedBannerUrl && isValidUrl(watchedBannerUrl) && (
+                      <Image src={watchedBannerUrl} alt="Xem trước Banner" width={300} height={150} className="mt-2 rounded-md object-cover" />
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}

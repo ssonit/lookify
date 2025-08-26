@@ -28,7 +28,7 @@ import { Label } from './ui/label';
 const articleFormSchema = z.object({
   title: z.string().min(10, { message: 'Tiêu đề cần ít nhất 10 ký tự.' }),
   description: z.string().min(20, { message: 'Mô tả chi tiết cần ít nhất 20 ký tự.' }),
-  imageUrl: z.string().url({ message: 'Vui lòng nhập URL ảnh hợp lệ.' }),
+  imageUrl: z.string().url({ message: 'Vui lòng nhập URL ảnh hợp lệ.' }).or(z.literal('')),
   tags: z.string().min(1, { message: "Nhập ít nhất một tag, cách nhau bằng dấu phẩy."}),
   level: z.string().min(3, { message: "Level không được để trống." }),
   cta: z.string().min(1, { message: "CTA không được để trống." }),
@@ -144,7 +144,9 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
                     <FormControl>
                       <Input placeholder="https://images.unsplash.com/..." {...field} />
                     </FormControl>
-                    {isValidUrl(watchedImageUrl) && <Image src={watchedImageUrl} alt="Xem trước" width={200} height={120} className="mt-2 rounded-md object-cover" />}
+                    {watchedImageUrl && isValidUrl(watchedImageUrl) && (
+                        <Image src={watchedImageUrl} alt="Xem trước" width={200} height={120} className="mt-2 rounded-md object-cover" />
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
