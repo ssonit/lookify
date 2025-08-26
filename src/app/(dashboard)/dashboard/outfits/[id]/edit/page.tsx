@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { PageTitle } from "@/components/page-title";
 import { OutfitForm } from "@/components/outfit-form";
 import { outfits } from '@/lib/outfits';
-import { OutfitFormValues } from '@/components/outfit-form';
+import type { OutfitFormValues } from '@/components/outfit-form';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function EditOutfitPage() {
@@ -51,7 +51,7 @@ export default function EditOutfitPage() {
   if (isLoading) {
     return (
       <div className="flex flex-col gap-5">
-        <PageTitle title="Đang tải dữ liệu..." />
+        <Skeleton className="h-9 w-1/3" />
          <div className="space-y-8">
             <Skeleton className="h-48 w-full" />
             <Skeleton className="h-64 w-full" />
