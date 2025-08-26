@@ -95,7 +95,7 @@ export default function DashboardArticlesPage() {
           <TableBody>
             {paginatedArticles.map((article) => (
               <TableRow key={article.id}>
-                <TableCell>
+                <TableCell className="p-2">
                   <Image src={article.imageUrl} alt={article.title} width={64} height={64} className="rounded-md object-cover aspect-square" />
                 </TableCell>
                 <TableCell className="font-medium">{article.title}</TableCell>
