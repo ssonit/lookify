@@ -48,6 +48,15 @@ interface ArticleFormProps {
   isLoading?: boolean;
 }
 
+const isValidUrl = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleFormProps) {
   const form = useForm<z.infer<typeof articleFormSchema>>({
     resolver: zodResolver(articleFormSchema),
@@ -84,6 +93,8 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
       });
     }
   }, [initialData, form]);
+
+  const watchedImageUrl = form.watch('imageUrl');
 
   return (
     <Form {...form}>
@@ -133,7 +144,7 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
                     <FormControl>
                       <Input placeholder="https://images.unsplash.com/..." {...field} />
                     </FormControl>
-                    {field.value && <Image src={field.value} alt="Xem trước" width={200} height={120} className="mt-2 rounded-md object-cover" />}
+                    {isValidUrl(watchedImageUrl) && <Image src={watchedImageUrl} alt="Xem trước" width={200} height={120} className="mt-2 rounded-md object-cover" />}
                     <FormMessage />
                   </FormItem>
                 )}
