@@ -109,7 +109,7 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image src={logoUrl} alt="Lookify Logo" width={32} height={32} className="h-8 w-8" data-ai-hint="logo" />
-           <span className="font-bold font-headline text-2xl mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-foreground">{siteName}</span>
+           <span className="font-bold font-headline text-2xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-foreground">{siteName}</span>
         </Link>
 
         {/* Desktop Navigation */}
