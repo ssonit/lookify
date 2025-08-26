@@ -13,7 +13,7 @@ export default function NewOutfitPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <PageTitle title="Thêm Outfit mới" />
+      <PageTitle title="Thêm Outfit mới" backHref="/dashboard/outfits" />
       <OutfitForm onSave={handleSave} />
     </div>
   );

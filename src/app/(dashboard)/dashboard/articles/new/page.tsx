@@ -11,7 +11,7 @@ export default function NewArticlePage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <PageTitle title="Thêm bài viết mới" />
+      <PageTitle title="Thêm bài viết mới" backHref="/dashboard/articles" />
       <ArticleForm onSave={handleSave} />
     </div>
   );

@@ -51,7 +51,7 @@ export default function EditOutfitPage() {
   if (isLoading) {
     return (
       <div className="flex flex-col gap-5">
-        <Skeleton className="h-9 w-1/3" />
+        <PageTitle title="Đang tải..." backHref="/dashboard/outfits" />
          <div className="space-y-8 mt-5">
             <Skeleton className="h-48 w-full" />
             <Skeleton className="h-64 w-full" />
@@ -64,7 +64,7 @@ export default function EditOutfitPage() {
   if (!outfitToEdit) {
     return (
       <div>
-        <PageTitle title="Không tìm thấy Outfit" />
+        <PageTitle title="Không tìm thấy Outfit" backHref="/dashboard/outfits"/>
         <p>Không thể tìm thấy trang phục bạn muốn chỉnh sửa.</p>
       </div>
     )
@@ -72,7 +72,7 @@ export default function EditOutfitPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <PageTitle title={`Chỉnh sửa: ${outfitToEdit.title}`} />
+      <PageTitle title={`Chỉnh sửa: ${outfitToEdit.title}`} backHref="/dashboard/outfits" />
       <OutfitForm onSave={handleSave} initialData={outfitToEdit} isLoading={isLoading} />
     </div>
   );

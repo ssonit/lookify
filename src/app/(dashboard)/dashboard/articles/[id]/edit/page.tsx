@@ -37,7 +37,7 @@ export default function EditArticlePage() {
   if (isLoading) {
     return (
       <div className="flex flex-col gap-5">
-        <Skeleton className="h-9 w-1/3" />
+        <PageTitle title="Đang tải..." backHref="/dashboard/articles" />
          <div className="space-y-8">
             <Skeleton className="h-64 w-full" />
             <Skeleton className="h-32 w-full" />
@@ -49,7 +49,7 @@ export default function EditArticlePage() {
   if (!articleToEdit) {
     return (
       <div>
-        <PageTitle title="Không tìm thấy bài viết" />
+        <PageTitle title="Không tìm thấy bài viết" backHref="/dashboard/articles" />
         <p>Không thể tìm thấy bài viết bạn muốn chỉnh sửa.</p>
       </div>
     )
@@ -57,7 +57,7 @@ export default function EditArticlePage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <PageTitle title={`Chỉnh sửa: ${articleToEdit.title}`} />
+      <PageTitle title={`Chỉnh sửa: ${articleToEdit.title}`} backHref="/dashboard/articles" />
       <ArticleForm onSave={handleSave} initialData={articleToEdit} isLoading={isLoading} />
     </div>
   );
