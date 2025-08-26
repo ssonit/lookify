@@ -86,7 +86,7 @@ export default function OutfitDetailPage() {
                 <Card className="overflow-hidden rounded-2xl">
                     <CardContent className="p-0">
                         <DialogTrigger asChild>
-                          <button className="relative aspect-[9/10] w-full" onClick={() => openLightbox(outfit.mainImage)}>
+                          <button className="relative aspect-[4/5] w-full" onClick={() => openLightbox(outfit.mainImage)}>
                               <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.title}`} fill className="object-cover"/>
                               <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
                                   <Camera /> Góc chính
@@ -120,7 +120,7 @@ export default function OutfitDetailPage() {
                   <DialogTitle className="sr-only">Xem ảnh lớn</DialogTitle>
                   <DialogDescription className="sr-only">Ảnh lớn của trang phục</DialogDescription>
                   
-                  <div className="relative aspect-[9/10] w-full">
+                  <div className="relative aspect-[4/5] w-full">
                       {isLightboxImageLoading && (
                           <Skeleton className="absolute inset-0 w-full h-full rounded-2xl" />
                       )}
@@ -263,3 +263,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
