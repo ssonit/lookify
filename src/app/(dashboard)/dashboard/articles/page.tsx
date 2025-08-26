@@ -2,7 +2,7 @@
 'use client';
 
 import Link from "next/link";
-import { PlusCircle, Youtube, Trash2 } from "lucide-react";
+import { PlusCircle, Youtube, Trash2, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageTitle } from "@/components/page-title";
 import {
@@ -95,15 +95,15 @@ export default function DashboardArticlesPage() {
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" asChild>
+                    <Button variant="outline" size="icon" asChild>
                       <Link href={`/dashboard/articles/${article.id}/edit`}>
-                        Chỉnh sửa
+                        <Edit className="h-4 w-4" />
                       </Link>
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button variant="destructive" size="sm" onClick={() => setArticleToDelete(article)}>
-                          Xóa
+                        <Button variant="destructive" size="icon" onClick={() => setArticleToDelete(article)}>
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>

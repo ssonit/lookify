@@ -2,7 +2,7 @@
 'use client';
 
 import Link from "next/link";
-import { PlusCircle, Trash2 } from "lucide-react";
+import { PlusCircle, Trash2, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageTitle } from "@/components/page-title";
 import {
@@ -94,15 +94,15 @@ export default function DashboardOutfitsPage() {
                 <TableCell>{SEASON_MAP[outfit.season]}</TableCell>
                 <TableCell>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" asChild>
+                    <Button variant="outline" size="icon" asChild>
                       <Link href={`/dashboard/outfits/${outfit.id}/edit`}>
-                        Chỉnh sửa
+                        <Edit className="h-4 w-4" />
                       </Link>
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button variant="destructive" size="sm" onClick={() => setOutfitToDelete(outfit)}>
-                          Xóa
+                        <Button variant="destructive" size="icon" onClick={() => setOutfitToDelete(outfit)}>
+                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
