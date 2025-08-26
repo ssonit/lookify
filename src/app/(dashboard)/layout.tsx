@@ -1,8 +1,11 @@
 
-
+'use client';
 import { DashboardNav } from "@/components/dashboard-nav";
 import { Header } from "@/components/header";
-import { BookText, LayoutDashboard, Settings, ShoppingBag, Users } from "lucide-react";
+import { BookText, LayoutDashboard, Settings, ShoppingBag, Users, ShieldAlert } from "lucide-react";
+import { useContext } from "react";
+import { SettingsContext } from "@/contexts/settings-context";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const DASHBOARD_NAV_ITEMS = [
     {
@@ -37,6 +40,29 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const settingsContext = useContext(SettingsContext);
+  const currentUser = settingsContext?.currentUser;
+
+  if (currentUser?.role !== 'admin') {
+    return (
+        <div className="flex min-h-screen w-full flex-col">
+            <Header />
+            <main className="flex flex-1 items-center justify-center bg-muted/40 p-4">
+                <Card className="w-full max-w-md text-center">
+                    <CardHeader>
+                        <CardTitle className="flex items-center justify-center gap-2 text-2xl text-destructive">
+                           <ShieldAlert className="h-8 w-8" /> Truy cập bị từ chối
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p>Bạn không có quyền truy cập vào trang này. Vui lòng liên hệ quản trị viên.</p>
+                    </CardContent>
+                </Card>
+            </main>
+        </div>
+    )
+  }
+
   return (
     <div className="flex min-h-screen w-full flex-col">
         <Header />

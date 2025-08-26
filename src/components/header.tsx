@@ -24,6 +24,7 @@ export function Header() {
   const settingsContext = useContext(SettingsContext);
   const siteName = settingsContext?.settings?.siteName || 'Lookify';
   const logoUrl = settingsContext?.settings?.logoUrl || 'https://placehold.co/32x32.png';
+  const currentUser = settingsContext?.currentUser;
 
   const navLinks = [
     { href: "/suggester", label: "Gợi ý AI" },
@@ -53,12 +54,14 @@ export function Header() {
         </Link>
       </DropdownMenuItem>
       <DropdownMenuSeparator />
-       <DropdownMenuItem asChild>
-        <Link href="/dashboard">
-          <LayoutDashboard className="mr-2 h-4 w-4" />
-          <span>Dashboard</span>
-        </Link>
-      </DropdownMenuItem>
+       {currentUser?.role === 'admin' && (
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard">
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            <span>Dashboard</span>
+          </Link>
+        </DropdownMenuItem>
+      )}
       <DropdownMenuSeparator />
       <DropdownMenuItem>
         <LogOut className="mr-2 h-4 w-4" />
@@ -88,12 +91,14 @@ export function Header() {
           </Link>
         </SheetClose>
         <Separator className="my-1" />
-         <SheetClose asChild>
-          <Link href="/dashboard" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-            <LayoutDashboard className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
-          </Link>
-        </SheetClose>
+        {currentUser?.role === 'admin' && (
+          <SheetClose asChild>
+            <Link href="/dashboard" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
+            </Link>
+          </SheetClose>
+        )}
         <Separator className="my-1" />
         <SheetClose asChild>
             <button className="relative flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
@@ -170,11 +175,11 @@ export function Header() {
                   <div className="mb-4">
                      <Link href="/profile" className="flex items-center gap-3 mb-4">
                        <Avatar>
-                          <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
-                          <AvatarFallback>U</AvatarFallback>
+                          <AvatarImage src={currentUser?.avatar} alt={currentUser?.name} />
+                          <AvatarFallback>{currentUser?.name?.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-semibold">An Trần</p>
+                        <p className="font-semibold">{currentUser?.name}</p>
                         <p className="text-sm text-muted-foreground">Xem hồ sơ</p>
                       </div>
                     </Link>

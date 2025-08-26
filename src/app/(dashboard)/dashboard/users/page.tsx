@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -13,7 +12,7 @@ import { PageTitle } from "@/components/page-title";
 import { users as initialUsers, type User } from "@/lib/users";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash } from "lucide-react";
+import { Edit, Shield, Trash } from "lucide-react";
 import { Pagination } from "@/components/pagination";
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -44,7 +43,7 @@ export default function DashboardUsersPage() {
             <TableRow>
               <TableHead className="w-[200px]">Tên</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead className="w-[100px]">Giới tính</TableHead>
+              <TableHead className="w-[100px]">Vai trò</TableHead>
               <TableHead className="w-[150px]">Ngày tạo</TableHead>
               <TableHead className="w-[120px]">Trạng thái</TableHead>
               <TableHead className="w-[120px]">Hành động</TableHead>
@@ -55,7 +54,12 @@ export default function DashboardUsersPage() {
               <TableRow key={user.id}>
                 <TableCell className="font-medium">{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.gender === 'male' ? 'Nam' : 'Nữ'}</TableCell>
+                <TableCell>
+                  <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+                    {user.role === 'admin' && <Shield className="mr-1 h-3 w-3" />}
+                    {user.role === 'admin' ? 'Admin' : 'User'}
+                  </Badge>
+                </TableCell>
                 <TableCell>{new Date(user.createdAt).toLocaleDateString('vi-VN')}</TableCell>
                 <TableCell>
                   <Badge 

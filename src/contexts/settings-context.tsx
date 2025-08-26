@@ -2,10 +2,12 @@
 'use client';
 import React, { useState, createContext, useEffect } from 'react';
 import type { SettingsFormValues } from '@/components/settings-form';
+import { users, type User } from '@/lib/users';
 
 interface SettingsContextType {
   settings: Partial<SettingsFormValues>;
   setSettings: React.Dispatch<React.SetStateAction<Partial<SettingsFormValues>>>;
+  currentUser: User | null;
 }
 
 export const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -19,6 +21,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     seoTitle: 'Lookify | Nâng cấp phong cách – Nâng cấp chính mình',
     seoDescription: 'Khám phá các gợi ý trang phục được cá nhân hóa và khám phá các phong cách tuyển chọn để nâng tầm tủ quần áo và sự tự tin của bạn.',
   });
+  
+  // Mock the currently logged-in user. In a real app, this would come from an auth provider.
+  const [currentUser, setCurrentUser] = useState<User | null>(users[0]); // Default to the first user
 
   useEffect(() => {
     if (document) {
@@ -32,7 +37,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
 
   return (
-    <SettingsContext.Provider value={{ settings, setSettings }}>
+    <SettingsContext.Provider value={{ settings, setSettings, currentUser }}>
       {children}
     </SettingsContext.Provider>
   );

@@ -22,7 +22,6 @@ export default function SettingsPage() {
 
   const handleSave = (data: Partial<SettingsFormValues>) => {
     setSettings(prevSettings => ({...prevSettings, ...data}));
-    console.log("Settings saved:", data);
     // In a real app, you would call an API to save these settings.
   };
 
