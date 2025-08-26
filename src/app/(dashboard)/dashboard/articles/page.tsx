@@ -2,7 +2,7 @@
 'use client';
 
 import Link from "next/link";
-import { PlusCircle, Youtube, Trash2, Edit } from "lucide-react";
+import { PlusCircle, Youtube, Trash2, Edit, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageTitle } from "@/components/page-title";
 import {
@@ -31,11 +31,13 @@ import { TiktokIcon } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 
 export default function DashboardArticlesPage() {
   const [articles, setArticles] = React.useState<Article[]>(initialArticles);
   const [articleToDelete, setArticleToDelete] = React.useState<Article | null>(null);
+  const [searchTerm, setSearchTerm] = React.useState('');
   
   const router = useRouter();
   const pathname = usePathname();
@@ -44,8 +46,13 @@ export default function DashboardArticlesPage() {
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
 
-  const totalPages = Math.ceil(articles.length / itemsPerPage);
-  const paginatedArticles = articles.slice(
+  const filteredArticles = articles.filter(article => 
+    article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    article.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+  const paginatedArticles = filteredArticles.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -82,6 +89,16 @@ export default function DashboardArticlesPage() {
           </Link>
         </Button>
       </PageTitle>
+      <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Input 
+              type="search"
+              placeholder="Tìm kiếm bài viết..."
+              className="pl-10 w-full"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+          />
+      </div>
       <div className="border rounded-lg">
         <Table>
           <TableHeader>

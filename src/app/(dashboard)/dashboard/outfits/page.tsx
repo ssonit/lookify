@@ -2,7 +2,7 @@
 'use client';
 
 import Link from "next/link";
-import { PlusCircle, Trash2, Edit } from "lucide-react";
+import { PlusCircle, Trash2, Edit, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageTitle } from "@/components/page-title";
 import {
@@ -33,11 +33,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 
 export default function DashboardOutfitsPage() {
   const [outfits, setOutfits] = React.useState<Outfit[]>(initialOutfits);
   const [outfitToDelete, setOutfitToDelete] = React.useState<Outfit | null>(null);
+  const [searchTerm, setSearchTerm] = React.useState('');
 
   const router = useRouter();
   const pathname = usePathname();
@@ -46,8 +48,17 @@ export default function DashboardOutfitsPage() {
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
 
-  const totalPages = Math.ceil(outfits.length / itemsPerPage);
-  const paginatedOutfits = outfits.slice(
+  const filteredOutfits = outfits.filter(outfit => {
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    return (
+      outfit.title.toLowerCase().includes(lowercasedSearchTerm) ||
+      outfit.description.toLowerCase().includes(lowercasedSearchTerm) ||
+      outfit.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm))
+    );
+  });
+
+  const totalPages = Math.ceil(filteredOutfits.length / itemsPerPage);
+  const paginatedOutfits = filteredOutfits.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -84,6 +95,16 @@ export default function DashboardOutfitsPage() {
           </Link>
         </Button>
       </PageTitle>
+      <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Input 
+              type="search"
+              placeholder="Tìm kiếm outfits..."
+              className="pl-10 w-full"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+          />
+      </div>
       <div className="border rounded-lg">
         <Table>
           <TableHeader>

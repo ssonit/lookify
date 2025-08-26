@@ -13,16 +13,18 @@ import { PageTitle } from "@/components/page-title";
 import { users as initialUsers, type User } from "@/lib/users";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Shield, Trash } from "lucide-react";
+import { Edit, Shield, Trash, Search } from "lucide-react";
 import { Pagination } from "@/components/pagination";
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 
 export default function DashboardUsersPage() {
   const users = initialUsers; // In a real app, this would come from state or an API
+  const [searchTerm, setSearchTerm] = React.useState('');
   
   const router = useRouter();
   const pathname = usePathname();
@@ -31,8 +33,13 @@ export default function DashboardUsersPage() {
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
 
-  const totalPages = Math.ceil(users.length / itemsPerPage);
-  const paginatedUsers = users.slice(
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -47,6 +54,16 @@ export default function DashboardUsersPage() {
   return (
     <div className="flex flex-col gap-5">
       <PageTitle title="Quản lý người dùng" />
+        <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input 
+                type="search"
+                placeholder="Tìm kiếm người dùng..."
+                className="pl-10 w-full"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
