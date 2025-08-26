@@ -28,16 +28,32 @@ import {
 } from "@/components/ui/alert-dialog";
 import Image from "next/image";
 import { TiktokIcon } from "@/components/icons";
+import { Pagination } from "@/components/pagination";
 
+
+const ITEMS_PER_PAGE = 5;
 
 export default function DashboardArticlesPage() {
   const [articles, setArticles] = React.useState<Article[]>(initialArticles);
   const [articleToDelete, setArticleToDelete] = React.useState<Article | null>(null);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  
+  const totalPages = Math.ceil(articles.length / ITEMS_PER_PAGE);
+  const paginatedArticles = articles.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const handleDelete = () => {
     if (articleToDelete) {
-      setArticles(articles.filter(o => o.id !== articleToDelete.id));
+      const newArticles = articles.filter(o => o.id !== articleToDelete.id);
+      setArticles(newArticles);
       setArticleToDelete(null);
+
+      // Reset to page 1 if the last item on the last page is deleted
+      if (paginatedArticles.length === 1 && currentPage > 1 && currentPage === totalPages) {
+         setCurrentPage(currentPage - 1);
+      }
     }
   };
 
@@ -51,59 +67,66 @@ export default function DashboardArticlesPage() {
           </Link>
         </Button>
       </PageTitle>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[80px]">Ảnh</TableHead>
-            <TableHead>Tiêu đề</TableHead>
-            <TableHead>Nền tảng</TableHead>
-            <TableHead>Hành động</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {articles.map((article) => (
-            <TableRow key={article.id}>
-              <TableCell>
-                <Image src={article.imageUrl} alt={article.title} width={64} height={64} className="rounded-md object-cover" />
-              </TableCell>
-              <TableCell className="font-medium">{article.title}</TableCell>
-              <TableCell>
-                  {article.link.includes('youtube') && <Youtube className="h-5 w-5 text-red-600" />}
-                  {article.link.includes('tiktok') && <TiktokIcon className="h-5 w-5" />}
-              </TableCell>
-              <TableCell>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={`/dashboard/articles/${article.id}/edit`}>
-                      Chỉnh sửa
-                    </Link>
-                  </Button>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                       <Button variant="destructive" size="sm" onClick={() => setArticleToDelete(article)}>
-                        Xóa
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Bạn có chắc chắn muốn xóa?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Hành động này không thể được hoàn tác. Thao tác này sẽ xóa vĩnh viễn bài viết
-                          <span className="font-bold"> "{articleToDelete?.title}"</span>.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel onClick={() => setArticleToDelete(null)}>Hủy</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete}>Tiếp tục</AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              </TableCell>
+      <div className="border rounded-lg">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[80px]">Ảnh</TableHead>
+              <TableHead>Tiêu đề</TableHead>
+              <TableHead>Nền tảng</TableHead>
+              <TableHead>Hành động</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {paginatedArticles.map((article) => (
+              <TableRow key={article.id}>
+                <TableCell>
+                  <Image src={article.imageUrl} alt={article.title} width={64} height={64} className="rounded-md object-cover" />
+                </TableCell>
+                <TableCell className="font-medium">{article.title}</TableCell>
+                <TableCell>
+                    {article.link.includes('youtube') && <Youtube className="h-5 w-5 text-red-600" />}
+                    {article.link.includes('tiktok') && <TiktokIcon className="h-5 w-5" />}
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/dashboard/articles/${article.id}/edit`}>
+                        Chỉnh sửa
+                      </Link>
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" size="sm" onClick={() => setArticleToDelete(article)}>
+                          Xóa
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Bạn có chắc chắn muốn xóa?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Hành động này không thể được hoàn tác. Thao tác này sẽ xóa vĩnh viễn bài viết
+                            <span className="font-bold"> "{articleToDelete?.title}"</span>.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel onClick={() => setArticleToDelete(null)}>Hủy</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDelete}>Tiếp tục</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+       <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
     </div>
   );
 }
