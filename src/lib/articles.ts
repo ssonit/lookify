@@ -8,6 +8,10 @@ export type Article = {
     level: string;
     cta: string;
     link: string;
+    // SEO fields
+    seoTitle?: string;
+    seoDescription?: string;
+    seoKeywords?: string;
 };
 
 export const articles: Article[] = [
@@ -19,7 +23,10 @@ export const articles: Article[] = [
         tags: ["Video", "12:30"],
         level: "Starter",
         cta: "Xem trên Youtube",
-        link: "https://www.youtube.com/"
+        link: "https://www.youtube.com/",
+        seoTitle: "Bí quyết chọn đồ theo dáng người",
+        seoDescription: "Hướng dẫn chi tiết cách chọn trang phục phù hợp với từng dáng người để tôn lên vẻ đẹp tự nhiên của bạn.",
+        seoKeywords: "chọn đồ, dáng người, phối đồ, thời trang"
     },
     {
         id: 2,
@@ -29,7 +36,10 @@ export const articles: Article[] = [
         tags: ["Hướng dẫn video", "Bài viết"],
         level: "~45 phút",
         cta: "Xem trên Youtube",
-        link: "https://www.youtube.com/"
+        link: "https://www.youtube.com/",
+        seoTitle: "Học cách phối màu quần áo",
+        seoDescription: "Tìm hiểu về bánh xe màu, quy tắc phối màu 60-30-10 và cách kết hợp màu sắc trang phục một cách hài hòa.",
+        seoKeywords: "phối màu, quần áo, thời trang, màu sắc"
     },
     {
         id: 3,
@@ -39,7 +49,10 @@ export const articles: Article[] = [
         tags: ["Bài viết", "Routine 7 bước"],
         level: "Everyday",
         cta: "Xem trên Tiktok",
-        link: "https://www.tiktok.com/"
+        link: "https://www.tiktok.com/",
+        seoTitle: "Chăm sóc da và tóc đúng cách",
+        seoDescription: "Routine chăm sóc da và tóc tối giản nhưng hiệu quả, phù hợp cho mọi loại da.",
+        seoKeywords: "chăm sóc da, chăm sóc tóc, skincare, routine"
     },
     {
         id: 4,
@@ -49,6 +62,9 @@ export const articles: Article[] = [
         tags: ["Hướng dẫn video"],
         level: "Beginner-Intermediate",
         cta: "Xem trên Tiktok",
-        link: "https://www.tiktok.com/"
+        link: "https://www.tiktok.com/",
+        seoTitle: "Cải thiện kỹ năng giao tiếp và sự tự tin",
+        seoDescription: "Học các kỹ năng về ngôn ngữ cơ thể, giọng nói để trở nên tự tin hơn trong giao tiếp hàng ngày.",
+        seoKeywords: "giao tiếp, tự tin, kỹ năng mềm"
     }
 ];

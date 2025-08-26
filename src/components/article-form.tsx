@@ -33,7 +33,11 @@ const articleFormSchema = z.object({
   level: z.string().min(3, { message: "Level không được để trống." }),
   cta: z.string().min(1, { message: "CTA không được để trống." }),
   link: z.string().url({ message: 'Vui lòng nhập URL hợp lệ.' }),
-  platform: z.enum(['youtube', 'tiktok'])
+  platform: z.enum(['youtube', 'tiktok']),
+  // SEO fields
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional(),
+  seoKeywords: z.string().optional(),
 });
 
 export type ArticleFormValues = Omit<z.infer<typeof articleFormSchema>, 'tags'> & { tags: string[] };
@@ -59,7 +63,10 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
       level: '',
       cta: 'Xem ngay',
       link: '',
-      platform: 'youtube'
+      platform: 'youtube',
+      seoTitle: '',
+      seoDescription: '',
+      seoKeywords: ''
     },
   });
 
@@ -225,6 +232,55 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
             </CardContent>
           </Card>
           
+          <Card>
+            <CardHeader>
+                <CardTitle>Tối ưu hóa SEO (Tùy chọn)</CardTitle>
+                <FormDescription>Cung cấp các thông tin này để cải thiện thứ hạng trên các công cụ tìm kiếm.</FormDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                 <FormField
+                    control={form.control}
+                    name="seoTitle"
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Meta Title</FormLabel>
+                        <FormControl>
+                        <Input placeholder="Tiêu đề hiển thị trên Google..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
+                 <FormField
+                    control={form.control}
+                    name="seoDescription"
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Meta Description</FormLabel>
+                        <FormControl>
+                         <Textarea placeholder="Mô tả ngắn gọn cho công cụ tìm kiếm..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="seoKeywords"
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Meta Keywords</FormLabel>
+                        <FormControl>
+                        <Input placeholder="phối đồ, thời trang,..." {...field} />
+                        </FormControl>
+                        <FormDescription>Các từ khóa cách nhau bởi dấu phẩy.</FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
+            </CardContent>
+          </Card>
+
           <div className="flex justify-end">
             <Button type="submit">Lưu lại</Button>
           </div>
