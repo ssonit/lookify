@@ -22,33 +22,9 @@ import { Separator } from './ui/separator';
 const profileSettingsSchema = z.object({
   name: z.string().min(2, 'Tên phải có ít nhất 2 ký tự.'),
   email: z.string().email('Email không hợp lệ.'),
-  currentPassword: z.string().optional(),
-  newPassword: z.string().optional(),
-  confirmPassword: z.string().optional(),
   outfitSuggestions: z.boolean().default(true),
   weeklyDigest: z.boolean().default(false),
   promotionalEmails: z.boolean().default(false),
-}).refine(data => {
-    if (data.newPassword && !data.currentPassword) {
-        return false;
-    }
-    return true;
-}, {
-    message: "Vui lòng nhập mật khẩu hiện tại.",
-    path: ["currentPassword"],
-})
-.refine(data => {
-    if (data.newPassword && (data.newPassword.length < 8)) {
-        return false;
-    }
-    return true;
-}, {
-    message: "Mật khẩu mới phải có ít nhất 8 ký tự.",
-    path: ["newPassword"],
-})
-.refine(data => data.newPassword === data.confirmPassword, {
-  message: "Mật khẩu mới không khớp.",
-  path: ["confirmPassword"],
 });
 
 
@@ -104,54 +80,6 @@ export function ProfileSettingsForm() {
                         <FormLabel>Email</FormLabel>
                         <FormControl>
                             <Input placeholder="email@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </CardContent>
-        </Card>
-
-        <Card>
-            <CardHeader>
-                <CardTitle>Bảo mật</CardTitle>
-                <CardDescription>Thay đổi mật khẩu của bạn.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                 <FormField
-                    control={form.control}
-                    name="currentPassword"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Mật khẩu hiện tại</FormLabel>
-                        <FormControl>
-                            <Input type="password" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                <FormField
-                    control={form.control}
-                    name="newPassword"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Mật khẩu mới</FormLabel>
-                        <FormControl>
-                            <Input type="password" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                 <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Xác nhận mật khẩu mới</FormLabel>
-                        <FormControl>
-                            <Input type="password" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
