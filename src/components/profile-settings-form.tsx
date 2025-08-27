@@ -28,7 +28,7 @@ import { DialogClose } from './ui/dialog';
 const profileSettingsSchema = z.object({
   name: z.string().min(2, 'Tên phải có ít nhất 2 ký tự.'),
   email: z.string().email('Email không hợp lệ.'),
-  gender: z.enum(['male', 'female', 'other']).optional(),
+  gender: z.enum(['male', 'female']).optional(),
   dob: z.date().optional(),
   height: z.coerce.number().positive().optional(),
   weight: z.coerce.number().positive().optional(),
@@ -129,7 +129,6 @@ export function ProfileSettingsForm() {
                         <SelectContent>
                           <SelectItem value="male">Nam</SelectItem>
                           <SelectItem value="female">Nữ</SelectItem>
-                          <SelectItem value="other">Khác</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
