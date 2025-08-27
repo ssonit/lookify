@@ -50,7 +50,7 @@ export default function FitGuidePage() {
             <main className="flex-1 w-full container mx-auto px-4 py-8 md:py-12">
                 <PageHeader
                     title="Hướng dẫn chọn Size"
-                    description="Nhập số đo của bạn để nhận gợi ý về kích cỡ phù hợp nhất khi mua sắm online, giúp bạn tự tin hơn với mỗi lựa chọn."
+                    description="Nhập số đo của bạn hoặc tải ảnh lên để nhận gợi ý về kích cỡ phù hợp nhất, giúp bạn tự tin hơn với mỗi lựa chọn."
                     className="mb-8"
                 />
 
