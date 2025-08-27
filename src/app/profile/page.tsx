@@ -55,7 +55,7 @@ export default function ProfilePage() {
                             <div className="mt-4 flex justify-center md:justify-start gap-2">
                                 <Button variant="outline" asChild>
                                     <Link href="/profile/edit">
-                                        <User className="mr-2" />Chỉnh sửa hồ sơ
+                                        <User className="mr-2" />Cập nhật thông tin
                                     </Link>
                                 </Button>
                                 <Button variant="ghost" size="icon"><LogOut /></Button>
