@@ -19,6 +19,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { COLOR_MAP, CATEGORY_MAP, OUTFIT_IMAGE_LABELS, SEASON_MAP } from '@/lib/constants';
+import { useToast } from '@/hooks/use-toast';
 
 
 export default function OutfitDetailPage() {
@@ -28,10 +29,28 @@ export default function OutfitDetailPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isLightboxImageLoading, setIsLightboxImageLoading] = useState(true);
+  const { toast } = useToast();
 
   const openLightbox = (imageUrl: string) => {
     setSelectedImage(imageUrl);
     setIsLightboxImageLoading(true);
+  };
+
+  const handleFavoriteToggle = () => {
+    const newFavoriteState = !isFavorited;
+    setIsFavorited(newFavoriteState);
+    if (newFavoriteState) {
+      toast({
+        title: "Đã lưu",
+        description: "Outfit đã được thêm vào bộ sưu tập của bạn.",
+      })
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Đã bỏ lưu",
+            description: "Outfit đã được xóa khỏi bộ sưu tập của bạn.",
+      })
+    }
   };
 
   if (!outfit) {
@@ -64,7 +83,7 @@ export default function OutfitDetailPage() {
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.title}</h1>
                     <div className="flex items-center gap-2 shrink-0">
-                      <Button variant="outline" size="icon" onClick={() => setIsFavorited(!isFavorited)}>
+                      <Button variant="outline" size="icon" onClick={handleFavoriteToggle}>
                         <Heart className={isFavorited ? "fill-red-500 text-red-500" : ""} />
                         <span className="sr-only">Lưu outfit</span>
                       </Button>
@@ -265,3 +284,5 @@ export default function OutfitDetailPage() {
     </div>
   );
 }
+
+    
