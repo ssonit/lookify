@@ -19,12 +19,12 @@ export default function SignInPage() {
                             <Image src="https://placehold.co/48x48.png" alt="Lookify Logo" width={48} height={48} data-ai-hint="logo" />
                         </div>
                         <div>
-                            <CardTitle className="font-headline text-2xl">Đăng nhập</CardTitle>
+                            <CardTitle className="font-headline text-xl">Đăng nhập</CardTitle>
                             <CardDescription>Tiếp tục với Google để truy cập nhanh.</CardDescription>
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                        <Button variant="outline" className="w-full relative justify-center text-base py-6 bg-white hover:bg-gray-100 text-foreground group">
+                        <Button variant="outline" className="w-full relative justify-center text-sm py-6 bg-white hover:bg-gray-100 text-foreground group">
                             <GoogleIcon />
                             <span>Đăng nhập với Google</span>
                             <ArrowRight className="absolute right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
