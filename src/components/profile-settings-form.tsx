@@ -30,8 +30,8 @@ const profileSettingsSchema = z.object({
   email: z.string().email('Email không hợp lệ.'),
   gender: z.enum(['male', 'female']).optional(),
   dob: z.date().optional(),
-  height: z.coerce.number().positive().optional(),
-  weight: z.coerce.number().positive().optional(),
+  height: z.coerce.number().positive('Chiều cao phải là số dương.').optional(),
+  weight: z.coerce.number().positive('Cân nặng phải là số dương.').optional(),
   bio: z.string().max(160, 'Tiểu sử không được vượt quá 160 ký tự.').optional(),
 });
 
@@ -186,6 +186,7 @@ export function ProfileSettingsForm() {
                             <FormControl>
                                 <Input type="number" placeholder="ví dụ: 175" {...field} />
                             </FormControl>
+                            <FormDescription>Để gợi ý size tốt hơn.</FormDescription>
                             <FormMessage />
                             </FormItem>
                         )}
@@ -199,6 +200,7 @@ export function ProfileSettingsForm() {
                             <FormControl>
                                 <Input type="number" placeholder="ví dụ: 68" {...field} />
                             </FormControl>
+                             <FormDescription>Để gợi ý size tốt hơn.</FormDescription>
                             <FormMessage />
                             </FormItem>
                         )}
