@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { PageHeader } from "@/components/page-header";
@@ -20,8 +21,20 @@ const moods = [
 ];
 
 export default function MoodStylingPage() {
-    const [selectedMood, setSelectedMood] = useState(moods[0]);
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const activeMoodId = searchParams.get('mood') || moods[0].id;
+    const selectedMood = moods.find(m => m.id === activeMoodId) || moods[0];
+
     const suggestedOutfits = outfits.slice(0, 4); // Placeholder for suggested outfits
+
+    const handleMoodChange = (moodId: string) => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('mood', moodId);
+        router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
+    };
 
     return (
         <div className="flex flex-col min-h-screen bg-background font-body">
@@ -40,7 +53,7 @@ export default function MoodStylingPage() {
                             <Card
                                 key={mood.id}
                                 className={`cursor-pointer transition-all duration-300 rounded-2xl ${selectedMood.id === mood.id ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'}`}
-                                onClick={() => setSelectedMood(mood)}
+                                onClick={() => handleMoodChange(mood.id)}
                             >
                                 <CardContent className="p-6 text-center">
                                     <div className="text-4xl mb-3">{mood.icon}</div>
