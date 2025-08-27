@@ -14,7 +14,7 @@ export default function SignInPage() {
             <div className="w-full max-w-md space-y-8">
                 <Card className="shadow-lg bg-card border-border/60 relative overflow-hidden">
                     <BorderBeam size={250} duration={12} delay={9} borderWidth={2.5} />
-                    <CardHeader className="flex flex-row items-center gap-4">
+                    <CardHeader className="flex flex-row items-center gap-4 p-8">
                         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
                             <Image src="https://placehold.co/48x48.png" alt="Lookify Logo" width={48} height={48} data-ai-hint="logo" />
                         </div>
@@ -23,7 +23,7 @@ export default function SignInPage() {
                             <CardDescription>Tiếp tục với Google để truy cập nhanh.</CardDescription>
                         </div>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="space-y-6 px-8 pb-8">
                         <Button variant="outline" className="w-full relative justify-center text-sm py-6 bg-white hover:bg-gray-100 text-foreground group">
                             <GoogleIcon />
                             <span>Đăng nhập với Google</span>
@@ -35,7 +35,7 @@ export default function SignInPage() {
                             <p>Chỉ hỗ trợ Google. Chúng tôi không lưu mật khẩu của bạn.</p>
                         </div>
 
-                         <p className="text-center text-xs text-muted-foreground">
+                         <p className="pt-4 text-center text-xs text-muted-foreground">
                             Bằng việc tiếp tục, bạn đồng ý với {' '}
                             <Link
                                 href="/terms"
