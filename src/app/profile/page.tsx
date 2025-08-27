@@ -11,8 +11,8 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { outfits } from "@/lib/outfits";
-import { ProfileSettingsForm } from "@/components/profile-settings-form";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { SettingsNotificationForm } from "@/components/settings-notification-form";
 
 const UserProfile = {
     name: 'An Trần',
@@ -53,7 +53,11 @@ export default function ProfilePage() {
                             <p className="text-muted-foreground mt-1">{UserProfile.email}</p>
                             <p className="text-sm text-muted-foreground mt-2">Tham gia từ {new Date(UserProfile.joinDate).toLocaleDateString('vi-VN')}</p>
                             <div className="mt-4 flex justify-center md:justify-start gap-2">
-                                <Button variant="outline"><User className="mr-2" />Chỉnh sửa hồ sơ</Button>
+                                <Button variant="outline" asChild>
+                                    <Link href="/profile/edit">
+                                        <User className="mr-2" />Chỉnh sửa hồ sơ
+                                    </Link>
+                                </Button>
                                 <Button variant="ghost" size="icon"><LogOut /></Button>
                             </div>
                         </div>
@@ -93,7 +97,7 @@ export default function ProfilePage() {
                             )}
                         </TabsContent>
                         <TabsContent value="settings" className="mt-6">
-                          <ProfileSettingsForm />
+                          <SettingsNotificationForm />
                         </TabsContent>
                     </Tabs>
                 </section>

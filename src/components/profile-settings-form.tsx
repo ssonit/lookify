@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from './ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { cn } from '@/lib/utils';
@@ -33,22 +32,15 @@ const profileSettingsSchema = z.object({
   height: z.coerce.number().positive().optional(),
   weight: z.coerce.number().positive().optional(),
   bio: z.string().max(160, 'Tiểu sử không được vượt quá 160 ký tự.').optional(),
-  outfitSuggestions: z.boolean().default(true),
-  weeklyDigest: z.boolean().default(false),
-  promotionalEmails: z.boolean().default(false),
 });
 
 
 type ProfileSettingsValues = z.infer<typeof profileSettingsSchema>;
 
-// Mock data, in a real app this would come from an API
 const defaultValues: Partial<ProfileSettingsValues> = {
   name: 'An Trần',
   email: 'an.tran@example.com',
   bio: 'Yêu thích phong cách tối giản và thoải mái.',
-  outfitSuggestions: true,
-  weeklyDigest: false,
-  promotionalEmails: false,
 };
 
 export function ProfileSettingsForm() {
@@ -59,7 +51,6 @@ export function ProfileSettingsForm() {
 
   function onSubmit(data: ProfileSettingsValues) {
     console.log('Form data submitted:', data);
-    // Here you would call an API to update the user's settings
   }
 
   return (
@@ -213,87 +204,6 @@ export function ProfileSettingsForm() {
                 </div>
             </CardContent>
         </Card>
-
-
-        <Card>
-            <CardHeader>
-                <CardTitle>Thông báo</CardTitle>
-                <CardDescription>Quản lý cách chúng tôi liên lạc với bạn.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                 <FormField
-                    control={form.control}
-                    name="outfitSuggestions"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                        <div className="space-y-0.5">
-                            <FormLabel className="text-base">Gợi ý trang phục</FormLabel>
-                            <FormDescription>
-                                Nhận thông báo khi có gợi ý trang phục mới phù hợp với bạn.
-                            </FormDescription>
-                        </div>
-                        <FormControl>
-                            <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            />
-                        </FormControl>
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="weeklyDigest"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                        <div className="space-y-0.5">
-                            <FormLabel className="text-base">Bản tin hàng tuần</FormLabel>
-                             <FormDescription>
-                                Nhận email tổng hợp các trang phục nổi bật mỗi tuần.
-                            </FormDescription>
-                        </div>
-                        <FormControl>
-                            <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            />
-                        </FormControl>
-                        </FormItem>
-                    )}
-                />
-                 <FormField
-                    control={form.control}
-                    name="promotionalEmails"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                        <div className="space-y-0.5">
-                            <FormLabel className="text-base">Email khuyến mãi</FormLabel>
-                             <FormDescription>
-                                Nhận thông báo về các ưu đãi và khuyến mãi đặc biệt.
-                            </FormDescription>
-                        </div>
-                        <FormControl>
-                            <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            />
-                        </FormControl>
-                        </FormItem>
-                    )}
-                />
-            </CardContent>
-        </Card>
-        
-        <Card>
-            <CardHeader>
-                <CardTitle>Tài khoản</CardTitle>
-                <CardDescription>Các hành động không thể hoàn tác.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Button variant="destructive">Xóa tài khoản</Button>
-            </CardContent>
-        </Card>
-
         <div className="flex justify-end">
           <Button type="submit">Cập nhật thông tin</Button>
         </div>
