@@ -13,7 +13,7 @@ export default function SignInPage() {
         <main className="flex min-h-screen items-center justify-center bg-background p-4 font-body">
             <div className="w-full max-w-md space-y-8">
                 <Card className="shadow-lg bg-card border-border/60 relative overflow-hidden">
-                    <BorderBeam size={250} duration={12} delay={9} />
+                    <BorderBeam size={250} duration={12} delay={9} borderWidth={2.5} />
                     <CardHeader className="flex flex-row items-center gap-4">
                         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
                             <Image src="https://placehold.co/48x48.png" alt="Lookify Logo" width={48} height={48} data-ai-hint="logo" />
