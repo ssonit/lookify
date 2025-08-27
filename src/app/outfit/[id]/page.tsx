@@ -46,7 +46,6 @@ export default function OutfitDetailPage() {
       })
     } else {
         toast({
-            variant: "destructive",
             title: "Đã bỏ lưu",
             description: "Outfit đã được xóa khỏi bộ sưu tập của bạn.",
       })
