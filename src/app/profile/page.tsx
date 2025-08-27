@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { outfits } from "@/lib/outfits";
+import { ProfileSettingsForm } from "@/components/profile-settings-form";
 
 const UserProfile = {
     name: 'An Trần',
@@ -79,20 +80,7 @@ export default function ProfilePage() {
                             )}
                         </TabsContent>
                         <TabsContent value="settings" className="mt-6">
-                           <Card>
-                                <CardContent className="p-6 space-y-6">
-                                    <div>
-                                        <h3 className="text-lg font-medium">Thông báo</h3>
-                                        <p className="text-sm text-muted-foreground">Quản lý cách chúng tôi liên lạc với bạn.</p>
-                                        {/* Add notification settings here */}
-                                    </div>
-                                     <div>
-                                        <h3 className="text-lg font-medium">Tài khoản</h3>
-                                        <p className="text-sm text-muted-foreground">Quản lý thông tin tài khoản của bạn.</p>
-                                         <Button variant="destructive" className="mt-4">Xóa tài khoản</Button>
-                                    </div>
-                                </CardContent>
-                           </Card>
+                          <ProfileSettingsForm />
                         </TabsContent>
                     </Tabs>
                 </section>
