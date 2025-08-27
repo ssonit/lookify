@@ -22,6 +22,7 @@ const UserProfile = {
     email: 'an.tran@example.com',
     avatar: 'https://placehold.co/128x128.png',
     joinDate: '2023-10-26',
+    bio: 'Yêu thích phong cách tối giản và thoải mái. Luôn tìm kiếm những bộ trang phục vừa đẹp vừa tiện dụng cho cuộc sống hàng ngày.'
 };
 
 const savedOutfits = outfits.slice(0, 4);
@@ -48,13 +49,14 @@ export default function ProfilePage() {
                     {/* Profile Header */}
                     <div className="flex flex-col items-center md:flex-row md:items-start gap-6 md:gap-8 mb-10">
                         <Avatar className="w-24 h-24 md:w-32 md:h-32 border-4 border-primary/20">
-                            <AvatarImage src={UserProfile.avatar} alt={UserProfile.name} />
+                            <AvatarImage src={UserProfile.avatar} alt={UserProfile.name} data-ai-hint="user avatar"/>
                             <AvatarFallback>{UserProfile.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div className="text-center md:text-left flex-1">
                             <h1 className="text-3xl md:text-4xl font-bold font-headline">{UserProfile.name}</h1>
                             <p className="text-muted-foreground mt-1">{UserProfile.email}</p>
                             <p className="text-sm text-muted-foreground mt-2">Tham gia từ {new Date(UserProfile.joinDate).toLocaleDateString('vi-VN')}</p>
+                            <p className="text-sm text-muted-foreground mt-3 italic">{UserProfile.bio}</p>
                             <div className="mt-4 flex justify-center md:justify-start gap-2">
                                 <Dialog>
                                     <DialogTrigger asChild>
