@@ -25,8 +25,8 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="vi" suppressHydrationWarning={true}>
-      <body className={`${inter.variable} font-body bg-background text-foreground`}>
+    <html lang="vi" suppressHydrationWarning>
+      <body className={`${inter.variable} font-body bg-background text-foreground`} suppressHydrationWarning>
         <SettingsProvider>
           {children}
         </SettingsProvider>
