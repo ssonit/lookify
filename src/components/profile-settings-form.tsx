@@ -58,7 +58,7 @@ export function ProfileSettingsForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pt-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <Card>
             <CardHeader>
                 <CardTitle>Thông tin công khai</CardTitle>
@@ -206,7 +206,7 @@ export function ProfileSettingsForm() {
                 </div>
             </CardContent>
         </Card>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 sticky bottom-0 bg-background py-4">
             <DialogClose asChild>
                 <Button type="button" variant="secondary">Hủy</Button>
             </DialogClose>

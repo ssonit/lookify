@@ -13,8 +13,9 @@ import Image from "next/image";
 import { outfits } from "@/lib/outfits";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { SettingsNotificationForm } from "@/components/settings-notification-form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { ProfileSettingsForm } from "@/components/profile-settings-form";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const UserProfile = {
     name: 'An Trần',
@@ -61,14 +62,18 @@ export default function ProfilePage() {
                                             <User className="mr-2" />Cập nhật thông tin
                                         </Button>
                                     </DialogTrigger>
-                                    <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-                                        <DialogHeader>
-                                        <DialogTitle>Chỉnh sửa hồ sơ</DialogTitle>
-                                        <DialogDescription>
-                                           Thực hiện các thay đổi cho hồ sơ của bạn ở đây. Nhấp vào lưu khi bạn hoàn tất.
-                                        </DialogDescription>
+                                    <DialogContent className="sm:max-w-[600px] p-0">
+                                        <DialogHeader className="p-6 pb-0">
+                                            <DialogTitle>Chỉnh sửa hồ sơ</DialogTitle>
+                                            <DialogDescription>
+                                            Thực hiện các thay đổi cho hồ sơ của bạn ở đây. Nhấp vào lưu khi bạn hoàn tất.
+                                            </DialogDescription>
                                         </DialogHeader>
-                                        <ProfileSettingsForm />
+                                        <ScrollArea className="h-[70vh] w-full">
+                                            <div className="p-6">
+                                                <ProfileSettingsForm />
+                                            </div>
+                                        </ScrollArea>
                                     </DialogContent>
                                 </Dialog>
                                 <Button variant="ghost" size="icon"><LogOut /></Button>
