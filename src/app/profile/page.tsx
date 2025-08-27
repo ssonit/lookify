@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { outfits } from "@/lib/outfits";
 import { ProfileSettingsForm } from "@/components/profile-settings-form";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const UserProfile = {
     name: 'An Trần',
@@ -23,6 +24,18 @@ const UserProfile = {
 const savedOutfits = outfits.slice(0, 4);
 
 export default function ProfilePage() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const activeTab = searchParams.get('tab') || 'saved';
+
+    const handleTabChange = (value: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('tab', value);
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    };
+
 
     return (
         <div className="flex flex-col min-h-screen bg-background font-body">
@@ -47,7 +60,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Tabs */}
-                    <Tabs defaultValue="saved" className="w-full">
+                    <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
                         <TabsList className="grid w-full grid-cols-2 h-full">
                             <TabsTrigger value="saved"><Heart className="mr-2"/>Outfit đã lưu</TabsTrigger>
                             <TabsTrigger value="settings"><Settings className="mr-2"/>Cài đặt</TabsTrigger>

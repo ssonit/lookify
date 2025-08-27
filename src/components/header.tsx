@@ -42,13 +42,13 @@ export function Header() {
         </Link>
       </DropdownMenuItem>
        <DropdownMenuItem asChild>
-        <Link href="/profile#saved">
+        <Link href="/profile?tab=saved">
           <Heart className="mr-2 h-4 w-4" />
           <span>Đã lưu</span>
         </Link>
       </DropdownMenuItem>
       <DropdownMenuItem asChild>
-        <Link href="/profile#settings">
+        <Link href="/profile?tab=settings">
           <Settings className="mr-2 h-4 w-4" />
           <span>Cài đặt</span>
         </Link>
@@ -79,13 +79,13 @@ export function Header() {
           </Link>
         </SheetClose>
         <SheetClose asChild>
-          <Link href="/profile#saved" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+          <Link href="/profile?tab=saved" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
             <Heart className="mr-2 h-4 w-4" />
             <span>Đã lưu</span>
           </Link>
         </SheetClose>
         <SheetClose asChild>
-          <Link href="/profile#settings" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+          <Link href="/profile?tab=settings" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
             <Settings className="mr-2 h-4 w-4" />
             <span>Cài đặt</span>
           </Link>
