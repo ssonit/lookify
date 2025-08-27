@@ -23,6 +23,7 @@ import { CalendarIcon } from 'lucide-react';
 import { Calendar } from './ui/calendar';
 import { format } from 'date-fns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { DialogClose } from './ui/dialog';
 
 const profileSettingsSchema = z.object({
   name: z.string().min(2, 'Tên phải có ít nhất 2 ký tự.'),
@@ -51,11 +52,13 @@ export function ProfileSettingsForm() {
 
   function onSubmit(data: ProfileSettingsValues) {
     console.log('Form data submitted:', data);
+    // Here you would typically call an API to save the data
+    // For now, we can just close the dialog
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pt-4">
         <Card>
             <CardHeader>
                 <CardTitle>Thông tin công khai</CardTitle>
@@ -204,8 +207,13 @@ export function ProfileSettingsForm() {
                 </div>
             </CardContent>
         </Card>
-        <div className="flex justify-end">
-          <Button type="submit">Cập nhật thông tin</Button>
+        <div className="flex justify-end gap-2">
+            <DialogClose asChild>
+                <Button type="button" variant="secondary">Hủy</Button>
+            </DialogClose>
+            <DialogClose asChild>
+                 <Button type="submit">Cập nhật thông tin</Button>
+            </DialogClose>
         </div>
       </form>
     </Form>

@@ -13,6 +13,8 @@ import Image from "next/image";
 import { outfits } from "@/lib/outfits";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { SettingsNotificationForm } from "@/components/settings-notification-form";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { ProfileSettingsForm } from "@/components/profile-settings-form";
 
 const UserProfile = {
     name: 'An Trần',
@@ -53,11 +55,22 @@ export default function ProfilePage() {
                             <p className="text-muted-foreground mt-1">{UserProfile.email}</p>
                             <p className="text-sm text-muted-foreground mt-2">Tham gia từ {new Date(UserProfile.joinDate).toLocaleDateString('vi-VN')}</p>
                             <div className="mt-4 flex justify-center md:justify-start gap-2">
-                                <Button variant="outline" asChild>
-                                    <Link href="/profile/edit">
-                                        <User className="mr-2" />Cập nhật thông tin
-                                    </Link>
-                                </Button>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="outline">
+                                            <User className="mr-2" />Cập nhật thông tin
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+                                        <DialogHeader>
+                                        <DialogTitle>Chỉnh sửa hồ sơ</DialogTitle>
+                                        <DialogDescription>
+                                           Thực hiện các thay đổi cho hồ sơ của bạn ở đây. Nhấp vào lưu khi bạn hoàn tất.
+                                        </DialogDescription>
+                                        </DialogHeader>
+                                        <ProfileSettingsForm />
+                                    </DialogContent>
+                                </Dialog>
                                 <Button variant="ghost" size="icon"><LogOut /></Button>
                             </div>
                         </div>
