@@ -1,3 +1,4 @@
+
 export const GENDER_OPTIONS = [
     { value: 'male', label: 'Nam' },
     { value: 'female', label: 'Nữ' },
@@ -32,6 +33,24 @@ export const COLOR_OPTIONS = [
     { value: 'earth-tone', label: 'Tone đất', hex: '#b9a18e' },
     { value: 'vibrant', label: 'Rực rỡ', hex: '#ff4d4d' },
 ];
+
+export const BODY_SHAPE_OPTIONS = {
+    female: [
+        { value: 'hourglass', label: 'Đồng hồ cát' },
+        { value: 'pear', label: 'Quả lê (tam giác)' },
+        { value: 'apple', label: 'Quả táo (tròn)' },
+        { value: 'rectangle', label: 'Chữ nhật' },
+        { value: 'inverted-triangle', label: 'Tam giác ngược' },
+    ],
+    male: [
+        { value: 'rectangle', label: 'Chữ nhật' },
+        { value: 'oval', label: 'Tròn (bầu dục)' },
+        { value: 'triangle', label: 'Tam giác' },
+        { value: 'inverted-triangle', label: 'Tam giác ngược' },
+        { value: 'trapezoid', label: 'Hình thang' },
+    ]
+};
+
 
 // --- MAPS ---
 export const CATEGORY_MAP: Record<string, string> = Object.fromEntries(CATEGORY_OPTIONS.map(o => [o.value, o.label]));

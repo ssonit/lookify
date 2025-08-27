@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut, Heart, Menu, LayoutDashboard } from 'lucide-react';
+import { User, Settings, LogOut, Heart, Menu, LayoutDashboard, Ruler } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from './ui/sheet';
 import { Separator } from './ui/separator';
 import { useContext } from 'react';
@@ -29,6 +29,7 @@ export function Header() {
   const navLinks = [
     { href: "/suggester", label: "Gợi ý AI" },
     { href: "/featured", label: "Styling theo Mood" },
+    { href: "/fit-guide", label: "Fit Guide" },
     { href: "/gallery", label: "Thư viện" },
     { href: "/upgrade", label: "Nâng cấp" },
   ];
