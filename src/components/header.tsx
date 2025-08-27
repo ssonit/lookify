@@ -28,7 +28,7 @@ export function Header() {
 
   const navLinks = [
     { href: "/suggester", label: "Gợi ý AI" },
-    { href: "/featured", label: "Nổi bật" },
+    { href: "/featured", label: "Styling theo Mood" },
     { href: "/gallery", label: "Thư viện" },
     { href: "/upgrade", label: "Nâng cấp" },
   ];
