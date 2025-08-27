@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler, X, Heart } from 'lucide-react';
+import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler, X, Heart, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { OutfitReview } from '@/components/outfit-review';
@@ -41,12 +41,22 @@ export default function OutfitDetailPage() {
     setIsFavorited(newFavoriteState);
     if (newFavoriteState) {
       toast({
-        title: "Đã lưu",
+        title: (
+            <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-500" />
+                <span className="font-semibold">Đã lưu</span>
+            </div>
+        ),
         description: "Outfit đã được thêm vào bộ sưu tập của bạn.",
       })
     } else {
         toast({
-            title: "Đã bỏ lưu",
+            title: (
+                <div className="flex items-center gap-2">
+                    <Info className="h-5 w-5 text-blue-500" />
+                    <span className="font-semibold">Đã bỏ lưu</span>
+                </div>
+            ),
             description: "Outfit đã được xóa khỏi bộ sưu tập của bạn.",
       })
     }
