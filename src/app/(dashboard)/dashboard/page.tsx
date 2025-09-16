@@ -1,4 +1,6 @@
 
+"use client";
+
 import { PageTitle } from "@/components/page-title";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 

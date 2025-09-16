@@ -1,18 +1,20 @@
 
 'use client';
-import { useState, useMemo, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { outfits, type Outfit } from '@/lib/outfits';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Search, X } from 'lucide-react';
+import { Search, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { PageHeader } from './page-header';
-import { GALLERY_FILTERS } from '@/lib/constants';
+import { useFilteredOutfits } from '@/hooks/use-outfits';
+import { OutfitCard } from '@/components/outfit-card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Pagination } from '@/components/pagination';
+import { useCategories } from '@/hooks/use-categories';
+import { useSeasons } from '@/hooks/use-seasons';
+import { cn } from '@/lib/utils';
 
 
 const FilterButton = ({
@@ -25,10 +27,10 @@ const FilterButton = ({
   children: React.ReactNode;
 }) => (
   <Button
-    variant={isSelected ? 'default' : 'outline'}
+    variant={"outline"}
     size="sm"
     onClick={onClick}
-    className="transition-all duration-200"
+    className={cn("transition-all duration-200", isSelected ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground" : "hover:bg-accent hover:text-accent-foreground")}
   >
     {children}
   </Button>
@@ -40,12 +42,34 @@ export function OutfitGallery() {
     const searchParams = useSearchParams();
 
     // States are now derived from URL search params
-    const activeGender = (searchParams.get('gender') as 'male' | 'female') || 'female';
+    const activeGender = (searchParams.get('gender') as 'all' | 'male' | 'female') || 'all';
     const activeCategory = searchParams.get('category');
     const activeSeason = searchParams.get('season');
     const urlSearchTerm = searchParams.get('search') || '';
+    const currentPage = parseInt(searchParams.get('page') || '1');
     
     const [localSearchTerm, setLocalSearchTerm] = useState(urlSearchTerm);
+
+    const itemsPerPage = 24;
+    const offset = (currentPage - 1) * itemsPerPage;
+
+    // Use API hook with filters
+    const { outfits: filteredOutfits, isLoading, error, totalCount } = useFilteredOutfits({
+        gender:  activeGender === 'all' ? undefined : activeGender,
+        category: activeCategory || undefined,
+        season: activeSeason || undefined,
+        search: urlSearchTerm || undefined,
+        limit: itemsPerPage,
+        offset: offset
+    });
+
+    console.log(filteredOutfits);
+
+    const totalPages = Math.ceil(totalCount / itemsPerPage);
+
+    // Get categories and seasons from database
+    const { categories, isLoading: categoriesLoading } = useCategories();
+    const { seasons, isLoading: seasonsLoading } = useSeasons();
     
     // Sync local search input with URL search term
     useEffect(() => {
@@ -59,8 +83,16 @@ export function OutfitGallery() {
         } else {
             newSearchParams.delete(key);
         }
+        // Reset to page 1 when filters change
+        if (key !== 'page') {
+            newSearchParams.delete('page');
+        }
         router.push(`${pathname}?${newSearchParams.toString()}`);
     }
+
+    const handlePageChange = (page: number) => {
+        updateSearchParams('page', page.toString());
+    };
 
     const handleSearch = () => {
         updateSearchParams('search', localSearchTerm || null);
@@ -76,7 +108,7 @@ export function OutfitGallery() {
         updateSearchParams('season', newSeason);
     };
 
-    const handleGenderChange = (gender: 'male' | 'female') => {
+    const handleGenderChange = (gender: 'all' | 'male' | 'female') => {
         updateSearchParams('gender', gender);
     };
 
@@ -84,27 +116,9 @@ export function OutfitGallery() {
         router.push(pathname);
     };
 
-    const activeFilterCount = [activeCategory, activeSeason, urlSearchTerm, searchParams.get('gender') ? 1 : 0].filter(Boolean).length;
+    // const activeFilterCount = [activeCategory, activeSeason, urlSearchTerm, searchParams.get('gender') ? 1 : 0].filter(Boolean).length;
     // Adjust filter count logic to not count default gender
     const displayFilterCount = [activeCategory, activeSeason, urlSearchTerm, searchParams.get('gender') && searchParams.get('gender') !== 'female' ? 1: 0].filter(Boolean).length;
-
-
-    const filteredOutfits = useMemo(() => {
-        const lowercasedSearchTerm = urlSearchTerm.toLowerCase();
-        return outfits.filter(o => {
-            return (
-                (o.gender === activeGender) &&
-                (!activeCategory || o.categories.includes(activeCategory as any)) &&
-                (!activeSeason || o.season === activeSeason) &&
-                (urlSearchTerm === '' ||
-                 o.title.toLowerCase().includes(lowercasedSearchTerm) ||
-                 o.description.toLowerCase().includes(lowercasedSearchTerm) ||
-                 o.items.some(item => item.name.toLowerCase().includes(lowercasedSearchTerm)))
-            )
-        });
-    }, [activeGender, activeCategory, activeSeason, urlSearchTerm]);
-
-    const allCategories = [...GALLERY_FILTERS.category];
 
     return (
         <section id="gallery">
@@ -114,7 +128,8 @@ export function OutfitGallery() {
                 className="mb-8"
             />
             
-            <div className="flex flex-col gap-4 mb-8 p-4 bg-card rounded-2xl shadow-sm border">
+         <div>
+         <div className="flex flex-col gap-4 mb-8 p-4 bg-card rounded-2xl shadow-sm border">
                  <div className="flex flex-col md:flex-row gap-4">
                     <div className="relative flex-grow">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -141,53 +156,101 @@ export function OutfitGallery() {
                 <Separator />
                 
                 <div className="flex flex-wrap gap-2">
-                   {allCategories.map(item => (
+                    {categoriesLoading ? (
+                     <div className="flex gap-2">
+                       {Array.from({ length: 4 }).map((_, i) => (
+                         <Skeleton key={i} className="h-8 w-20" />
+                       ))}
+                     </div>
+                   ) : (
+                     categories.map(category => (
                        <FilterButton 
-                        key={item.value + item.label} 
-                        onClick={() => handleToggleCategory(item.value)}
-                        isSelected={activeCategory === item.value}>
-                         {item.label}
+                         key={category.id} 
+                         onClick={() => handleToggleCategory(category.name)}
+                         isSelected={activeCategory === category.name}>
+                         {category.label}
                        </FilterButton>
-                   ))}
-                   <Separator orientation="vertical" className="h-auto mx-2" />
-                   {GALLERY_FILTERS.season.map(item => (
-                       <FilterButton key={item.value} onClick={() => handleToggleSeason(item.value)} isSelected={activeSeason === item.value}>
-                         {item.label}
+                     ))
+                   )}
+                  <Separator orientation="vertical" className="h-auto mx-2" />
+                    {seasonsLoading ? (
+                     <div className="flex gap-2">
+                       {Array.from({ length: 4 }).map((_, i) => (
+                         <Skeleton key={i} className="h-8 w-16" />
+                       ))}
+                     </div>
+                   ) : (
+                     seasons.map(season => (
+                       <FilterButton 
+                         key={season.id} 
+                         onClick={() => handleToggleSeason(season.name)} 
+                         isSelected={activeSeason === season.name}>
+                         {season.label}
                        </FilterButton>
-                   ))}
+                     ))
+                   )}
                 </div>
 
                 <Separator />
 
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <Tabs value={activeGender} onValueChange={(value) => handleGenderChange(value as 'male' | 'female')} className="w-full sm:w-auto">
-                        <TabsList className="grid w-full grid-cols-2">
+                    <Tabs value={activeGender} onValueChange={(value) => handleGenderChange(value as 'all' | 'male' | 'female')} className="w-full sm:w-auto">
+                        <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="all">Tất cả</TabsTrigger>
                             <TabsTrigger value="female">Nữ</TabsTrigger>
                             <TabsTrigger value="male">Nam</TabsTrigger>
                         </TabsList>
                     </Tabs>
-                    <div className="text-sm text-muted-foreground font-medium">{filteredOutfits.length} kết quả</div>
+                    <div className="text-sm text-muted-foreground font-medium">
+                        {isLoading ? (
+                            <div className="flex items-center gap-2">
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                Đang tải...
+                            </div>
+                        ) : (
+                            `${totalCount} kết quả`
+                        )}
+                    </div>
                 </div>
 
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredOutfits.map(outfit => (
-                    <Link key={outfit.id} href={`/outfit/${outfit.id}`} passHref>
-                        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full rounded-2xl">
-                            <CardContent className="p-0">
-                                <div className="relative aspect-[4/5] overflow-hidden">
-                                    <Image src={outfit.mainImage} width={400} height={500} alt={outfit.title} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
-            </div>
-             {filteredOutfits.length === 0 && (
+            {isLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {Array.from({ length: 12 }).map((_, i) => (
+                        <div key={i} className="space-y-2">
+                            <Skeleton className="aspect-[4/5] w-full rounded-2xl" />
+                        </div>
+                    ))}
+                </div>
+            ) : error ? (
+                <div className="text-center col-span-full py-16">
+                    <p className="text-lg font-medium text-red-500">Lỗi tải dữ liệu</p>
+                    <p className="text-muted-foreground">Không thể tải danh sách outfit. Vui lòng thử lại sau.</p>
+                    <Button onClick={() => window.location.reload()} className="mt-4">
+                        Thử lại
+                    </Button>
+                </div>
+            ) : filteredOutfits.length === 0 ? (
                 <div className="text-center col-span-full py-16">
                     <p className="text-lg font-medium">Không có trang phục nào phù hợp với tiêu chí của bạn.</p>
                     <p className="text-muted-foreground">Hãy thử điều chỉnh bộ lọc hoặc từ khóa tìm kiếm để tìm thêm phong cách.</p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {filteredOutfits.map(outfit => (
+                        <OutfitCard key={outfit.id} outfit={outfit} />
+                    ))}
+                </div>
+            )}
+         </div>
+
+            {/* Pagination */}
+            {!isLoading && !error && filteredOutfits.length > 0 && totalPages > 1 && (
+                <div className="mt-12">
+                    <Pagination
+                        totalPages={totalPages}
+                    />
                 </div>
             )}
         </section>

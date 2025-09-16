@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+
+# Structure
+- All SQL files must be placed inside the /supabase folder, located at the same level as /src.
+- Use a timestamp-based prefix so that the latest migration is always lexicographically greater.

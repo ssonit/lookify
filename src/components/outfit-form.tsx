@@ -28,20 +28,34 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from './ui/textarea';
 import { PlusCircle, Trash2, UploadCloud, X } from 'lucide-react';
-import { COLOR_OPTIONS, GENDER_OPTIONS, SEASON_OPTIONS, CATEGORY_OPTIONS } from '@/lib/constants';
+import { GENDER_OPTIONS } from '@/lib/constants';
+import { useCategories } from '@/hooks/use-categories';
+import { useSeasons } from '@/hooks/use-seasons';
+import { useColors } from '@/hooks/use-colors';
+import { useOutfitCreate } from '@/hooks/use-outfit-create';
+import { useOutfitUpdate } from '@/hooks/use-outfit-update';
 import { Checkbox } from './ui/checkbox';
 import { Badge } from './ui/badge';
 
+// Utility function để tạo stable keys
+const createStableKey = (prefix: string, id?: string, index?: number) => {
+  if (id) return `${prefix}-${id}`;
+  if (typeof index === 'number') return `${prefix}-${index}`;
+  return `${prefix}-${crypto.randomUUID()}`;
+};
+
 const shoppingLinkSchema = z.object({
+  id: z.string().optional(),
   store: z.string().min(1, { message: 'Tên cửa hàng không được để trống.' }),
   url: z.string().url({ message: 'Vui lòng nhập URL hợp lệ.' }),
 });
 
 const itemSchema = z.object({
+  id: z.string(),
   name: z.string().min(3, { message: 'Tên item cần ít nhất 3 ký tự.' }),
   type: z.string().min(1, { message: 'Loại item không được để trống.' }),
   imageUrl: z.any(),
-  shoppingLinks: z.array(shoppingLinkSchema),
+  affiliate_links: z.array(shoppingLinkSchema),
 });
 
 const outfitFormSchema = z.object({
@@ -51,9 +65,10 @@ const outfitFormSchema = z.object({
   categories: z.array(z.string()).refine((value) => value.length > 0, {
     message: 'Bạn phải chọn ít nhất một danh mục.',
   }),
-  season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
-  color: z.enum(['black', 'white', 'pastel', 'earth-tone', 'vibrant'], { required_error: 'Vui lòng chọn màu chủ đạo.' }),
+  season: z.string().min(1, { message: 'Vui lòng chọn mùa.' }),
+  color: z.string().min(1, { message: 'Vui lòng chọn màu chủ đạo.' }),
   mainImage: z.any().refine((file) => file, 'Vui lòng tải ảnh chính.'),
+  ai_hint: z.string().optional(),
   items: z.array(itemSchema).min(1, { message: 'Cần có ít nhất một item trong outfit.' }),
 });
 
@@ -63,6 +78,8 @@ interface OutfitFormProps {
   onSave: (data: OutfitFormValues) => void;
   initialData?: Partial<OutfitFormValues>;
   isLoading?: boolean;
+  mode?: 'create' | 'edit';
+  outfitId?: string;
 }
 
 function ImageUploadField({ form, name, description }: { form: any; name: string; description: string }) {
@@ -116,7 +133,7 @@ function ImageUploadField({ form, name, description }: { form: any; name: string
               <Input
                 type="file"
                 className="hidden"
-                accept="image/png, image/jpeg"
+                accept="image/png, image/jpeg, image/webp, image/jpg, image/gif, image/svg"
                 onChange={handleFileChange}
               />
             </label>
@@ -128,10 +145,10 @@ function ImageUploadField({ form, name, description }: { form: any; name: string
   );
 }
 
-function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIndex: number; remove: (index: number) => void; form: any }) {
+function ItemFields({ control, itemIndex, remove, form, itemId }: { control: any; itemIndex: number; remove: (index: number) => void; form: any; itemId: string }) {
   const { fields, append, remove: removeLink } = useFieldArray({
     control,
-    name: `items.${itemIndex}.shoppingLinks`,
+    name: `items.${itemIndex}.affiliate_links`,
   });
 
   return (
@@ -149,6 +166,7 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-4">
             <FormField
+              key={createStableKey('name', itemId, itemIndex)}
               control={control}
               name={`items.${itemIndex}.name`}
               render={({ field }) => (
@@ -160,6 +178,7 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
               )}
             />
             <FormField
+              key={createStableKey('type', itemId, itemIndex)}
               control={control}
               name={`items.${itemIndex}.type`}
               render={({ field }) => (
@@ -172,6 +191,7 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
             />
         </div>
         <FormField
+            key={createStableKey('image', itemId, itemIndex)}
             control={control}
             name={`items.${itemIndex}.imageUrl`}
             render={() => (
@@ -184,10 +204,11 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
       <div className="mt-4 space-y-3">
         <FormLabel className="mr-2">Link mua sắm</FormLabel>
         {fields.map((field, linkIndex) => (
-          <div key={field.id} className="flex items-end gap-2">
+          <div key={createStableKey('link', field.id, linkIndex)} className="flex items-end gap-2">
             <FormField
+              key={createStableKey('store', field.id, linkIndex)}
               control={control}
-              name={`items.${itemIndex}.shoppingLinks.${linkIndex}.store`}
+              name={`items.${itemIndex}.affiliate_links.${linkIndex}.store`}
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormControl><Input placeholder="Tên cửa hàng (ví dụ: Shopee)" {...field} /></FormControl>
@@ -196,8 +217,9 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
               )}
             />
             <FormField
+              key={createStableKey('url', field.id, linkIndex)}
               control={control}
-              name={`items.${itemIndex}.shoppingLinks.${linkIndex}.url`}
+              name={`items.${itemIndex}.affiliate_links.${linkIndex}.url`}
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormControl><Input placeholder="URL sản phẩm" {...field} /></FormControl>
@@ -214,7 +236,10 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
           type="button"
           variant="outline"
           size="sm"
-          onClick={() => append({ store: '', url: '' })}
+          onClick={() => append({ 
+            store: '', 
+            url: '' 
+          })}
         >
           <PlusCircle className="mr-1 h-4 w-4" />
           Thêm link
@@ -225,20 +250,27 @@ function ItemFields({ control, itemIndex, remove, form }: { control: any; itemIn
 }
 
 
-export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFormProps) {
+export function OutfitForm({ onSave, initialData, isLoading = false, mode = 'create', outfitId }: OutfitFormProps) {
+  const { categories } = useCategories();
+  const { seasons } = useSeasons();
+  const { colors } = useColors();
+  const { createOutfit, isLoading: isCreating } = useOutfitCreate();
+  const { updateOutfit, isLoading: isUpdating } = useOutfitUpdate();
+  
   const form = useForm<OutfitFormValues>({
     resolver: zodResolver(outfitFormSchema),
-    defaultValues: {
+    defaultValues: initialData ? {
       ...initialData,
-      categories: initialData?.categories || [],
-    } || {
+      categories: initialData.categories || [],
+    } : {
       title: '',
       description: '',
       gender: 'female',
       categories: [],
-      season: 'summer',
-      color: 'white',
+      season: seasons.length > 0 ? seasons[0].id : '',
+      color: colors.length > 0 ? colors[0].id : '',
       mainImage: null,
+      ai_hint: '',
       items: [],
     },
   });
@@ -248,8 +280,80 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
     name: "items",
   });
 
-  function onSubmit(data: OutfitFormValues) {
-    onSave(data);
+  // Reset form when initialData changes (for edit mode)
+  React.useEffect(() => {
+    if (initialData && mode === 'edit') {
+      form.reset({
+        ...initialData,
+        categories: initialData.categories || [],
+        items: initialData.items || []
+      });
+    }
+  }, [initialData, mode, form]);
+
+  async function onSubmit(data: OutfitFormValues) {
+    try {
+      // Prepare file data
+      const mainImageFile = data.mainImage instanceof File ? data.mainImage : undefined;
+
+      if (mode === 'create') {
+        // Create outfit data
+        const outfitData = {
+          title: data.title,
+          description: data.description,
+          gender: data.gender,
+          season: data.season || null,
+          color: data.color || null,
+          image_url: typeof data.mainImage === 'string' ? data.mainImage : null,
+          ai_hint: data.ai_hint || null,
+          is_ai_generated: false,
+          is_public: true,
+          categories: data.categories,
+          items: data.items.map(item => ({
+            id: item.id,
+            name: item.name,
+            type: item.type,
+            image_url: typeof item.imageUrl === 'string' ? item.imageUrl : null,
+            imageFile: item.imageUrl instanceof File ? item.imageUrl : null,
+            affiliate_links: item.affiliate_links
+          })),
+          mainImageFile
+        };
+
+        const outfit = await createOutfit(outfitData);
+      } else if (mode === 'edit' && outfitId) {
+        // Update outfit data
+        const outfitData = {
+          id: outfitId,
+          title: data.title,
+          description: data.description,
+          gender: data.gender,
+          season: data.season || null,
+          color: data.color || null,
+          image_url: typeof data.mainImage === 'string' ? data.mainImage : null,
+          ai_hint: data.ai_hint || null,
+          is_ai_generated: false,
+          is_public: true,
+          categories: data.categories,
+          items: data.items.map(item => ({
+            id: item.id,
+            name: item.name,
+            type: item.type,
+            image_url: typeof item.imageUrl === 'string' ? item.imageUrl : null,
+            imageFile: item.imageUrl instanceof File ? item.imageUrl : null,
+            affiliate_links: item.affiliate_links
+          })),
+          mainImageFile
+        };
+
+        const outfit = await updateOutfit(outfitData);
+      }
+
+      onSave(data);
+    } catch (error) {
+      console.error(`Error ${mode === 'create' ? 'creating' : 'updating'} outfit:`, error);
+      // Handle error (show toast, etc.)
+    }
   }
   
   React.useEffect(() => {
@@ -257,6 +361,15 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
       form.reset({
         ...initialData,
         categories: initialData.categories || [],
+        items: initialData.items?.map(item => ({
+          ...item,
+          id: item.id || crypto.randomUUID(),
+          affiliate_links: item.affiliate_links?.map(link => ({
+            id: link.id || crypto.randomUUID(),
+            store: link.store,
+            url: link.url
+          })) || []
+        })) || [],
       });
     }
   }, [initialData, form]);
@@ -282,7 +395,7 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <fieldset disabled={isLoading} className="space-y-8">
+        <fieldset disabled={isLoading || isCreating || isUpdating} className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Thông tin cơ bản</CardTitle>
@@ -319,6 +432,28 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                   </FormItem>
                 )}
               />
+              
+              <FormField
+                control={form.control}
+                name="ai_hint"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Gợi ý AI</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Nhập gợi ý cho AI về outfit này (tùy chọn)..."
+                        className="resize-y"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Gợi ý để AI hiểu rõ hơn về phong cách và mục đích sử dụng của outfit.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
                <FormField
                   control={form.control}
                   name="mainImage"
@@ -345,7 +480,7 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                         <SelectTrigger><SelectValue placeholder="Chọn giới tính" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {GENDER_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                        {GENDER_OPTIONS.map((option, index) => <SelectItem key={createStableKey('gender', option.value, index)} value={option.value}>{option.label}</SelectItem>)}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -363,7 +498,7 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                         <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {SEASON_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                        {seasons.map((season, index) => <SelectItem key={createStableKey('season', season.id, index)} value={season.id}>{season.label}</SelectItem>)}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -381,7 +516,7 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                         <SelectTrigger><SelectValue placeholder="Chọn màu chủ đạo" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {COLOR_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                        {colors.map((color, index) => <SelectItem key={createStableKey('color', color.id, index)} value={color.id}>{color.label}</SelectItem>)}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -401,23 +536,23 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
                             </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                            {CATEGORY_OPTIONS.map((item) => (
-                            <SelectItem key={item.value} value={item.value} disabled={watchedCategories.includes(item.value)}>
-                                {item.label}
+                            {categories.map((category, index) => (
+                            <SelectItem key={createStableKey('category', category.id, index)} value={category.id} disabled={watchedCategories.includes(category.id)}>
+                                {category.label}
                             </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                      <div className="mt-2 flex flex-wrap gap-2">
-                        {watchedCategories.map((categoryValue) => {
-                            const category = CATEGORY_OPTIONS.find(c => c.value === categoryValue);
+                        {watchedCategories.map((categoryId, index) => {
+                            const category = categories.find(c => c.id === categoryId);
                             return (
-                                <Badge key={categoryValue} variant="secondary">
-                                {category ? category.label : categoryValue}
+                                <Badge key={createStableKey('badge', categoryId, index)} variant="secondary">
+                                {category ? category.label : categoryId}
                                 <button
                                     type="button"
                                     className="ml-1.5 rounded-full p-0.5 hover:bg-destructive/20"
-                                    onClick={() => handleCategoryRemove(categoryValue)}
+                                    onClick={() => handleCategoryRemove(categoryId)}
                                 >
                                     <X className="h-3 w-3" />
                                 </button>
@@ -439,32 +574,33 @@ export function OutfitForm({ onSave, initialData, isLoading = false }: OutfitFor
               </CardHeader>
               <CardContent className="space-y-4">
                   {fields.map((field, index) => (
-                      <ItemFields key={field.id} control={form.control} itemIndex={index} remove={remove} form={form} />
+                    <div key={createStableKey('item', field.id, index)}>
+                      <ItemFields control={form.control} itemIndex={index} remove={remove} form={form} itemId={createStableKey('item', field.id, index)} />
+                    </div>
                   ))}
                    <Button
                       type="button"
                       variant="outline"
                       size="lg"
                       className="w-full"
-                      onClick={() => append({ name: '', type: '', imageUrl: null, shoppingLinks: [] })}
+                      onClick={() => append({ 
+                        id: crypto.randomUUID(), 
+                        name: '', 
+                        type: '', 
+                        imageUrl: null, 
+                        affiliate_links: [] 
+                      })}
                       >
                       <PlusCircle className="mr-2 h-4 w-4" />
                       Thêm Item mới
                   </Button>
-                  <FormField
-                      control={form.control}
-                      name="items"
-                      render={() => (
-                          <FormItem>
-                              <FormMessage />
-                          </FormItem>
-                      )}
-                  />
               </CardContent>
           </Card>
 
           <div className="flex justify-end">
-            <Button type="submit">Lưu lại</Button>
+            <Button type="submit" disabled={isCreating || isUpdating}>
+              {isCreating ? 'Đang tạo outfit...' : isUpdating ? 'Đang cập nhật outfit...' : 'Lưu lại'}
+            </Button>
           </div>
         </fieldset>
       </form>

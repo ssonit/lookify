@@ -19,8 +19,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Textarea } from './ui/textarea';
-import { UploadCloud, X, Youtube } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { X, Youtube } from 'lucide-react';
 import { TiktokIcon } from './icons';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
@@ -37,7 +37,6 @@ const articleFormSchema = z.object({
   // SEO fields
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional(),
-  seoKeywords: z.string().optional(),
 });
 
 export type ArticleFormValues = Omit<z.infer<typeof articleFormSchema>, 'tags'> & { tags: string[] };
@@ -60,11 +59,11 @@ const isValidUrl = (url: string) => {
 export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleFormProps) {
   const form = useForm<z.infer<typeof articleFormSchema>>({
     resolver: zodResolver(articleFormSchema),
-    defaultValues: {
+    defaultValues: initialData ? {
       ...initialData,
-      tags: initialData?.tags?.join(', ') || '',
-      platform: initialData?.link?.includes('youtube') ? 'youtube' : 'tiktok'
-    } || {
+      tags: initialData.tags?.join(', ') || '',
+      platform: initialData.platform ?? (initialData.link?.includes('youtube') ? 'youtube' : 'tiktok')
+    } : {
       title: '',
       description: '',
       imageUrl: '',
@@ -74,22 +73,24 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
       link: '',
       platform: 'youtube',
       seoTitle: '',
-      seoDescription: '',
-      seoKeywords: ''
+      seoDescription: ''
     },
   });
 
 
   function onSubmit(data: z.infer<typeof articleFormSchema>) {
+    console.log('Form submitted with data:', data);
+    console.log('Selected platform:', data.platform);
     onSave({ ...data, tags: data.tags.split(',').map(tag => tag.trim())});
   }
   
   React.useEffect(() => {
     if (initialData) {
+      console.log('Resetting form with platform:', initialData.platform);
       form.reset({
         ...initialData,
         tags: initialData.tags?.join(', ') || '',
-        platform: initialData?.link?.includes('youtube') ? 'youtube' : 'tiktok'
+        platform: initialData.platform
       });
     }
   }, [initialData, form]);
@@ -144,8 +145,8 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
                     <FormControl>
                       <Input placeholder="https://images.unsplash.com/..." {...field} />
                     </FormControl>
-                    {watchedImageUrl && isValidUrl(watchedImageUrl) && (
-                        <Image src={watchedImageUrl} alt="Xem trước" width={200} height={120} className="mt-2 rounded-md object-cover" />
+                    {watchedImageUrl && watchedImageUrl.trim() && isValidUrl(watchedImageUrl.trim()) && (
+                        <Image src={watchedImageUrl.trim()} alt="Xem trước" width={200} height={120} className="mt-2 rounded-md object-cover" />
                     )}
                     <FormMessage />
                   </FormItem>
@@ -273,20 +274,6 @@ export function ArticleForm({ onSave, initialData, isLoading = false }: ArticleF
                         <FormControl>
                          <Textarea placeholder="Mô tả ngắn gọn cho công cụ tìm kiếm..." {...field} />
                         </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="seoKeywords"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Meta Keywords</FormLabel>
-                        <FormControl>
-                        <Input placeholder="phối đồ, thời trang,..." {...field} />
-                        </FormControl>
-                        <FormDescription>Các từ khóa cách nhau bởi dấu phẩy.</FormDescription>
                         <FormMessage />
                     </FormItem>
                     )}

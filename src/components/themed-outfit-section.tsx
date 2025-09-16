@@ -1,12 +1,11 @@
 
 'use client';
 
-import type { Outfit } from "@/lib/outfits";
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { Card, CardContent } from "./ui/card";
-import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
+import { Button } from "@/components/ui/button";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { OutfitCard } from "@/components/outfit-card";
+import { Outfit } from "@/types/outfit";
 
 interface ThemedOutfitSectionProps {
     title: string;
@@ -37,15 +36,7 @@ export function ThemedOutfitSection({ title, outfits, viewAllLink }: ThemedOutfi
               <CarouselContent className="-ml-4">
                 {outfits.map(outfit => (
                   <CarouselItem key={outfit.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4 pl-4">
-                    <Link href={`/outfit/${outfit.id}`} passHref>
-                        <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full rounded-2xl">
-                            <CardContent className="p-0">
-                                <div className="relative aspect-[4/5] overflow-hidden">
-                                    <Image src={outfit.mainImage} width={400} height={500} alt={outfit.title} className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" data-ai-hint={outfit.aiHint} />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
+                    <OutfitCard outfit={outfit} />
                   </CarouselItem>
                 ))}
               </CarouselContent>

@@ -25,31 +25,43 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { WandSparkles, UploadCloud, X } from 'lucide-react';
-import { CATEGORY_OPTIONS } from '@/lib/constants';
+import { useCategories, useSeasons, useColors } from '@/hooks/use-form-options';
+import { useImageUpload } from '@/hooks/use-image-upload';
+import { useCreateAISuggestion, useUpdateAISuggestion } from '@/hooks/use-ai-suggestions';
+import { createClient } from '@/utils/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import type { AISuggestion } from '@/types/database';
 
 export const OutfitSuggestionFormSchema = z.object({
   gender: z.enum(['male', 'female'], { required_error: 'Vui lòng chọn giới tính.' }),
-  category: z.enum(['work/office', 'casual', 'party/date', 'sport/active', 'basic', 'streetwear', 'elegant', 'sporty', 'tet', 'game/anime', 'beach'], { required_error: 'Vui lòng chọn danh mục.' }),
-  colorPreference: z.string().min(2, { message: 'Vui lòng nhập sở thích màu sắc.' }),
-  season: z.enum(['spring', 'summer', 'autumn', 'winter'], { required_error: 'Vui lòng chọn mùa.' }),
-  userImage: z.any().optional(),
+  category_id: z.string().min(1, { message: 'Vui lòng chọn danh mục.' }),
+  season_id: z.string().min(1, { message: 'Vui lòng chọn mùa.' }),
+  color_id: z.string().optional(),
+  userImage: z.union([z.instanceof(File), z.null(), z.undefined()]).optional(),
 });
 
 interface OutfitSuggesterFormProps {
-  onSubmit: (values: z.infer<typeof OutfitSuggestionFormSchema>) => void;
+  onSubmit: (userImageUrl?: string, categoryName?: string, seasonName?: string, colorName?: string, gender?: 'male' | 'female') => Promise<{ success: boolean; data?: { imageUrl: string; imageDescription: string } }>;
   isLoading: boolean;
 }
 
 export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterFormProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { categories, isLoading: categoriesLoading } = useCategories();
+  const { seasons, isLoading: seasonsLoading } = useSeasons();
+  const { colors, isLoading: colorsLoading } = useColors();
+  const { uploadUserImageSuggestion } = useImageUpload();
+  const { createSuggestion } = useCreateAISuggestion();
+  const { updateSuggestion } = useUpdateAISuggestion();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof OutfitSuggestionFormSchema>>({
     resolver: zodResolver(OutfitSuggestionFormSchema),
     defaultValues: {
-      colorPreference: '',
       gender: 'female',
-      category: 'casual',
-      season: 'spring',
+      category_id: '',
+      season_id: '',
+      color_id: '',
     },
   });
 
@@ -76,9 +88,103 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
     form.setValue('userImage', null, { shouldValidate: true });
   };
 
+  const handleFormSubmit = async (values: z.infer<typeof OutfitSuggestionFormSchema>) => {
+    let suggestion: AISuggestion | null = null;
+    
+    try {
+      // Get current user ID first
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Lỗi xác thực",
+          description: "Vui lòng đăng nhập để sử dụng tính năng này",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // First create suggestion in database with processing status
+      suggestion = await createSuggestion({
+        user_id: user.id,
+        gender: values.gender,
+        category_id: values.category_id,
+        season_id: values.season_id,
+        color_id: values.color_id || null,
+        mood: null,
+        ai_generated_image_url: '', // Will be updated after AI generation
+        status: 'processing'
+      });
+
+      // Upload user image to storage if provided
+      let userImageUrl: string | undefined;
+      if (values.userImage) {
+        const uploadResult = await uploadUserImageSuggestion(values.userImage, user.id, suggestion.id);
+        if (uploadResult.success && uploadResult.url) {
+          userImageUrl = uploadResult.url;
+        } else {
+          console.warn('Failed to upload user image:', uploadResult.error);
+        }
+      }
+
+      // Find category, season, and color names from IDs
+      const category = categories.find(c => c.id === values.category_id)?.name;
+      const season = seasons.find(s => s.id === values.season_id)?.name;
+      const color = values.color_id ? colors.find(c => c.id === values.color_id)?.name : '';
+
+      // Call the original onSubmit function with suggestion ID, user image URL, and names
+      try {
+        const result = await onSubmit(userImageUrl, category, season, color, values.gender);
+        
+        // Update suggestion with AI results after onSubmit completes
+        if (result && result.success && result.data) {
+          await updateSuggestion(suggestion.id, {
+            ai_generated_image_url: result.data.imageUrl,
+            image_description: result.data.imageDescription,
+            status: 'completed'
+          });
+        } else {
+          // Update suggestion as failed if AI generation fails
+          await updateSuggestion(suggestion.id, {
+            status: 'failed'
+          });
+        }
+      } catch (onSubmitError) {
+        // Rollback: Mark suggestion as failed if onSubmit throws error
+        await updateSuggestion(suggestion.id, {
+          status: 'failed'
+        });
+        throw onSubmitError; // Re-throw to be caught by outer catch
+      }
+      
+    } catch (error) {
+      console.error('Error in form submission:', error);
+      
+      // Rollback: Delete the ai_suggestions record if it was created
+      if (suggestion?.id) {
+        try {
+          await updateSuggestion(suggestion.id, {
+            status: 'failed'
+          });
+        } catch (rollbackError) {
+          console.error('Error rolling back suggestion:', rollbackError);
+        }
+      }
+      
+      toast({
+        variant: "destructive",
+        title: "Lỗi",
+        description: "Có lỗi xảy ra khi xử lý form. Vui lòng thử lại sau.",
+      });
+    }
+  };
+
+  const isSubmitting = isLoading || categoriesLoading || seasonsLoading || colorsLoading;
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
         
         {/* Image Upload */}
         <FormItem>
@@ -88,8 +194,8 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
               {imagePreview ? (
                 <div className="relative group w-full aspect-square rounded-xl overflow-hidden border-2 border-dashed">
                   <Image src={imagePreview} alt="Xem trước ảnh" layout="fill" objectFit="cover" />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                     <Button type="button" variant="destructive" size="icon" onClick={removeImage}>
+                  <div className="absolute right-2 top-2 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                     <Button type="button" variant="outline" size="icon" onClick={removeImage}>
                         <X />
                         <span className="sr-only">Xóa ảnh</span>
                      </Button>
@@ -108,7 +214,7 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
                     id="dropzone-file" 
                     type="file" 
                     className="hidden" 
-                    accept="image/png, image/jpeg"
+                    accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg"
                     onChange={handleImageChange}
                   />
                 </label>
@@ -125,7 +231,7 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
           render={({ field }) => (
             <FormItem>
               <FormLabel>Giới tính</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger><SelectValue placeholder="Chọn giới tính" /></SelectTrigger>
                 </FormControl>
@@ -140,16 +246,20 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
         />
         <FormField
           control={form.control}
-          name="category"
+          name="category_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Danh mục</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger><SelectValue placeholder="Chọn danh mục" /></SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {CATEGORY_OPTIONS.map(option => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                  {categories.map(category => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -158,19 +268,20 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
         />
         <FormField
           control={form.control}
-          name="season"
+          name="season_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Mùa</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger><SelectValue placeholder="Chọn mùa" /></SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="spring">Xuân</SelectItem>
-                  <SelectItem value="summer">Hè</SelectItem>
-                  <SelectItem value="autumn">Thu</SelectItem>
-                  <SelectItem value="winter">Đông</SelectItem>
+                  {seasons.map(season => (
+                    <SelectItem key={season.id} value={season.id}>
+                      {season.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -179,18 +290,27 @@ export function OutfitSuggesterForm({ onSubmit, isLoading }: OutfitSuggesterForm
         />
         <FormField
           control={form.control}
-          name="colorPreference"
+          name="color_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Sở thích màu sắc</FormLabel>
-              <FormControl>
-                <Input placeholder="ví dụ: tông màu trung tính, pastel, rực rỡ" {...field} />
-              </FormControl>
+              <FormLabel>Màu sắc</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger><SelectValue placeholder="Chọn màu sắc (tùy chọn)" /></SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {colors.map(color => (
+                    <SelectItem key={color.id} value={color.id}>
+                      {color.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading} className="w-full !mt-6">
+        <Button type="submit" disabled={isSubmitting} className="w-full !mt-6">
           {isLoading ? (
             'Đang tạo...'
           ) : (

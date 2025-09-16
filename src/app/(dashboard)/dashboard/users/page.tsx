@@ -10,41 +10,49 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { PageTitle } from "@/components/page-title";
-import { users as initialUsers, type User } from "@/lib/users";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Shield, Trash, Search } from "lucide-react";
+import { Edit, Shield, Search } from "lucide-react";
 import { Pagination } from "@/components/pagination";
-import React from "react";
+import React, { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { useFilteredUsers } from "@/hooks/use-users";
+import { useUserMutations } from "@/hooks/use-user-mutations";
+import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
+import { UserEditDialog } from "@/components/user-edit-dialog";
+import type { User } from "@/hooks/use-users";
+
 
 
 export default function DashboardUsersPage() {
-  const users = initialUsers; // In a real app, this would come from state or an API
+  const { updateUser } = useUserMutations();
+  const { toast } = useToast();
   
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Dialog state
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const itemsPerPage = Number(searchParams.get('per_page')) || 5;
   const urlSearchTerm = searchParams.get('search') || '';
   const [localSearchTerm, setLocalSearchTerm] = React.useState(urlSearchTerm);
 
+  // Server-side filtering and pagination
+  const { users, totalCount, isLoading, error } = useFilteredUsers({
+    search: urlSearchTerm || undefined,
+    limit: itemsPerPage,
+    offset: (currentPage - 1) * itemsPerPage
+  });
 
-  const filteredUsers = users.filter(user => 
-    user.name.toLowerCase().includes(urlSearchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(urlSearchTerm.toLowerCase())
-  );
-
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
-  const paginatedUsers = filteredUsers.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   const handleItemsPerPageChange = (value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -67,6 +75,53 @@ export default function DashboardUsersPage() {
   React.useEffect(() => {
     setLocalSearchTerm(urlSearchTerm);
   }, [urlSearchTerm]);
+
+
+
+  const handleEditUser = (user: User) => {
+    setSelectedUser(user);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedUser(null);
+    setIsEditDialogOpen(false);
+  };
+
+  const handleSaveUser = async (userId: string, updates: any) => {
+    try {
+      console.log('Updating user with data:', { userId, updates });
+      const result = await updateUser(userId, updates);
+      console.log('Update result:', result);
+      
+      toast({
+        title: "Thành công",
+        description: "Thông tin người dùng đã được cập nhật thành công.",
+      });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi cập nhật thông tin người dùng.';
+      
+      toast({
+        title: "Lỗi",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      throw error; // Re-throw để dialog có thể xử lý
+    }
+  };
+
+
+  if (error) {
+    return (
+      <div className="flex flex-col gap-5">
+        <PageTitle title="Quản lý người dùng" />
+        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+          <p className="text-red-800">Lỗi tải dữ liệu: {error.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -103,43 +158,67 @@ export default function DashboardUsersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedUsers.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>
-                  <Avatar>
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                </TableCell>
-                <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
-                    {user.role === 'admin' && <Shield className="mr-1 h-3 w-3" />}
-                    {user.role === 'admin' ? 'Admin' : 'User'}
-                  </Badge>
-                </TableCell>
-                <TableCell>{new Date(user.createdAt).toLocaleDateString('vi-VN')}</TableCell>
-                <TableCell>
-                  <Badge 
-                    variant={user.status === 'active' ? 'default' : 'destructive'}
-                    className={user.status === 'active' ? 'bg-green-500' : ''}
-                  >
-                    {user.status === 'active' ? 'Hoạt động' : 'Bị khóa'}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-2">
-                      <Button variant="outline" size="icon">
-                          <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="destructive" size="icon">
-                          <Trash className="h-4 w-4" />
-                      </Button>
-                  </div>
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell><Skeleton className="h-10 w-10 rounded-full" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                  <TableCell><Skeleton className="h-6 w-16" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+                  <TableCell><Skeleton className="h-6 w-20" /></TableCell>
+                  <TableCell><Skeleton className="h-8 w-16" /></TableCell>
+                </TableRow>
+              ))
+            ) : users.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                  Không tìm thấy người dùng nào
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>
+                    <Avatar>
+                      <AvatarImage src={user.avatar_url || ''} alt={user.full_name || 'User'} />
+                      <AvatarFallback>
+                        {user.full_name?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {user.full_name || 'Chưa cập nhật'}
+                  </TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <Badge variant={user.user_role === 'admin' ? 'default' : 'secondary'}>
+                      {user.user_role === 'admin' && <Shield className="mr-1 h-3 w-3" />}
+                      {user.user_role === 'admin' ? 'Admin' : 'User'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{new Date(user.created_at).toLocaleDateString('vi-VN')}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant={user.is_verified ? 'default' : 'destructive'}
+                      className={user.is_verified ? 'bg-green-500' : ''}
+                    >
+                      {user.is_verified ? 'Đã mở' : 'Bị khóa'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      onClick={() => handleEditUser(user)}
+                      title="Chỉnh sửa thông tin người dùng"
+                    >
+                        <Edit className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
@@ -162,6 +241,15 @@ export default function DashboardUsersPage() {
             totalPages={totalPages}
           />
        </div>
+
+      {/* Edit User Dialog */}
+      <UserEditDialog
+        user={selectedUser}
+        isOpen={isEditDialogOpen}
+        onClose={handleCloseDialog}
+        onSave={handleSaveUser}
+      />
+
     </div>
   );
 }

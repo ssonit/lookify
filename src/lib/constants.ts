@@ -9,13 +9,10 @@ export const CATEGORY_OPTIONS = [
     { value: 'casual', label: 'Thường ngày' },
     { value: 'party/date', label: 'Tiệc / Hẹn hò' },
     { value: 'sport/active', label: 'Thể thao' },
-    { value: 'tet', label: 'Tết' },
-    { value: 'game/anime', label: 'Game/Anime' },
     { value: 'basic', label: 'Cơ bản' },
     { value: 'streetwear', label: 'Dạo phố' },
     { value: 'elegant', label: 'Thanh lịch' },
     { value: 'sporty', label: 'Năng động' },
-    { value: 'beach', label: 'Đi biển' },
 ];
 
 
@@ -53,7 +50,6 @@ export const BODY_SHAPE_OPTIONS = {
 
 
 // --- MAPS ---
-export const CATEGORY_MAP: Record<string, string> = Object.fromEntries(CATEGORY_OPTIONS.map(o => [o.value, o.label]));
 export const SEASON_MAP: Record<string, string> = Object.fromEntries(SEASON_OPTIONS.map(o => [o.value, o.label]));
 export const COLOR_MAP: Record<string, { name: string; hex: string }> = Object.fromEntries(COLOR_OPTIONS.map(o => [o.value, { name: o.label, hex: o.hex }]));
 

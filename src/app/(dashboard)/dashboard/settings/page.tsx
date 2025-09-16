@@ -9,6 +9,7 @@ import type { SettingsFormValues } from "@/components/settings-form";
 import { SettingsContext } from "@/contexts/settings-context";
 
 
+
 export default function SettingsPage() {
   const settingsContext = useContext(SettingsContext);
 
@@ -49,6 +50,6 @@ export default function SettingsPage() {
           <SettingsForm initialData={initialData} onSave={handleSave} section="seo" />
         </TabsContent>
       </Tabs>
-    </div>
-  );
-}
+     </div>
+   );
+ }

@@ -13,23 +13,51 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut, Heart, Menu, LayoutDashboard, Ruler } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from './ui/sheet';
-import { Separator } from './ui/separator';
-import { useContext } from 'react';
-import { SettingsContext } from '@/contexts/settings-context';
+import { User, Settings, LogOut, Heart, Menu, LayoutDashboard } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/auth-context';
+import { useAuthActions } from '@/hooks/use-auth-actions';
+import { useSettings } from '@/contexts/settings-context';
+import { useAdminRole } from '@/hooks/use-admin-role';
+import { Skeleton } from '@/components/ui/skeleton';
+
+
+function AdminDashboardLinkMobile() {
+  const { isAdmin } = useAdminRole();
+  
+  return (
+    <>
+      {isAdmin && (
+        <Link href="/dashboard" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+          <LayoutDashboard className="mr-2 h-4 w-4" />
+          <span>Dashboard</span>
+        </Link>
+      )}
+    </>
+  );
+}
 
 export function Header() {
-  const isLoggedIn = true; // Mock login state
-  const settingsContext = useContext(SettingsContext);
+  const { currentUser, isInitialized, isLoading } = useAuth();
+  const { signOut } = useAuthActions();
+  const settingsContext = useSettings();
   const siteName = settingsContext?.settings?.siteName || 'Lookify';
-  const logoUrl = settingsContext?.settings?.logoUrl || 'https://placehold.co/32x32.png';
-  const currentUser = settingsContext?.currentUser;
+  const logoUrl = settingsContext?.settings?.logoUrl || '/logo.png';
+  const isLoggedIn = !!currentUser;
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   const navLinks = [
     { href: "/suggester", label: "Gợi ý AI" },
     { href: "/featured", label: "Styling theo Mood" },
-    { href: "/fit-guide", label: "Fit Guide" },
+    { href: "/virtual-try-on", label: "Virtual Try-On" },
     { href: "/gallery", label: "Thư viện" },
     { href: "/upgrade", label: "Nâng cấp" },
   ];
@@ -55,16 +83,12 @@ export function Header() {
         </Link>
       </DropdownMenuItem>
       <DropdownMenuSeparator />
-       {currentUser?.role === 'admin' && (
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard">
-            <LayoutDashboard className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
-          </Link>
-        </DropdownMenuItem>
-      )}
+        <Link href="/dashboard" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+          <LayoutDashboard className="mr-2 h-4 w-4" />
+          <span>Dashboard</span>
+        </Link>
       <DropdownMenuSeparator />
-      <DropdownMenuItem>
+      <DropdownMenuItem onClick={handleSignOut}>
         <LogOut className="mr-2 h-4 w-4" />
         <span>Đăng xuất</span>
       </DropdownMenuItem>
@@ -92,17 +116,15 @@ export function Header() {
           </Link>
         </SheetClose>
         <Separator className="my-1" />
-        {currentUser?.role === 'admin' && (
-          <SheetClose asChild>
-            <Link href="/dashboard" className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-              <LayoutDashboard className="mr-2 h-4 w-4" />
-              <span>Dashboard</span>
-            </Link>
-          </SheetClose>
-        )}
+        <SheetClose asChild>
+          <AdminDashboardLinkMobile />
+        </SheetClose>
         <Separator className="my-1" />
         <SheetClose asChild>
-            <button className="relative flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            <button 
+              onClick={handleSignOut}
+              className="relative flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+            >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Đăng xuất</span>
             </button>
@@ -130,13 +152,15 @@ export function Header() {
         <div className="flex items-center gap-2">
           {/* Desktop Avatar */}
           <div className="hidden md:flex">
-             {isLoggedIn ? (
+             {!isInitialized || isLoading ? (
+                <Skeleton className="w-10 h-10 rounded-full" />
+              ) : isLoggedIn ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button>
                       <Avatar>
-                          <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
-                          <AvatarFallback>U</AvatarFallback>
+                        <AvatarImage src={currentUser.user_metadata.avatar} alt={currentUser.user_metadata.name} />
+                        <AvatarFallback>{currentUser.user_metadata.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                     </button>
                   </DropdownMenuTrigger>
@@ -176,11 +200,11 @@ export function Header() {
                   <div className="mb-4">
                      <Link href="/profile" className="flex items-center gap-3 mb-4">
                        <Avatar>
-                          <AvatarImage src={currentUser?.avatar} alt={currentUser?.name} />
-                          <AvatarFallback>{currentUser?.name?.charAt(0)}</AvatarFallback>
+                          <AvatarImage src={currentUser?.user_metadata.avatar} alt={currentUser?.user_metadata.name} />
+                          <AvatarFallback>{currentUser?.user_metadata.name?.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-semibold">{currentUser?.name}</p>
+                        <p className="font-semibold">{currentUser?.user_metadata.name}</p>
                         <p className="text-sm text-muted-foreground">Xem hồ sơ</p>
                       </div>
                     </Link>

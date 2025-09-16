@@ -1,0 +1,88 @@
+---
+description: Rules for this project
+globs: **/*.tsx, **/*.ts, src/**/*.ts, src/**/*.tsx
+---
+# Supabase NextJS User Management Project Rules
+
+## Project Architecture
+
+### Next.js App Router Structure
+- Use the App Router directory structure for all new features
+  - Place page components in `app/[feature]/page.tsx`
+  - Place layouts in `app/[feature]/layout.tsx`
+  - Place server actions in `app/[feature]/actions.ts`
+- Mark server components appropriately and client components with `'use client'` directive at the top of the file
+- Follow the pattern of separating UI components from data fetching logic
+- Prefer to use the alias path
+
+### Authentication Flow
+- Use the established Supabase authentication pattern
+  - Server-side authentication should use `createClient()` from `@/utils/supabase/server`
+  - Client-side authentication should use `createClient()` from `@/utils/supabase/client`
+  - Authentication state should be managed through Supabase cookies
+- All protected routes should fetch the user in the page component using `supabase.auth.getUser()`
+- Redirect unauthenticated users to the login page
+
+## Data Management
+
+### Supabase Integration
+- Use the established Supabase client patterns:
+  - Server components should use `createClient()` from `@/utils/supabase/server`
+  - Client components should use `createClient()` from `@/utils/supabase/client`
+- Follow the TypeScript database schema defined in `app/database.types.ts`
+- Use strongly typed queries with the Database interface
+
+
+## Component Structure
+
+### UI Components
+- Keep components focused on a single responsibility
+- Follow the established styling patterns using CSS modules
+- Implement responsive design for all UI components
+- Use semantic HTML elements for better accessibility
+
+## Error Handling
+
+### Error Management
+- Implement proper error handling for all Supabase operations
+- Use the error page for displaying authentication errors
+- Log errors appropriately but don't expose sensitive information to users
+- Implement graceful fallbacks for failed operations
+
+## Code Quality
+
+### Code Organization
+- Follow the established project structure for new features
+- Keep related functionality together
+- Use descriptive naming for functions, variables, and components
+- Document complex logic with comments
+
+## Performance
+
+### Optimization
+- Implement proper loading states for all asynchronous operations
+- Use Next.js built-in optimizations for images and navigation
+- Minimize client-side JavaScript by leveraging server components where possible
+- Implement proper caching strategies for Supabase queries
+
+## Security
+
+### Data Protection
+- Never expose sensitive information in client-side code
+- Validate all user inputs on the server side
+- Use environment variables for sensitive configuration
+- Follow the principle of least privilege for Supabase operations
+
+## Supabase Auth Implementation
+
+### Critical Auth Requirements
+- Always use `@supabase/ssr` package for authentication
+- Never use deprecated `@supabase/auth-helpers-nextjs`
+- For cookie handling, only use `getAll()` and `setAll()` methods
+- Never use individual cookie methods (`get`, `set`, or `remove`)
+
+### Middleware Implementation
+- Follow the established middleware pattern for session management
+- Always return the supabaseResponse object from middleware
+- Ensure middleware is properly configured to protect routes
+- Use the correct matcher pattern to exclude static assets 

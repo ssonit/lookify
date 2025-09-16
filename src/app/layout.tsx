@@ -5,6 +5,8 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { SettingsProvider } from '@/contexts/settings-context';
 import { ScrollToTopButton } from '@/components/scroll-to-top-button';
+import { AuthProvider } from '@/contexts/auth-context';
+import SWRProvider from '@/providers/swr-provider';
 
 
 const inter = Inter({
@@ -27,9 +29,13 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body className={`${inter.variable} font-body bg-background text-foreground`} suppressHydrationWarning>
-        <SettingsProvider>
-          {children}
-        </SettingsProvider>
+        <SWRProvider>
+          <AuthProvider>
+            <SettingsProvider>
+              {children}
+            </SettingsProvider>
+          </AuthProvider>
+        </SWRProvider>
         <Toaster />
         <ScrollToTopButton />
       </body>

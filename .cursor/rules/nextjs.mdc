@@ -1,0 +1,76 @@
+---
+description: Next.js with TypeScript, Supabase, SWR, React 19 and Tailwind UI best practices
+globs: **/*.tsx, **/*.ts, src/**/*.ts, src/**/*.tsx
+---
+# Next.js + TypeScript Coding Standards
+
+## TypeScript Best Practices
+- Always use strict TypeScript typing; never use `any` unless absolutely necessary.
+- Use proper interface/type definitions for all props, API responses, and function parameters.
+- Prefer `interface` for objects and `type` for unions/utility types.
+- Use proper generic types for reusable components.
+- Import types with `import type` when only importing for typing.
+- Never use eslint-disable comments unless explicitly requested and justified.
+
+## Project Structure
+- Use the App Router directory structure.
+- Place route-specific components in the `app` directory.
+- Place shared React components in the `components` directory.
+- Place library in the `lib` directory.
+- Place utilities and helpers in the `utils` directory.
+- Use lowercase with dashes for new directories (e.g., `components/auth-wizard`).
+- Keep UI logic within `components/`.
+- Use `hooks/` for SWR-based data fetching hooks.
+- Never use index.ts files to re-export modules. Import directly from each file.
+- Prevent creating index.ts / index.js files that only re-export everything from a folder.
+
+## Components
+- Use Server Components by default for performance.
+- Mark client components explicitly with `'use client'` at the top of the file.
+- Wrap client components that fetch data in `<Suspense>` with a fallback UI (e.g., a skeleton loader).
+- Use dynamic loading (`next/dynamic`) for large, non-critical components to improve initial load time.
+- Implement proper error boundaries using `error.tsx` files for route segments.
+
+## Next.js App Router Patterns
+- Default to Server Components unless client interactivity is specifically needed.
+- Only use `'use client'` when you need:
+  - Browser APIs (localStorage, window, document).
+  - Event handlers (onClick, onChange, etc.).
+  - React hooks that depend on state or lifecycle (`useState`, `useEffect`, `useReducer`, etc.).
+  - Third-party libraries that require client-side execution.
+- For client data fetching, **always prefer SWR**. It provides caching, revalidation, and error retries out of the box.
+- For server data fetching, use `fetch()` with appropriate caching strategies (e.g., `cache: 'no-store'` for dynamic data, `revalidate` for ISR).
+- Use the Next.js Metadata API for page-specific metadata (`<title>`, `<meta>`) instead of a manual `<head>`.
+- Each route segment must include a `loading.tsx` and an `error.tsx` file to handle loading states and errors gracefully.
+
+## React 19 Optimizations
+- **Do NOT use `useMemo` or `useCallback`**. The React 19 compiler is expected to handle these optimizations automatically. Only use them if performance profiling explicitly shows a bottleneck.
+- **Do NOT use `React.memo`** unless you have specific performance measurements indicating it is necessary.
+- Use the `use()` hook for data fetching in client components where appropriate (e.g., reading promises from SWR hooks within Suspense boundaries).
+- Leverage automatic batching of state updates and other concurrent features provided by React 19.
+
+## Performance
+- Optimize images using the built-in `next/image` component (e.g., use WebP format, specify `width` and `height`, and use `priority` for above-the-fold images).
+- Minimize the use and scope of `'use client'` components to reduce the client-side JavaScript bundle.
+- Favor Server Components (RSC) to move rendering and data fetching to the server.
+- Use dynamic loading for components not visible on initial page load.
+- Implement proper caching and revalidation strategies with SWR and `fetch()`.
+
+## Forms and Validation
+- Use Zod for schema definition and validation on both client and server.
+- **Prefer using SWR for data submission and mutation** within forms to handle loading states, errors, and UI updates seamlessly. Avoid using Server Actions.
+- Implement proper server-side validation in your API endpoints as a second layer of defense.
+- Clearly display loading states during form submission and provide user feedback (e.g., Toasts) for success or error cases.
+
+## State Management
+- Minimize client-side state. Prefer deriving state from the server or URL.
+- Use React Context sparingly, only for truly global state that doesn't change often (e.g., theme, user session).
+- Prefer server-managed state (fetched and cached via SWR or passed down from Server Components) over client-side state wherever possible.
+- Always provide explicit loading states (e.g., Skeletons) for asynchronous data fetching to avoid layout shifts.
+
+## Supabase
+- Handle all possible query errors. If a Supabase call returns an `error` object, it must be handled.
+- When handling errors, always:
+  - Log the error for debugging (e.g., `console.error`, or a logging service like Sentry).
+  - Provide clear user feedback (e.g., a toast notification or an error message in the UI).
+  - Implement retry logic for critical queries where appropriate.

@@ -2,7 +2,7 @@
 'use client';
 
 import Link from "next/link";
-import { PlusCircle, Youtube, Trash2, Edit, Search } from "lucide-react";
+import { PlusCircle, YoutubeIcon, Trash2, Edit, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageTitle } from "@/components/page-title";
 import {
@@ -13,7 +13,10 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { articles as initialArticles, type Article } from "@/lib/articles";
+import { useFilteredArticles } from "@/hooks/use-articles";
+import { useArticleMutations } from "@/hooks/use-article-mutations";
+import { useToast } from "@/hooks/use-toast";
+import type { Article } from "@/hooks/use-articles";
 import React from "react";
 import {
   AlertDialog,
@@ -34,9 +37,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 
 
+
 export default function DashboardArticlesPage() {
-  const [articles, setArticles] = React.useState<Article[]>(initialArticles);
   const [articleToDelete, setArticleToDelete] = React.useState<Article | null>(null);
+  const { deleteArticle } = useArticleMutations();
+  const { toast } = useToast();
   
   const router = useRouter();
   const pathname = usePathname();
@@ -47,29 +52,35 @@ export default function DashboardArticlesPage() {
   const urlSearchTerm = searchParams.get('search') || '';
   const [localSearchTerm, setLocalSearchTerm] = React.useState(urlSearchTerm);
 
+  // Server-side filtering and pagination
+  const { articles, totalCount, isLoading, error } = useFilteredArticles({
+    search: urlSearchTerm || undefined,
+    limit: itemsPerPage,
+    offset: (currentPage - 1) * itemsPerPage
+  });
 
-  const filteredArticles = articles.filter(article => 
-    article.title.toLowerCase().includes(urlSearchTerm.toLowerCase()) ||
-    article.description.toLowerCase().includes(urlSearchTerm.toLowerCase())
-  );
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
 
-  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
-  const paginatedArticles = filteredArticles.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (articleToDelete) {
-      const newArticles = articles.filter(o => o.id !== articleToDelete.id);
-      setArticles(newArticles);
-      setArticleToDelete(null);
+      try {
+        await deleteArticle(articleToDelete.id);
+        setArticleToDelete(null);
+        
+        toast({
+          title: "Thành công",
+          description: "Bài viết đã được xóa thành công!",
+        });
 
-      const newTotalPages = Math.ceil(newArticles.length / itemsPerPage);
-      if (currentPage > newTotalPages) {
-          const newSearchParams = new URLSearchParams(searchParams);
-          newSearchParams.set('page', (newTotalPages || 1).toString());
-          router.push(`${pathname}?${newSearchParams.toString()}`);
+        // Refresh data after delete
+        router.refresh();
+      } catch (error) {
+        console.error('Error deleting article:', error);
+        toast({
+          title: "Lỗi",
+          description: "Có lỗi xảy ra khi xóa bài viết. Vui lòng thử lại.",
+          variant: "destructive",
+        });
       }
     }
   };
@@ -95,6 +106,24 @@ export default function DashboardArticlesPage() {
   React.useEffect(() => {
     setLocalSearchTerm(urlSearchTerm);
   }, [urlSearchTerm]);
+
+  if (error) {
+    return (
+      <div className="flex flex-col gap-5">
+        <PageTitle title="Quản lý Bài viết">
+          <Button asChild>
+            <Link href="/dashboard/articles/new">
+              <PlusCircle className="mr-2" />
+              Thêm bài viết
+            </Link>
+          </Button>
+        </PageTitle>
+        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+          <p className="text-red-800">Lỗi tải dữ liệu: {error.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -135,15 +164,31 @@ export default function DashboardArticlesPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedArticles.map((article) => (
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell><div className="w-16 h-16 bg-gray-200 rounded-md animate-pulse" /></TableCell>
+                  <TableCell><div className="h-4 bg-gray-200 rounded animate-pulse" /></TableCell>
+                  <TableCell><div className="h-4 bg-gray-200 rounded animate-pulse" /></TableCell>
+                  <TableCell><div className="h-8 w-8 bg-gray-200 rounded animate-pulse" /></TableCell>
+                </TableRow>
+              ))
+            ) : articles.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                  Không tìm thấy bài viết nào
+                </TableCell>
+              </TableRow>
+            ) : (
+              articles.map((article) => (
               <TableRow key={article.id}>
                 <TableCell className="p-2">
-                  <Image src={article.imageUrl} alt={article.title} width={64} height={64} className="rounded-md object-cover aspect-square" />
+                  <Image src={article.image_url} alt={article.title} width={64} height={64} className="rounded-md object-cover aspect-square" />
                 </TableCell>
                 <TableCell className="font-medium">{article.title}</TableCell>
                 <TableCell>
-                    {article.link.includes('youtube') && <Youtube className="h-5 w-5 text-red-600" />}
-                    {article.link.includes('tiktok') && <TiktokIcon className="h-5 w-5" />}
+                    {article.platform === 'youtube' && <YoutubeIcon className="h-5 w-5 text-red-600" />}
+                    {article.platform === 'tiktok' && <TiktokIcon className="h-5 w-5" />}
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-2">
@@ -175,7 +220,8 @@ export default function DashboardArticlesPage() {
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
@@ -197,7 +243,7 @@ export default function DashboardArticlesPage() {
           <Pagination 
             totalPages={totalPages}
           />
-       </div>
-    </div>
-  );
-}
+               </div>
+     </div>
+   );
+ }

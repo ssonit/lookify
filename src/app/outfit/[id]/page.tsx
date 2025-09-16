@@ -4,65 +4,106 @@
 
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import { outfits } from '@/lib/outfits';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { ExternalLink, ShoppingCart, Star, Tag, Camera, Share2, ShoppingBag, Palette, CalendarRange, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler, X, Heart, CheckCircle2 } from 'lucide-react';
+import {  Share2, ShoppingBag, Palette, Sun, Wand2, Info, ListChecks, Link as LinkIcon, Ruler, Heart, Camera, Bookmark } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { OutfitReview } from '@/components/outfit-review';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Dialog, DialogContent, DialogTrigger, DialogClose, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { COLOR_MAP, CATEGORY_MAP, OUTFIT_IMAGE_LABELS, SEASON_MAP } from '@/lib/constants';
-import { useToast } from '@/hooks/use-toast';
+import { useOutfit } from '@/hooks/use-outfits';
+import type { OutfitItem, AffiliateLink } from '@/types/outfit';
+import { useOutfitLikes } from '@/hooks/use-outfit-likes';
+import { useOutfitSaved } from '@/hooks/use-outfit-saved';
+import { ImageActions } from '@/components/ui/image-actions';
 
 
 export default function OutfitDetailPage() {
   const params = useParams();
-  const outfitId = params.id;
-  const outfit = outfits.find((o) => o.id === Number(outfitId));
+  const outfitId = params.id as string;
+  const { outfit, isLoading, error } = useOutfit(outfitId);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [isFavorited, setIsFavorited] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  
+  const { toggleLike, isLiked: checkIsLiked, isLoading: isLiking } = useOutfitLikes();
+  const { toggleSaved, isSaved: checkIsSaved, isLoading: isSaving } = useOutfitSaved();
   const [isLightboxImageLoading, setIsLightboxImageLoading] = useState(true);
-  const { toast } = useToast();
+
+  // Check like and favorite status on mount
+  React.useEffect(() => {
+    const checkStatus = async () => {
+      if (outfitId) {
+        try {
+          const [liked, saved] = await Promise.all([
+            checkIsLiked(outfitId),
+            checkIsSaved(outfitId)
+          ]);
+          setIsLiked(liked);
+          setIsSaved(saved);
+        } catch (error) {
+          console.error('Error checking status:', error);
+        }
+      }
+    };
+
+    checkStatus();
+  }, [outfitId, checkIsLiked, checkIsSaved]);
 
   const openLightbox = (imageUrl: string) => {
     setSelectedImage(imageUrl);
     setIsLightboxImageLoading(true);
   };
 
-  const handleFavoriteToggle = () => {
-    const newFavoriteState = !isFavorited;
-    setIsFavorited(newFavoriteState);
-    if (newFavoriteState) {
-      toast({
-        title: (
-            <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-green-500" />
-                <span className="font-semibold">Đã lưu</span>
-            </div>
-        ),
-        description: "Outfit đã được thêm vào bộ sưu tập của bạn.",
-      })
-    } else {
-        toast({
-            title: (
-                <div className="flex items-center gap-2">
-                    <Info className="h-5 w-5 text-blue-500" />
-                    <span className="font-semibold">Đã bỏ lưu</span>
-                </div>
-            ),
-            description: "Outfit đã được xóa khỏi bộ sưu tập của bạn.",
-      })
-    }
+  const handleLikeToggle = async () => {
+    const newLikeState = !isLiked;
+    setIsLiked(newLikeState);
+    await toggleLike(outfitId);
   };
 
-  if (!outfit) {
+  const handleSavedToggle = async () => {
+    const newSavedState = !isSaved;
+    setIsSaved(newSavedState);
+    await toggleSaved(outfitId);
+  };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background font-body">
+        <Header />
+        <main className="w-full container mx-auto px-4 py-8">
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <Skeleton className="h-8 w-3/4" />
+              <div className="flex gap-2">
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-6 w-20" />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-7">
+                <Skeleton className="aspect-[4/5] w-full rounded-2xl" />
+              </div>
+              <div className="lg:col-span-5 space-y-6">
+                <Skeleton className="h-64 w-full rounded-2xl" />
+                <Skeleton className="h-64 w-full rounded-2xl" />
+              </div>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !outfit) {
     return (
       <div className="flex flex-col min-h-screen font-body">
         <Header />
@@ -92,18 +133,38 @@ export default function OutfitDetailPage() {
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <h1 className="text-3xl md:text-4xl leading-tight tracking-tight font-bold text-foreground">{outfit.title}</h1>
                     <div className="flex items-center gap-2 shrink-0">
-                      <Button variant="outline" size="icon" onClick={handleFavoriteToggle}>
-                        <Heart className={isFavorited ? "fill-red-500 text-red-500" : ""} />
-                        <span className="sr-only">Lưu outfit</span>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        onClick={handleLikeToggle}
+                        disabled={isLiking}
+                      >
+                        <Heart className={isLiked ? "fill-red-500 text-red-500" : ""} />
+                        <span className="sr-only">{isLiked ? 'Bỏ thích' : 'Thích'}</span>
                       </Button>
-                      <Button variant="outline" size="sm" className="shrink-0"><Share2 className="mr-1.5" /> Chia sẻ</Button>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        onClick={handleSavedToggle}
+                        disabled={isSaving}
+                      >
+                        <Bookmark className={isSaved ? "fill-blue-500 text-blue-500" : ""} />
+                        <span className="sr-only">{isSaved ? 'Bỏ lưu' : 'Lưu'}</span>
+                      </Button>
+                      <ImageActions
+                        imageUrl={outfit.image_url || ''}
+                        outfitId={outfit.id}
+                        outfitTitle={outfit.title}
+                        variant="outline"
+                        size="sm"
+                      />
                     </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
-                    {outfit.categories.map(category => (
-                         <Badge key={category} variant="outline" className='shrink-0'><Palette className="mr-1.5" />{CATEGORY_MAP[category] || category}</Badge>
+                    {outfit.categories.map((category: any) => (
+                         <Badge key={category.id} variant="outline" className='shrink-0'><Palette className="mr-1.5" />{category.label}</Badge>
                     ))}
-                    <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{SEASON_MAP[outfit.season]}</Badge>
+                    <Badge variant="outline" className='shrink-0'><Sun className="mr-1.5" />{outfit.season?.label}</Badge>
                 </div>
             </div>
         </section>
@@ -116,8 +177,8 @@ export default function OutfitDetailPage() {
                 <Card className="overflow-hidden rounded-2xl">
                     <CardContent className="p-0">
                         <DialogTrigger asChild>
-                          <button className="relative aspect-[4/5] w-full" onClick={() => openLightbox(outfit.mainImage)}>
-                              <Image src={outfit.mainImage} alt={`Outfit chính - ${outfit.title}`} fill className="object-cover"/>
+                          <button className="relative aspect-[4/5] w-full" onClick={() => openLightbox(outfit.image_url || '/placeholder-outfit.jpg')}>
+                              <Image src={outfit.image_url || '/placeholder-outfit.jpg'} alt={`Outfit chính - ${outfit.title}`} fill className="object-cover"/>
                               <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full border bg-background/40 backdrop-blur px-2.5 py-1 text-xs text-foreground font-medium">
                                   <Camera /> Góc chính
                               </div>
@@ -126,11 +187,11 @@ export default function OutfitDetailPage() {
                         {outfit.items.length > 0 && (
                             <Carousel opts={{ align: "start", loop: true }} className="w-full p-1.5">
                                 <CarouselContent className="-ml-1.5">
-                                    {outfit.items.map((item, index) => (
+                                    {outfit.items.map((item: OutfitItem, index: number) => (
                                         <CarouselItem key={index} className="basis-1/3 sm:basis-1/6 pl-1.5">
                                             <DialogTrigger asChild>
-                                              <button className="relative w-full" onClick={() => openLightbox(item.imageUrl)}>
-                                                  <Image src={item.imageUrl} alt={`Xem chi tiết ${item.name}`} width={200} height={200} className="h-28 w-full object-cover rounded-xl border" />
+                                              <button className="relative w-full" onClick={() => openLightbox(item.image_url || '/placeholder-item.jpg')}>
+                                                  <Image src={item.image_url || '/placeholder-item.jpg'} alt={`Xem chi tiết ${item.name}`} width={200} height={200} className="h-28 w-full object-cover rounded-xl border" />
                                                   <div className="absolute bottom-2 left-2 rounded-md bg-black/50 backdrop-blur px-1.5 py-0.5 text-[10px] text-white/80 capitalize">
                                                       {item.type}
                                                   </div>
@@ -195,26 +256,26 @@ export default function OutfitDetailPage() {
                         <CardTitle className="flex items-center gap-2 text-xl font-headline"><Info />Mô tả</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-sm text-muted-foreground">{outfit.description}</p>
+                        <p className="text-sm text-muted-foreground">{outfit.description || 'Không có mô tả'}</p>
                         <div className="mt-4 grid grid-cols-2 gap-3">
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Danh mục</div>
-                                <div className="mt-1 text-sm font-medium">{outfit.categories.map(c => CATEGORY_MAP[c] || c).join(', ')}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
+                                <div className="mt-1 text-sm font-medium">{outfit.categories.map((c: any) => c.label).join(', ')}, {outfit.gender === 'female' ? 'Nữ' : 'Nam'}</div>
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Màu chủ đạo</div>
                                 <div className="mt-1 flex items-center gap-2">
-                                     <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: COLOR_MAP[outfit.color].hex }}></span>
-                                     <span>{COLOR_MAP[outfit.color].name}</span>
+                                     <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: outfit.color?.hex || '#000' }}></span>
+                                     <span>{outfit.color?.label || 'Không xác định'}</span>
                                 </div>
                             </div>
                              <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Mùa</div>
-                                <div className="mt-1 text-sm font-medium">{SEASON_MAP[outfit.season]}</div>
+                                <div className="mt-1 text-sm font-medium">{outfit.season?.label || 'Không xác định'}</div>
                             </div>
                             <div className="rounded-xl border bg-card p-3">
                                 <div className="text-xs text-muted-foreground">Dịp phù hợp</div>
-                                <div className="mt-1 text-sm font-medium">{outfit.categories.map(c => CATEGORY_MAP[c] || c).join(', ')}</div>
+                                <div className="mt-1 text-sm font-medium">{outfit.categories.map((c: any) => c.label).join(', ')}</div>
                             </div>
                         </div>
                     </CardContent>
@@ -228,19 +289,28 @@ export default function OutfitDetailPage() {
                     </CardHeader>
                     <CardContent className="p-0">
                          <ul className="divide-y">
-                            {outfit.items.map((item, index) => (
+                            {outfit.items.map((item: OutfitItem, index: number) => (
                                 <li key={index} className="p-4">
                                     <div className="flex items-start gap-4">
-                                        <Image src={item.imageUrl} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-xl object-cover border" />
+                                        <Image src={item.image_url || '/placeholder-item.jpg'} alt={item.name} width={64} height={64} className="h-16 w-16 rounded-xl object-cover border" />
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between">
                                                 <div className="font-medium">{item.name}</div>
-                                                <span className="text-xs text-muted-foreground">{item.type}</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-xs text-muted-foreground">{item.type}</span>
+                                                    <ImageActions
+                                                        imageUrl={item.image_url || ''}
+                                                        itemName={item.name}
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className="h-6 w-6"
+                                                    />
+                                                </div>
                                             </div>
                                             <p className="mt-1 text-sm text-muted-foreground">Mô tả ngắn cho sản phẩm này.</p>
                                             <div className="mt-3 flex flex-wrap items-center gap-2">
-                                                {item.shoppingLinks.map(link => (
-                                                    <Button key={link.store} size="sm" variant="outline" asChild>
+                                                {item.affiliate_links?.map((link: AffiliateLink, linkIndex: number) => (
+                                                    <Button key={linkIndex} size="sm" variant="outline" asChild>
                                                         <a href={link.url} target="_blank" rel="noopener">
                                                             <LinkIcon className="mr-1.5" /> {link.store}
                                                         </a>
@@ -286,7 +356,7 @@ export default function OutfitDetailPage() {
         
         {/* Reviews Section - moved for mobile layout */}
         <section className="mt-6 lg:mt-8">
-            <OutfitReview />
+            <OutfitReview outfitId={outfit.id} />
         </section>
       </main>
       <Footer />
